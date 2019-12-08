@@ -21,6 +21,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QFileDialog, QApplication
+  
 from urllib import request
 from os import path
 
@@ -382,7 +384,7 @@ class Ui_FaultDialog(object):
         self.label.setText(_translate("FaultDialog", "Could not find the Tor-Browser.\n"
 "Please ensure the correct Path in the settings."))
 
-class Ui_SettingsDialog(object):
+class Ui_SettingsDialog(QtWidgets.QWidget):
     def setupUi(self, SettingsDialog):
         SettingsDialog.setObjectName("SettingsDialog")
         SettingsDialog.resize(400, 250)
@@ -419,11 +421,37 @@ class Ui_SettingsDialog(object):
         self.onionswitch_logo_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.onionswitch_logo_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.onionswitch_logo_frame.setObjectName("onionswitch_logo_frame")
+        
 
         self.retranslateUi(SettingsDialog)
         QtCore.QMetaObject.connectSlotsByName(SettingsDialog)
+        
+        self.lineEdit.setText(osf.Functions.parampathtotor)
+
+        
+        def OpenFilePicker():
+            try:
+                folderName = QFileDialog.getExistingDirectory(self, "Select Tor Directory")
+                if folderName:
+                    self.lineEdit.setText(folderName)
+                    
+                
+            except Exception as exc:
+                osf.Functions.WriteLog(exc)
+
+        @pyqtSlot()
+        def okButtonPress():
+            osf.Functions.parampathtotor = self.lineEdit.text()
+            osf.Functions.WriteSettingsToJson(self)    
+            SettingsDialog.close
+
 
         self.cancelButton.clicked.connect(SettingsDialog.close)
+
+        self.openButton.clicked.connect(OpenFilePicker)
+
+        self.okButton.clicked.connect(okButtonPress)
+        self.okButton.clicked.connect(SettingsDialog.close)
 
     def retranslateUi(self, SettingsDialog):
         _translate = QtCore.QCoreApplication.translate
