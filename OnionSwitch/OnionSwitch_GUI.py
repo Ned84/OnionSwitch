@@ -20,12 +20,98 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import pyqtSlot
+from urllib import request
+from os import path
+
+import OnionSwitch_Functions as osf
+
+import webbrowser
+import threading
+import os.path
+import json
 
 
 version = "0.1"
 
 
 class Ui_MainWindow(object):
+
+    updateavail = False
+    serverconnection = False
+    versionnew = ""
+    versioncheckdone = False
+
+    def __init__(self, *args, **kwargs):
+        try:
+            osf.Functions.paramversion = version
+
+            if path.exists(os.getenv('LOCALAPPDATA') + '\\OnionSwitch') == False:
+                os.mkdir(os.getenv('LOCALAPPDATA') + '\\OnionSwitch')
+
+            if path.exists(os.getenv('LOCALAPPDATA') + '\\OnionSwitch\\osparam') == False:
+                os.mkdir(os.getenv('LOCALAPPDATA') + '\\OnionSwitch\\osparam')
+
+            if path.exists(os.getenv('LOCALAPPDATA') + '\\OnionSwitch\\logfiles') == False:
+                os.mkdir(os.getenv('LOCALAPPDATA') + '\\OnionSwitch\\logfiles')
+
+            if path.exists(os.getenv('LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json') == False:
+                file = open(os.getenv('LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json',"w+")
+                data = [{"version": version, "Path_to_Tor": "", "Update_available": False}]
+                json.dump(data,file, indent=1, sort_keys=True)
+                file.close()
+
+            if path.exists(os.getenv('LOCALAPPDATA') + '\\OnionSwitch\\logfiles\\oslog.txt') == False:
+                file = open(os.getenv('LOCALAPPDATA') + '\\OnionSwitch\\logfiles\\oslog.txt',"w+")
+                file.close()
+
+            osf.Functions.GetSettingsFromJson(self)
+
+
+
+        except Exception as exc:
+            osf.Functions.WriteLog(exc)
+            
+        try:
+            
+            def UpdateCheck():
+                #link = "https://github.com/Ned84/OnionSwitch/blob/master/VERSION.md"
+                link = "https://github.com/Ned84"
+              
+  
+                url = request.urlopen(link)
+                readurl = url.read()
+                text = readurl.decode(encoding='utf-8',errors='ignore')
+                stringindex = text.find("OnionSwitchVersion") 
+
+                if stringindex != -1:
+                    Ui_MainWindow.versionnew = text[stringindex + 20:stringindex + 23]
+                    Ui_MainWindow.versionnew = Ui_MainWindow.versionnew.replace('_','.')
+
+                if version < Ui_MainWindow.versionnew:
+                    Ui_MainWindow.serverconnection = True
+                    Ui_MainWindow.updateavail = True
+                    Ui_MainWindow.versioncheckdone = True
+                    osf.Functions.paramupdateavailable = True
+
+                else:
+                    Ui_MainWindow.serverconnection = True
+                    Ui_MainWindow.updateavail = False
+                    Ui_MainWindow.versioncheckdone = True
+                    osf.Functions.paramupdateavailable = False
+
+       
+            urlthread = threading.Thread(target=UpdateCheck, daemon=True)
+            urlthread.start()
+                
+            return super().__init__(*args, **kwargs)
+
+        except Exception as exc: 
+             Ui_MainWindow.updateavail = False
+             osf.Functions.paramupdateavailable = False
+             Ui_MainWindow.versioncheckdone = True
+
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(450, 300)
@@ -45,6 +131,15 @@ class Ui_MainWindow(object):
         self.chooseCountryBox.setObjectName("chooseCountryBox")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 20, 311, 21))
+        self.updatelabel = QtWidgets.QLabel(self.centralwidget)
+        self.updatelabel.setGeometry(QtCore.QRect(20, 80, 311, 21))
+        font2 = QtGui.QFont()
+        font2.setFamily("Arial")
+        font2.setPointSize(10)
+        font2.setBold(True)
+        font2.setWeight(75)
+        self.updatelabel.setFont(font2)
+        self.updatelabel.hide()
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(10)
@@ -61,8 +156,6 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.tabWidget.setIconSize(QtCore.QSize(20, 20))
         self.tabWidget.setObjectName("tabWidget")
-        #self.tabWidget.setStyleSheet("QTabBar::tab:selected {background: white;}")
-        #self.tabWidget.setStyleSheet("QTabBar::tab { height: 30px; width: 150px; background-color: rgb(89, 49, 107); font: 8pt Arial; selection-background-color: rgb(255, 255, 255);}")  
         stylesheet = """ 
     QTabBar::tab:selected {color: white;}
     QTabBar::tab { height: 30px; width: 150px; background-color: rgb(89, 49, 107); font: 8pt Arial; selection-background-color: rgb(255, 255, 255);}
@@ -147,6 +240,40 @@ class Ui_MainWindow(object):
         self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        self.tabWidget.setCurrentWidget(self.tabWidget.findChild(QtWidgets.QWidget, "tab1"))
+        
+
+        @pyqtSlot()
+        def OpenDialogAbout(): 
+            self.window = QtWidgets.QDialog()
+            self.ui = Ui_AboutDialog()
+            self.ui.setupUi(self.window)
+            self.window.show()
+
+        @pyqtSlot()
+        def OpenDialogSettings(): 
+            self.window = QtWidgets.QDialog()
+            self.ui = Ui_SettingsDialog()
+            self.ui.setupUi(self.window)
+            self.window.show()
+
+        @pyqtSlot()
+        def OpenDialogUpdate(): 
+            self.window = QtWidgets.QDialog()
+            self.ui = Ui_UpdateDialog()
+            self.ui.setupUi(self.window)
+            self.window.show()
+
+        if osf.Functions.paramupdateavailable == True:
+            self.updatelabel.show()
+            
+
+        self.actionAbout.triggered.connect(OpenDialogAbout)
+
+        self.actionSettings.triggered.connect(OpenDialogSettings)
+
+        self.actionUpdate.triggered.connect(OpenDialogUpdate)
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -165,6 +292,7 @@ class Ui_MainWindow(object):
         self.actionAbout.setText(_translate("MainWindow", "About"))
         self.actionUpdate.setText(_translate("MainWindow", "Update"))
         self.actionSettings.setText(_translate("MainWindow", "Settings"))
+        self.updatelabel.setText(_translate("MainWindow", "Update available"))
 
 class Ui_AboutDialog(object):
     def setupUi(self, AboutDialog):
@@ -204,12 +332,14 @@ class Ui_AboutDialog(object):
         self.retranslateUi(AboutDialog)
         QtCore.QMetaObject.connectSlotsByName(AboutDialog)
 
+        self.closeButton.clicked.connect(AboutDialog.close)
+
     def retranslateUi(self, AboutDialog):
         _translate = QtCore.QCoreApplication.translate
         AboutDialog.setWindowTitle(_translate("AboutDialog", "Dialog"))
         self.closeButton.setText(_translate("AboutDialog", "Close"))
         self.label.setText(_translate("AboutDialog", "OnionSwitch"))
-        self.label_2.setText(_translate("AboutDialog", "Version: xxx\n"
+        self.label_2.setText(_translate("AboutDialog", "Version: " + version + "\n"
 "\n"
 "Easily switch the Tor-Exit-Node\n"
 "Destination Country in your\n"
@@ -242,6 +372,8 @@ class Ui_FaultDialog(object):
 
         self.retranslateUi(FaultDialog)
         QtCore.QMetaObject.connectSlotsByName(FaultDialog)
+
+        self.okButton.clicked.connect(FaultDialog.close)
 
     def retranslateUi(self, FaultDialog):
         _translate = QtCore.QCoreApplication.translate
@@ -291,6 +423,8 @@ class Ui_SettingsDialog(object):
         self.retranslateUi(SettingsDialog)
         QtCore.QMetaObject.connectSlotsByName(SettingsDialog)
 
+        self.cancelButton.clicked.connect(SettingsDialog.close)
+
     def retranslateUi(self, SettingsDialog):
         _translate = QtCore.QCoreApplication.translate
         SettingsDialog.setWindowTitle(_translate("SettingsDialog", "Dialog"))
@@ -308,9 +442,9 @@ class Ui_UpdateDialog(object):
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/resources/OnionSwitch_Logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         UpdateDialog.setWindowIcon(icon)
-        self.Cancel = QtWidgets.QPushButton(UpdateDialog)
-        self.Cancel.setGeometry(QtCore.QRect(290, 210, 93, 28))
-        self.Cancel.setObjectName("Cancel")
+        self.cancelButton = QtWidgets.QPushButton(UpdateDialog)
+        self.cancelButton.setGeometry(QtCore.QRect(290, 210, 93, 28))
+        self.cancelButton.setObjectName("Cancel")
         self.updateButton = QtWidgets.QPushButton(UpdateDialog)
         self.updateButton.setGeometry(QtCore.QRect(180, 210, 93, 28))
         self.updateButton.setObjectName("updateButton")
@@ -322,6 +456,12 @@ class Ui_UpdateDialog(object):
         self.onionswitch_logo_frame.setObjectName("onionswitch_logo_frame")
         self.label = QtWidgets.QLabel(UpdateDialog)
         self.label.setGeometry(QtCore.QRect(190, 20, 181, 31))
+        self.label2 = QtWidgets.QLabel(UpdateDialog)
+        self.label2.setGeometry(QtCore.QRect(170, 60, 301, 131))
+        self.label3 = QtWidgets.QLabel(UpdateDialog)
+        self.label3.setGeometry(QtCore.QRect(170, 60, 301, 131))
+        self.label4 = QtWidgets.QLabel(UpdateDialog)
+        self.label4.setGeometry(QtCore.QRect(170, 60, 301, 131))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(14)
@@ -333,12 +473,58 @@ class Ui_UpdateDialog(object):
         self.retranslateUi(UpdateDialog)
         QtCore.QMetaObject.connectSlotsByName(UpdateDialog)
 
+        @pyqtSlot()
+        def StartUpdateProc():
+            osf.Functions.paramupdateavailable = False
+            osf.Functions.WriteSettingsToJson(self)
+            webbrowser.open('https://github.com/Ned84/OnionSwitch/releases') 
+  
+
+        self.cancelButton.clicked.connect(UpdateDialog.close)
+
+        self.updateButton.clicked.connect(StartUpdateProc)
+
     def retranslateUi(self, UpdateDialog):
         _translate = QtCore.QCoreApplication.translate
         UpdateDialog.setWindowTitle(_translate("UpdateDialog", "Dialog"))
-        self.Cancel.setText(_translate("UpdateDialog", "Cancel"))
+        self.cancelButton.setText(_translate("UpdateDialog", "Cancel"))
         self.updateButton.setText(_translate("UpdateDialog", "Update"))
         self.label.setText(_translate("UpdateDialog", "OnionSwitch"))
+        self.label2.setText(_translate("UpdateDialog", "Current Version: "+ version +"\n"
+"\n"
+"New Version: "+ Ui_MainWindow.versionnew +"\n"
+"\n"
+"Do you want to Update\n"
+"this Program?"))
+
+        self.label3.setText(_translate("UpdateDialog", "No connection to Github."))
+        self.label3.setFont(QtGui.QFont("Arial", 9))
+
+        self.label4.setText(_translate("UpdateDialog", "Current Version: "+ version +"\n"
+"\n"
+"New Version: "+ Ui_MainWindow.versionnew +"\n"
+"\n"
+"No Update available."))
+        self.label4.setFont(QtGui.QFont("Arial", 9))
+
+        self.label2.setFont(QtGui.QFont("Arial", 9))
+
+        if Ui_MainWindow.serverconnection == False:
+            self.updateButton.setEnabled(False)
+            self.label2.hide()
+            self.label4.hide()
+            self.label3.show()
+        else:
+            if Ui_MainWindow.updateavail == True:
+                self.updateButton.setEnabled(True)
+                self.label2.show()
+                self.label4.hide()
+                self.label3.hide()
+            else:
+                self.updateButton.setEnabled(False)
+                self.label2.hide()
+                self.label4.show()
+                self.label3.hide()
 
 
 
