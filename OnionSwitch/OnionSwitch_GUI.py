@@ -22,16 +22,20 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QFileDialog, QApplication
-  
+
+
+
+
 from urllib import request
 from os import path
 
-import OnionSwitch_Functions as osf
 
+import OnionSwitch_Functions as osf
 import webbrowser
 import threading
 import os.path
 import json
+
 
 
 version = "0.1"
@@ -275,6 +279,8 @@ class Ui_MainWindow(object):
         self.actionSettings.triggered.connect(OpenDialogSettings)
 
         self.actionUpdate.triggered.connect(OpenDialogUpdate)
+
+        
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
