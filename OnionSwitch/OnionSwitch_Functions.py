@@ -21,6 +21,7 @@ import os
 import sys
 import datetime
 import json
+import re
 
 
 class Functions(object):
@@ -28,6 +29,10 @@ class Functions(object):
     paramversion = ""
     parampathtotor = ""
     paramupdateavailable = False
+
+    torrcexitnodes = []
+    torrcexcludednodes = []
+    torrcexcludedexitnodes = []
 
     def __init__(self):
         pass
@@ -53,7 +58,7 @@ class Functions(object):
 
 
         except Exception as exc: 
-            Functions.WriteLog(exc)
+            Functions.WriteLog(self, exc)
 
 
 
@@ -76,10 +81,32 @@ class Functions(object):
             file.close()
 
         except Exception as exc: 
-            Functions.WriteLog(exc)
+            Functions.WriteLog(self, exc)
 
 
-    def WriteLog(exc):
+    def GetTorrcFromFile(self):
+    
+        try:
+            file = open(os.getenv('LOCALAPPDATA') + '\\OnionSwitch\\osparam\\torrc')
+            torrc_readfile = file.read()
+            
+            index_1 = torrc_readfile.find("ExitNodes")
+            index_2 = torrc_readfile.find("\n", index_1)
+            index_1 = index_1 + len("ExitNodes")
+            sliceobject = slice(index_1,index_2)
+            exitnodes = torrc_readfile[sliceobject]
+        
+            exitnodes = re.findall('{+[a-z]+}', exitnodes)
+            
+            for exitnode in exitnodes:
+                print(exitnode)
+
+            file.close()
+        except Exception as exc: 
+            Functions.WriteLog(self, exc)
+
+
+    def WriteLog(self, exc):
         logfile = open(os.getenv('LOCALAPPDATA') + '\\OnionSwitch\\Logfiles\\oslog.txt',"a")
         dt = datetime.datetime.now()
         dtwithoutmill = dt.replace(microsecond=0)

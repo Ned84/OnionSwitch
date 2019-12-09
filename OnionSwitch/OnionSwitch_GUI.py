@@ -19,25 +19,22 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 
 
+import json
+import os.path
+import subprocess
+import threading
+import webbrowser
+from os import path
+from urllib import request
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QFileDialog, QApplication
-
-
-
-
-from urllib import request
-from os import path
-
+from PyQt5.QtGui import QStandardItem, QStandardItemModel
+from PyQt5.QtWidgets import (QAction, QApplication, QFileDialog, QMainWindow,
+                             QTextEdit)
 
 import OnionSwitch_Functions as osf
-import webbrowser
-import threading
-import os.path
-import json
-import subprocess
-
-
+import OnionSwitchResources_rc
 
 version = "0.2"
 
@@ -77,7 +74,7 @@ class Ui_MainWindow(object):
 
 
         except Exception as exc:
-            osf.Functions.WriteLog(exc)
+            osf.Functions.WriteLog(self, exc)
             
         try:
             
@@ -120,17 +117,18 @@ class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("OnionSwitch")
-        MainWindow.resize(450, 300)
-        MainWindow.setMinimumSize(QtCore.QSize(450, 300))
-        MainWindow.setMaximumSize(QtCore.QSize(450, 300))
+        MainWindow.resize(525, 300)
+        MainWindow.setMinimumSize(QtCore.QSize(525, 300))
+        MainWindow.setMaximumSize(QtCore.QSize(525, 300))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/resources/OnionSwitch_Logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.chooseCountryBox = QtWidgets.QComboBox(self.centralwidget)
-        self.chooseCountryBox.setGeometry(QtCore.QRect(20, 50, 411, 22))
-        choosearray = [ 	"ASCENSION ISLAND",
+        self.chooseCountryBox.setGeometry(QtCore.QRect(113, 50, 300, 22))
+        choosearray = [ 	"",
+    "ASCENSION ISLAND",
 	"AFGHANISTAN",
 	"ALAND",
 	"ALBANIA",
@@ -274,108 +272,108 @@ class Ui_MainWindow(object):
 	"MICRONESIA",
 	"MOLDAVA REPUBLIC OF",
 	"MONACO",
-	"MONGOLIA 	{mn}",
-	"MONTENEGRO 	{me}",
-	"MONTSERRAT 	{ms}",
-	"MOROCCO 	{ma}",
-	"MOZAMBIQUE 	{mz}",
-	"MYANMAR 	{mm}",
-	"NAMIBIA 	{na}",
-	"NAURU 	{nr}",
-	"NEPAL 	{np}",
-	"NETHERLANDS ANTILLES 	{an}",
-	"NETHERLANDS, THE 	{nl}",
-	"NEW CALEDONIA 	{nc}",
-	"NEW ZEALAND 	{nz}",
-	"NICARAGUA 	{ni}",
-	"NIGER 	{ne}",
-	"NIGERIA 	{ng}",
-	"NIUE 	{nu}",
-	"NORFOLK ISLAND 	{nf}",
-	"NORTHERN MARIANA ISLANDS 	{mp}",
-	"NORWAY 	{no}",
-	"OMAN 	{om}",
-	"PAKISTAN 	{pk}",
-	"PALAU 	{pw}",
-	"PALESTINE 	{ps}",
-	"PANAMA 	{pa}",
-	"PAPUA NEW GUINEA 	{pg}",
-	"PARAGUAY 	{py}",
-	"PERU 	{pe}",
-	"PHILIPPINES (REPUBLIC OF THE) 	{ph}",
-	"PITCAIRN 	{pn}",
-	"POLAND 	{pl}",
-	"PORTUGAL 	{pt}",
-	"PUERTO RICO 	{pr}",
-	"QATAR 	{qa}",
-	"REUNION 	{re}",
-	"ROMANIA 	{ro}",
-	"RUSSIAN FEDERATION 	{ru}",
-	"RWANDA 	{rw}",
-	"SAMOA 	{ws}",
-	"SAN MARINO 	{sm}",
-	"SAO TOME/PRINCIPE 	{st}",
-	"SAUDI ARABIA 	{sa}",
-	"SCOTLAND 	{uk}",
-	"SENEGAL 	{sn}",
-	"SERBIA 	{rs}",
-	"SEYCHELLES 	{sc}",
-	"SIERRA LEONE 	{sl}",
-	"SINGAPORE 	{sg}",
-	"SLOVAKIA 	{sk}",
-	"SLOVENIA 	{si}",
-	"SOLOMON ISLANDS 	{sb}",
-	"SOMALIA 	{so}",
-	"SOMOA,GILBERT,ELLICE ISLANDS 	{as}",
-	"SOUTH AFRICA 	{za}",
-	"SOUTH GEORGIA, SOUTH SANDWICH ISLANDS 	{gs}",
-	"SOVIET UNION 	{su}",
-	"SPAIN 	{es}",
-	"SRI LANKA 	{lk}",
-	"ST. HELENA 	{sh}",
-	"ST. KITTS AND NEVIS 	{kn}",
-	"ST. LUCIA 	{lc}",
-	"ST. PIERRE AND MIQUELON 	{pm}",
-	"ST. VINCENT & THE GRENADINES 	{vc}",
-	"SUDAN 	{sd}",
-	"SURINAME 	{sr}",
-	"SVALBARD AND JAN MAYEN 	{sj}",
-	"SWAZILAND 	{sz}",
-	"SWEDEN 	{se}",
-	"SWITZERLAND 	{ch}",
-	"SYRIAN ARAB REPUBLIC 	{sy}",
-	"TAIWAN 	{tw}",
-	"TAJIKISTAN 	{tj}",
-	"TANZANIA, UNITED REPUBLIC OF 	{tz}",
-	"THAILAND 	{th}",
-	"TOGO 	{tg}",
-	"TOKELAU 	{tk}",
-	"TONGA 	{to}",
-	"TRINIDAD AND TOBAGO 	{tt}",
-	"TUNISIA 	{tn}",
-	"TURKEY 	{tr}",
-	"TURKMENISTAN 	{tm}",
-	"TURKS AND CALCOS ISLANDS 	{tc}",
-	"TUVALU 	{tv}",
-	"UGANDA 	{ug}",
-	"UKRAINE 	{ua}",
-	"UNITED ARAB EMIRATES 	{ae}",
-	"UNITED KINGDOM (no new registrations) 	{gb}",
-	"UNITED KINGDOM 	{uk}",
-	"UNITED STATES 	{us}",
-	"UNITED STATES MINOR OUTL.IS. 	{um}",
-	"URUGUAY 	{uy}",
-	"UZBEKISTAN 	{uz}",
-	"VANUATU 	{vu}",
-	"VATICAN CITY STATE 	{va}",
-	"VENEZUELA 	{ve}",
-	"VIET NAM 	{vn}",
-	"VIRGIN ISLANDS (USA) 	{vi}",
-	"WALLIS AND FUTUNA ISLANDS 	{wf}",
-	"WESTERN SAHARA 	{eh}",
-	"YEMEN 	{ye}",
-	"ZAMBIA 	{zm}",
-	"ZIMBABWE 	{zw}",]
+	"MONGOLIA",
+	"MONTENEGRO",
+	"MONTSERRAT",
+	"MOROCCO",
+	"MOZAMBIQUE",
+	"MYANMAR",
+	"NAMIBIA",
+	"NAURU",
+	"NEPAL",
+	"NETHERLANDS ANTILLES",
+	"NETHERLANDS, THE",
+	"NEW CALEDONIA",
+	"NEW ZEALAND",
+	"NICARAGUA",
+	"NIGER",
+	"NIGERIA",
+	"NIUE",
+	"NORFOLK ISLAND",
+	"NORTHERN MARIANA ISLANDS",
+	"NORWAY",
+	"OMAN",
+	"PAKISTAN",
+	"PALAU",
+	"PALESTINE",
+	"PANAMA",
+	"PAPUA NEW GUINEA",
+	"PARAGUAY",
+	"PERU",
+	"PHILIPPINES (REPUBLIC OF THE)",
+	"PITCAIRN",
+	"POLAND",
+	"PORTUGAL",
+	"PUERTO RICO",
+	"QATAR",
+	"REUNION",
+	"ROMANIA",
+	"RUSSIAN FEDERATION",
+	"RWANDA",
+	"SAMOA",
+	"SAN MARINO",
+	"SAO TOME/PRINCIPE",
+	"SAUDI ARABIA",
+	"SCOTLAND",
+	"SENEGAL",
+	"SERBIA",
+	"SEYCHELLES",
+	"SIERRA LEONE",
+	"SINGAPORE",
+	"SLOVAKIA",
+	"SLOVENIA",
+	"SOLOMON ISLANDS",
+	"SOMALIA",
+	"SOMOA,GILBERT,ELLICE ISLANDS",
+	"SOUTH AFRICA",
+	"SOUTH GEORGIA, SOUTH SANDWICH ISLANDS",
+	"SOVIET UNION",
+	"SPAIN",
+	"SRI LANKA",
+	"ST. HELENA",
+	"ST. KITTS AND NEVIS",
+	"ST. LUCIA",
+	"ST. PIERRE AND MIQUELON",
+	"ST. VINCENT & THE GRENADINES",
+	"SUDAN",
+	"SURINAME",
+	"SVALBARD AND JAN MAYEN",
+	"SWAZILAND",
+	"SWEDEN",
+	"SWITZERLAND",
+	"SYRIAN ARAB REPUBLIC",
+	"TAIWAN",
+	"TAJIKISTAN",
+	"TANZANIA, UNITED REPUBLIC OF",
+	"THAILAND",
+	"TOGO",
+	"TOKELAU",
+	"TONGA",
+	"TRINIDAD AND TOBAGO",
+	"TUNISIA",
+	"TURKEY",
+	"TURKMENISTAN",
+	"TURKS AND CALCOS ISLANDS",
+	"TUVALU",
+	"UGANDA",
+	"UKRAINE",
+	"UNITED ARAB EMIRATES",
+	"UNITED KINGDOM (no new registrations)",
+	"UNITED KINGDOM",
+	"UNITED STATES",
+	"UNITED STATES MINOR OUTL.IS.",
+	"URUGUAY",
+	"UZBEKISTAN",
+	"VANUATU",
+	"VATICAN CITY STATE",
+	"VENEZUELA",
+	"VIET NAM",
+	"VIRGIN ISLANDS (USA)",
+	"WALLIS AND FUTUNA ISLANDS",
+	"WESTERN SAHARA",
+	"YEMEN",
+	"ZAMBIA",
+	"ZIMBABWE",]
         self.chooseCountryBox.addItems(choosearray)
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -401,11 +399,11 @@ class Ui_MainWindow(object):
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(170, 80, 113, 22))
+        self.lineEdit.setGeometry(QtCore.QRect(113, 80, 113, 22))
         self.lineEdit.setObjectName("lineEdit")
         #self.lineEdit.setStyleSheet("background-color: rgb(240, 240, 240);")
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
-        self.tabWidget.setGeometry(QtCore.QRect(0, 110, 450, 171))
+        self.tabWidget.setGeometry(QtCore.QRect(0, 110, 525, 171))
         self.tabWidget.setTabPosition(QtWidgets.QTabWidget.North)
         self.tabWidget.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.tabWidget.setIconSize(QtCore.QSize(20, 20))
@@ -418,10 +416,10 @@ class Ui_MainWindow(object):
         self.tab1 = QtWidgets.QWidget()
         self.tab1.setObjectName("tab1")
         self.chooseNodeButton = QtWidgets.QPushButton(self.tab1)
-        self.chooseNodeButton.setGeometry(QtCore.QRect(190, 100, 111, 28))
+        self.chooseNodeButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
         self.chooseNodeButton.setObjectName("chooseNodeButton")
         self.chosenNodeslistView = QtWidgets.QListView(self.tab1)
-        self.chosenNodeslistView.setGeometry(QtCore.QRect(310, 0, 141, 141))
+        self.chosenNodeslistView.setGeometry(QtCore.QRect(384, -1, 141, 134))
         self.chosenNodeslistView.setObjectName("chosenNodeslistView")
         self.onionswitch_logo_frame_2 = QtWidgets.QFrame(self.tab1)
         self.onionswitch_logo_frame_2.setGeometry(QtCore.QRect(10, -10, 120, 110))
@@ -436,10 +434,10 @@ class Ui_MainWindow(object):
         self.tab2 = QtWidgets.QWidget()
         self.tab2.setObjectName("tab2")
         self.blacklistAllButton = QtWidgets.QPushButton(self.tab2)
-        self.blacklistAllButton.setGeometry(QtCore.QRect(190, 100, 111, 28))
+        self.blacklistAllButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
         self.blacklistAllButton.setObjectName("blacklistAllButton")
         self.blacklistAllNodeslistView = QtWidgets.QListView(self.tab2)
-        self.blacklistAllNodeslistView.setGeometry(QtCore.QRect(310, 0, 141, 141))
+        self.blacklistAllNodeslistView.setGeometry(QtCore.QRect(384, -1, 141, 134))
         self.blacklistAllNodeslistView.setObjectName("blacklistAllNodeslistView")
         self.onionswitch_logo_frame = QtWidgets.QFrame(self.tab2)
         self.onionswitch_logo_frame.setGeometry(QtCore.QRect(10, -10, 120, 110))
@@ -454,10 +452,10 @@ class Ui_MainWindow(object):
         self.tab3 = QtWidgets.QWidget()
         self.tab3.setObjectName("tab3")
         self.blacklistExitNodeslistView = QtWidgets.QListView(self.tab3)
-        self.blacklistExitNodeslistView.setGeometry(QtCore.QRect(310, 0, 141, 141))
+        self.blacklistExitNodeslistView.setGeometry(QtCore.QRect(384, -1, 141, 134))
         self.blacklistExitNodeslistView.setObjectName("blacklistExitNodeslistView")
         self.blacklistExitButton = QtWidgets.QPushButton(self.tab3)
-        self.blacklistExitButton.setGeometry(QtCore.QRect(190, 100, 111, 28))
+        self.blacklistExitButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
         self.blacklistExitButton.setObjectName("blacklistExitButton")
         self.startTorBrowserButton3 = QtWidgets.QPushButton(self.tab3)
         self.startTorBrowserButton3.setGeometry(QtCore.QRect(10, 100, 121, 28))
@@ -495,7 +493,54 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
         self.tabWidget.setCurrentWidget(self.tabWidget.findChild(QtWidgets.QWidget, "tab1"))
+
+        model = QStandardItemModel(self.chosenNodeslistView)
+
+        foods = [
+    'Cookie dough', # Must be store-bought
+    'Hummus', # Must be homemade
+    'Spaghetti', # Must be saucy
+    'Dal makhani', # Must be spicy
+    'Chocolate whipped cream' # Must be plentiful
+        ]
+
+        foods2 = [
+    'Cookie2 dough', # Must be store-bought
+    'Hummus2', # Must be homemade
+    'Spaghetti2', # Must be saucy
+    'Dal2 makhani', # Must be spicy
+    'Chocolate2 whipped cream' # Must be plentiful
+        ]
         
+        for food in foods:
+    # create an item with a caption
+            item = QStandardItem(food)
+ 
+    # add a checkbox to it
+            #item.setCheckable(True)
+            item.setEditable(False)
+ 
+    # Add the item to the model
+            model.appendRow(item)
+
+        self.chosenNodeslistView.setModel(model)
+        self.chosenNodeslistView.show()
+
+        @pyqtSlot()
+        def ChangeList():
+            model.clear()
+            for food in foods2:
+    # create an item with a caption
+                item = QStandardItem(food)
+ 
+    # add a checkbox to it
+                item.setEditable(False)
+ 
+    # Add the item to the model
+                model.appendRow(item)
+
+            self.chosenNodeslistView.setModel(model)
+            self.chosenNodeslistView.show()
 
         @pyqtSlot()
         def OpenDialogAbout(): 
@@ -524,13 +569,17 @@ class Ui_MainWindow(object):
                 torbrowserpath = osf.Functions.parampathtotor+ "\\Start Tor Browser.lnk"
                 os.system('"' + torbrowserpath + '"')
             except Exception as exc:
-                osf.Functions.WriteLog(exc)
+                osf.Functions.WriteLog(self, exc)
+
+        @pyqtSlot()
+        def GetTorrc():
+            osf.Functions.GetTorrcFromFile(self)
 
         if osf.Functions.paramupdateavailable == True:
             self.updatelabel.show()
 
       
-            
+        self.chooseNodeButton.clicked.connect(GetTorrc)
 
         self.actionAbout.triggered.connect(OpenDialogAbout)
 
@@ -708,7 +757,7 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
                     
                 
             except Exception as exc:
-                osf.Functions.WriteLog(exc)
+                osf.Functions.WriteLog(self, exc)
 
         @pyqtSlot()
         def okButtonPress():
@@ -827,7 +876,6 @@ class Ui_UpdateDialog(object):
 
 
 
-import OnionSwitchResources_rc
 
 
 if __name__ == "__main__":
