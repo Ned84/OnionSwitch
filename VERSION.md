@@ -1,1 +1,1 @@
-OnionSwitchVersion V0_0
+OnionSwitchVersion V0_2

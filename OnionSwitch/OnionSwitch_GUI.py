@@ -35,10 +35,11 @@ import webbrowser
 import threading
 import os.path
 import json
+import subprocess
 
 
 
-version = "0.1"
+version = "0.2"
 
 
 class Ui_MainWindow(object):
@@ -110,7 +111,6 @@ class Ui_MainWindow(object):
             urlthread = threading.Thread(target=UpdateCheck, daemon=True)
             urlthread.start()
                 
-            return super().__init__(*args, **kwargs)
 
         except Exception as exc: 
              Ui_MainWindow.updateavail = False
@@ -119,7 +119,7 @@ class Ui_MainWindow(object):
 
 
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
+        MainWindow.setObjectName("OnionSwitch")
         MainWindow.resize(450, 300)
         MainWindow.setMinimumSize(QtCore.QSize(450, 300))
         MainWindow.setMaximumSize(QtCore.QSize(450, 300))
@@ -130,6 +130,253 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.chooseCountryBox = QtWidgets.QComboBox(self.centralwidget)
         self.chooseCountryBox.setGeometry(QtCore.QRect(20, 50, 411, 22))
+        choosearray = [ 	"ASCENSION ISLAND",
+	"AFGHANISTAN",
+	"ALAND",
+	"ALBANIA",
+	"ALGERIA",
+	"ANDORRA",
+	"ANGOLA",
+	"ANGUILLA",
+	"ANTARCTICA",
+	"ANTIGUA AND BARBUDA",
+	"ARGENTINA REPUBLIC",
+	"ARMENIA",
+	"ARUBA",
+	"AUSTRALIA",
+	"AUSTRIA",
+	"AZERBAIJAN",
+	"BAHAMAS",
+	"BAHRAIN",
+	"BANGLADESH",
+	"BARBADOS",
+	"BELARUS",
+	"BELGIUM",
+	"BELIZE",
+	"BENIN",
+	"BERMUDA",
+	"BHUTAN",
+	"BOLIVIA",
+	"BOSNIA AND HERZEGOVINA",
+	"BOTSWANA",
+	"BOUVET ISLAND",
+	"BRAZIL",
+	"BRITISH INDIAN OCEAN TERR.",
+	"BRITISH VIRGIN ISLANDS",
+	"BRUNEI DARUSSALAM",
+	"BULGARIA",
+	"BURKINA FASO",
+	"BURUNDI",
+	"CAMBODIA",
+	"CAMEROON",
+	"CANADA",
+	"CAPE VERDE",
+	"CAYMAN ISLANDS",
+	"CENTRAL AFRICAN REPUBLIC",
+	"CHAD",
+	"CHILE",
+	"PEOPLE’S REPUBLIC OF CHINA",
+	"CHRISTMAS ISLANDS",
+	"COCOS ISLANDS",
+	"COLOMBIA",
+	"COMORAS",
+	"CONGO",
+	"CONGO (DEMOCRATIC REPUBLIC)",
+	"COOK ISLANDS",
+	"COSTA RICA",
+	"COTE D IVOIRE",
+	"CROATIA",
+	"CUBA",
+	"CYPRUS",
+	"CZECH REPUBLIC",
+	"DENMARK",
+	"DJIBOUTI",
+	"DOMINICA",
+	"DOMINICAN REPUBLIC",
+	"EAST TIMOR",
+	"ECUADOR",
+	"EGYPT",
+	"EL SALVADOR",
+	"EQUATORIAL GUINEA",
+	"ESTONIA",
+	"ETHIOPIA",
+	"FALKLAND ISLANDS",
+	"FAROE ISLANDS",
+	"FIJI",
+	"FINLAND",
+	"FRANCE",
+	"FRANCE METROPOLITAN",
+	"FRENCH GUIANA",
+	"FRENCH POLYNESIA",
+	"FRENCH SOUTHERN TERRITORIES",
+	"GABON",
+	"GAMBIA",
+	"GEORGIA",
+	"GERMANY",
+	"GHANA",
+	"GIBRALTER",
+	"GREECE",
+	"GREENLAND",
+	"GRENADA",
+	"GUADELOUPE",
+	"GUAM",
+	"GUATEMALA",
+	"GUINEA",
+	"GUINEA-BISSAU",
+	"GUYANA",
+	"HAITI",
+	"HEARD & MCDONALD ISLAND",
+	"HONDURAS",
+	"HONG KONG",
+	"HUNGARY",
+	"ICELAND",
+	"INDIA",
+	"INDONESIA",
+	"IRAN, ISLAMIC REPUBLIC OF",
+	"IRAQ",
+	"IRELAND",
+	"ISLE OF MAN",
+	"ISRAEL",
+	"ITALY",
+	"JAMAICA",
+	"JAPAN",
+	"JORDAN",
+	"KAZAKHSTAN",
+	"KENYA",
+	"KIRIBATI",
+	"KOREA, DEM. PEOPLES REP OF",
+	"KOREA, REPUBLIC OF",
+	"KUWAIT",
+	"KYRGYZSTAN",
+	"LAO PEOPLE’S DEM. REPUBLIC",
+	"LATVIA",
+	"LEBANON",
+	"LESOTHO",
+	"LIBERIA",
+	"LIBYAN ARAB JAMAHIRIYA",
+	"LIECHTENSTEIN",
+	"LITHUANIA",
+	"LUXEMBOURG",
+	"MACAO",
+	"MACEDONIA",
+	"MADAGASCAR",
+	"MALAWI",
+	"MALAYSIA",
+	"MALDIVES",
+	"MALI",
+	"MALTA",
+	"MARSHALL ISLANDS",
+	"MARTINIQUE",
+	"MAURITANIA",
+	"MAURITIUS",
+	"MAYOTTE",
+	"MEXICO",
+	"MICRONESIA",
+	"MOLDAVA REPUBLIC OF",
+	"MONACO",
+	"MONGOLIA 	{mn}",
+	"MONTENEGRO 	{me}",
+	"MONTSERRAT 	{ms}",
+	"MOROCCO 	{ma}",
+	"MOZAMBIQUE 	{mz}",
+	"MYANMAR 	{mm}",
+	"NAMIBIA 	{na}",
+	"NAURU 	{nr}",
+	"NEPAL 	{np}",
+	"NETHERLANDS ANTILLES 	{an}",
+	"NETHERLANDS, THE 	{nl}",
+	"NEW CALEDONIA 	{nc}",
+	"NEW ZEALAND 	{nz}",
+	"NICARAGUA 	{ni}",
+	"NIGER 	{ne}",
+	"NIGERIA 	{ng}",
+	"NIUE 	{nu}",
+	"NORFOLK ISLAND 	{nf}",
+	"NORTHERN MARIANA ISLANDS 	{mp}",
+	"NORWAY 	{no}",
+	"OMAN 	{om}",
+	"PAKISTAN 	{pk}",
+	"PALAU 	{pw}",
+	"PALESTINE 	{ps}",
+	"PANAMA 	{pa}",
+	"PAPUA NEW GUINEA 	{pg}",
+	"PARAGUAY 	{py}",
+	"PERU 	{pe}",
+	"PHILIPPINES (REPUBLIC OF THE) 	{ph}",
+	"PITCAIRN 	{pn}",
+	"POLAND 	{pl}",
+	"PORTUGAL 	{pt}",
+	"PUERTO RICO 	{pr}",
+	"QATAR 	{qa}",
+	"REUNION 	{re}",
+	"ROMANIA 	{ro}",
+	"RUSSIAN FEDERATION 	{ru}",
+	"RWANDA 	{rw}",
+	"SAMOA 	{ws}",
+	"SAN MARINO 	{sm}",
+	"SAO TOME/PRINCIPE 	{st}",
+	"SAUDI ARABIA 	{sa}",
+	"SCOTLAND 	{uk}",
+	"SENEGAL 	{sn}",
+	"SERBIA 	{rs}",
+	"SEYCHELLES 	{sc}",
+	"SIERRA LEONE 	{sl}",
+	"SINGAPORE 	{sg}",
+	"SLOVAKIA 	{sk}",
+	"SLOVENIA 	{si}",
+	"SOLOMON ISLANDS 	{sb}",
+	"SOMALIA 	{so}",
+	"SOMOA,GILBERT,ELLICE ISLANDS 	{as}",
+	"SOUTH AFRICA 	{za}",
+	"SOUTH GEORGIA, SOUTH SANDWICH ISLANDS 	{gs}",
+	"SOVIET UNION 	{su}",
+	"SPAIN 	{es}",
+	"SRI LANKA 	{lk}",
+	"ST. HELENA 	{sh}",
+	"ST. KITTS AND NEVIS 	{kn}",
+	"ST. LUCIA 	{lc}",
+	"ST. PIERRE AND MIQUELON 	{pm}",
+	"ST. VINCENT & THE GRENADINES 	{vc}",
+	"SUDAN 	{sd}",
+	"SURINAME 	{sr}",
+	"SVALBARD AND JAN MAYEN 	{sj}",
+	"SWAZILAND 	{sz}",
+	"SWEDEN 	{se}",
+	"SWITZERLAND 	{ch}",
+	"SYRIAN ARAB REPUBLIC 	{sy}",
+	"TAIWAN 	{tw}",
+	"TAJIKISTAN 	{tj}",
+	"TANZANIA, UNITED REPUBLIC OF 	{tz}",
+	"THAILAND 	{th}",
+	"TOGO 	{tg}",
+	"TOKELAU 	{tk}",
+	"TONGA 	{to}",
+	"TRINIDAD AND TOBAGO 	{tt}",
+	"TUNISIA 	{tn}",
+	"TURKEY 	{tr}",
+	"TURKMENISTAN 	{tm}",
+	"TURKS AND CALCOS ISLANDS 	{tc}",
+	"TUVALU 	{tv}",
+	"UGANDA 	{ug}",
+	"UKRAINE 	{ua}",
+	"UNITED ARAB EMIRATES 	{ae}",
+	"UNITED KINGDOM (no new registrations) 	{gb}",
+	"UNITED KINGDOM 	{uk}",
+	"UNITED STATES 	{us}",
+	"UNITED STATES MINOR OUTL.IS. 	{um}",
+	"URUGUAY 	{uy}",
+	"UZBEKISTAN 	{uz}",
+	"VANUATU 	{vu}",
+	"VATICAN CITY STATE 	{va}",
+	"VENEZUELA 	{ve}",
+	"VIET NAM 	{vn}",
+	"VIRGIN ISLANDS (USA) 	{vi}",
+	"WALLIS AND FUTUNA ISLANDS 	{wf}",
+	"WESTERN SAHARA 	{eh}",
+	"YEMEN 	{ye}",
+	"ZAMBIA 	{zm}",
+	"ZIMBABWE 	{zw}",]
+        self.chooseCountryBox.addItems(choosearray)
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(10)
@@ -156,6 +403,7 @@ class Ui_MainWindow(object):
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit.setGeometry(QtCore.QRect(170, 80, 113, 22))
         self.lineEdit.setObjectName("lineEdit")
+        #self.lineEdit.setStyleSheet("background-color: rgb(240, 240, 240);")
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
         self.tabWidget.setGeometry(QtCore.QRect(0, 110, 450, 171))
         self.tabWidget.setTabPosition(QtWidgets.QTabWidget.North)
@@ -164,7 +412,7 @@ class Ui_MainWindow(object):
         self.tabWidget.setObjectName("tabWidget")
         stylesheet = """ 
     QTabBar::tab:selected {color: white;}
-    QTabBar::tab { height: 30px; width: 150px; background-color: rgb(89, 49, 107); font: 8pt Arial; selection-background-color: rgb(255, 255, 255);}
+    QTabBar::tab { height: 30px; width: 175px; background-color: rgb(89, 49, 107); font: 10pt Arial; selection-background-color: rgb(255, 255, 255);}
     """
         self.tabWidget.setStyleSheet(stylesheet)
         self.tab1 = QtWidgets.QWidget()
@@ -270,8 +518,18 @@ class Ui_MainWindow(object):
             self.ui.setupUi(self.window)
             self.window.show()
 
+        @pyqtSlot()
+        def StartTorBrowser():
+            try:
+                torbrowserpath = osf.Functions.parampathtotor+ "\\Start Tor Browser.lnk"
+                os.system('"' + torbrowserpath + '"')
+            except Exception as exc:
+                osf.Functions.WriteLog(exc)
+
         if osf.Functions.paramupdateavailable == True:
             self.updatelabel.show()
+
+      
             
 
         self.actionAbout.triggered.connect(OpenDialogAbout)
@@ -280,11 +538,18 @@ class Ui_MainWindow(object):
 
         self.actionUpdate.triggered.connect(OpenDialogUpdate)
 
+        self.startTorBrowserButton.clicked.connect(StartTorBrowser)
+
+        self.startTorBrowserButton2.clicked.connect(StartTorBrowser)
+
+        self.startTorBrowserButton3.clicked.connect(StartTorBrowser)
+
+
         
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "OnionSwitch"))
         self.label.setText(_translate("MainWindow", "Choose your Node-Country here:"))
         self.blacklistExitButton.setText(_translate("MainWindow", "Blacklist"))
         self.chooseNodeButton.setText(_translate("MainWindow", "Choose Node"))
