@@ -23,6 +23,7 @@ import sys
 import datetime
 import json
 import re
+from os import path
 
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
 
@@ -36,6 +37,40 @@ class TestFunctions(object):
     torrcexitnodes = []
     torrcexcludednodes = []
     torrcexcludedexitnodes = []
+
+    version = ""
+
+    if path.exists(os.getenv(
+            'LOCALAPPDATA') + '\\OnionSwitch') is False:
+        os.mkdir(os.getenv('LOCALAPPDATA') + '\\OnionSwitch')
+
+    if path.exists(os.getenv(
+            'LOCALAPPDATA') + '\\OnionSwitch\\osparam') is False:
+        os.mkdir(os.getenv('LOCALAPPDATA') + '\\OnionSwitch\\osparam')
+
+    if path.exists(os.getenv(
+            'LOCALAPPDATA') + '\\OnionSwitch\\logfiles') is False:
+        os.mkdir(os.getenv('LOCALAPPDATA') + '\\OnionSwitch\\logfiles')
+
+    if path.exists(os.getenv(
+            'LOCALAPPDATA') + (
+                '\\OnionSwitch\\osparam\\Param.json')) is False:
+        file = open(os.getenv('LOCALAPPDATA') +
+                    '\\OnionSwitch\\osparam\\Param.json', "w+")
+
+        data = [{"version": version, "Path_to_Tor": "",
+                "Update_available": False}]
+
+        json.dump(data, file, indent=1, sort_keys=True)
+        file.close()
+
+    if path.exists(
+            os.getenv('LOCALAPPDATA') +
+            '\\OnionSwitch\\logfiles\\oslog.txt') is False:
+
+        file = open(os.getenv('LOCALAPPDATA') +
+                    '\\OnionSwitch\\logfiles\\oslog.txt', "w+")
+        file.close()
 
     def test_GetSettingsFromJson(self):
 
@@ -82,28 +117,6 @@ class TestFunctions(object):
 
         except Exception:
             TestFunctions.test_WriteLog(self)
-
-    def test_GetTorrcFromFile(self):
-
-        try:
-            file = open(os.getenv(
-                'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\torrc')
-            torrc_readfile = file.read()
-
-            index_1 = torrc_readfile.find("ExitNodes")
-            index_2 = torrc_readfile.find("\n", index_1)
-            index_1 = index_1 + len("ExitNodes")
-            sliceobject = slice(index_1, index_2)
-            exitnodes = torrc_readfile[sliceobject]
-
-            exitnodes = re.findall('{+[a-z]+}', exitnodes)
-
-            for exitnode in exitnodes:
-                print(exitnode)
-
-            file.close()
-        except Exception as exc:
-            TestFunctions.WriteLog(self, exc)
 
     def test_GetTorrcFromFile(self):
         try:
@@ -157,7 +170,8 @@ class TestFunctions(object):
                     TestFunctions.torrcexcludedexitnodes.append(exitnodename)
             else:
                 TestFunctions.torrcexcludedexitnodes.clear()
-                TestFunctions.torrcexcludedexitnodes.append("No Country chosen.")
+                TestFunctions.torrcexcludedexitnodes.append(
+                    "No Country chosen.")
 
             #  Get Torrc Blacklist All Nodes configuration
             index_1 = torrc_readfile.find("ExcludeNodes")
