@@ -50,11 +50,9 @@ jobs:
       - run: 
           name: create directory
           command: |
-            mkdir C:\Users\circleci\AppData\Local\BreaktimeWatch
-            mkdir C:\Users\circleci\AppData\Local\BreaktimeWatch\TimeData
-            mkdir C:\Users\circleci\AppData\Local\BreaktimeWatch\Logfiles
-                 
-     
+            mkdir C:\Users\circleci\AppData\Local\OnionSwitch
+            mkdir C:\Users\circleci\AppData\Local\OnionSwitch\osparam
+            mkdir C:\Users\circleci\AppData\Local\BreaktimeWatch\logfiles
 
       # run tests!
       # this example uses Django's built-in test-runner
