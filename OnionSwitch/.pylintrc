@@ -1,0 +1,2 @@
+extension-pkg-whitelist=PyQt5
+extension-pkg-whitelist=PyQt5.QtCore
