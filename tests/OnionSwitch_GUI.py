@@ -27,6 +27,7 @@ from urllib import request
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtWidgets import QFileDialog
 
 import OnionSwitch_Functions as osf
@@ -133,7 +134,254 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.chooseCountryBox = QtWidgets.QComboBox(self.centralwidget)
         self.chooseCountryBox.setGeometry(QtCore.QRect(113, 50, 300, 22))
-        self.chooseCountryBox.addItems(osf.Functions.countrynames)
+        choosearray = ["",
+                       "ASCENSION ISLAND",
+                       "AFGHANISTAN",
+                       "ALAND",
+                       "ALBANIA",
+                       "ALGERIA",
+                       "ANDORRA",
+                       "ANGOLA",
+                       "ANGUILLA",
+                       "ANTARCTICA",
+                       "ANTIGUA AND BARBUDA",
+                       "ARGENTINA REPUBLIC",
+                       "ARMENIA",
+                       "ARUBA",
+                       "AUSTRALIA",
+                       "AUSTRIA",
+                       "AZERBAIJAN",
+                       "BAHAMAS",
+                       "BAHRAIN",
+                       "BANGLADESH",
+                       "BARBADOS",
+                       "BELARUS",
+                       "BELGIUM",
+                       "BELIZE",
+                       "BENIN",
+                       "BERMUDA",
+                       "BHUTAN",
+                       "BOLIVIA",
+                       "BOSNIA AND HERZEGOVINA",
+                       "BOTSWANA",
+                       "BOUVET ISLAND",
+                       "BRAZIL",
+                       "BRITISH INDIAN OCEAN TERR.",
+                       "BRITISH VIRGIN ISLANDS",
+                       "BRUNEI DARUSSALAM",
+                       "BULGARIA",
+                       "BURKINA FASO",
+                       "BURUNDI",
+                       "CAMBODIA",
+                       "CAMEROON",
+                       "CANADA",
+                       "CAPE VERDE",
+                       "CAYMAN ISLANDS",
+                       "CENTRAL AFRICAN REPUBLIC",
+                       "CHAD",
+                       "CHILE",
+                       "PEOPLE’S REPUBLIC OF CHINA",
+                       "CHRISTMAS ISLANDS",
+                       "COCOS ISLANDS",
+                       "COLOMBIA",
+                       "COMORAS",
+                       "CONGO",
+                       "CONGO (DEMOCRATIC REPUBLIC)",
+                       "COOK ISLANDS",
+                       "COSTA RICA",
+                       "COTE D IVOIRE",
+                       "CROATIA",
+                       "CUBA",
+                       "CYPRUS",
+                       "CZECH REPUBLIC",
+                       "DENMARK",
+                       "DJIBOUTI",
+                       "DOMINICA",
+                       "DOMINICAN REPUBLIC",
+                       "EAST TIMOR",
+                       "ECUADOR",
+                       "EGYPT",
+                       "EL SALVADOR",
+                       "EQUATORIAL GUINEA",
+                       "ESTONIA",
+                       "ETHIOPIA",
+                       "FALKLAND ISLANDS",
+                       "FAROE ISLANDS",
+                       "FIJI",
+                       "FINLAND",
+                       "FRANCE",
+                       "FRANCE METROPOLITAN",
+                       "FRENCH GUIANA",
+                       "FRENCH POLYNESIA",
+                       "FRENCH SOUTHERN TERRITORIES",
+                       "GABON",
+                       "GAMBIA",
+                       "GEORGIA",
+                       "GERMANY",
+                       "GHANA",
+                       "GIBRALTER",
+                       "GREECE",
+                       "GREENLAND",
+                       "GRENADA",
+                       "GUADELOUPE",
+                       "GUAM",
+                       "GUATEMALA",
+                       "GUINEA",
+                       "GUINEA-BISSAU",
+                       "GUYANA",
+                       "HAITI",
+                       "HEARD & MCDONALD ISLAND",
+                       "HONDURAS",
+                       "HONG KONG",
+                       "HUNGARY",
+                       "ICELAND",
+                       "INDIA",
+                       "INDONESIA",
+                       "IRAN, ISLAMIC REPUBLIC OF",
+                       "IRAQ",
+                       "IRELAND",
+                       "ISLE OF MAN",
+                       "ISRAEL",
+                       "ITALY",
+                       "JAMAICA",
+                       "JAPAN",
+                       "JORDAN",
+                       "KAZAKHSTAN",
+                       "KENYA",
+                       "KIRIBATI",
+                       "KOREA, DEM. PEOPLES REP OF",
+                       "KOREA, REPUBLIC OF",
+                       "KUWAIT",
+                       "KYRGYZSTAN",
+                       "LAO PEOPLE’S DEM. REPUBLIC",
+                       "LATVIA",
+                       "LEBANON",
+                       "LESOTHO",
+                       "LIBERIA",
+                       "LIBYAN ARAB JAMAHIRIYA",
+                       "LIECHTENSTEIN",
+                       "LITHUANIA",
+                       "LUXEMBOURG",
+                       "MACAO",
+                       "MACEDONIA",
+                       "MADAGASCAR",
+                       "MALAWI",
+                       "MALAYSIA",
+                       "MALDIVES",
+                       "MALI",
+                       "MALTA",
+                       "MARSHALL ISLANDS",
+                       "MARTINIQUE",
+                       "MAURITANIA",
+                       "MAURITIUS",
+                       "MAYOTTE",
+                       "MEXICO",
+                       "MICRONESIA",
+                       "MOLDAVA REPUBLIC OF",
+                       "MONACO",
+                       "MONGOLIA",
+                       "MONTENEGRO",
+                       "MONTSERRAT",
+                       "MOROCCO",
+                       "MOZAMBIQUE",
+                       "MYANMAR",
+                       "NAMIBIA",
+                       "NAURU",
+                       "NEPAL",
+                       "NETHERLANDS ANTILLES",
+                       "NETHERLANDS, THE",
+                       "NEW CALEDONIA",
+                       "NEW ZEALAND",
+                       "NICARAGUA",
+                       "NIGER",
+                       "NIGERIA",
+                       "NIUE",
+                       "NORFOLK ISLAND",
+                       "NORTHERN MARIANA ISLANDS",
+                       "NORWAY",
+                       "OMAN",
+                       "PAKISTAN",
+                       "PALAU",
+                       "PALESTINE",
+                       "PANAMA",
+                       "PAPUA NEW GUINEA",
+                       "PARAGUAY",
+                       "PERU",
+                       "PHILIPPINES (REPUBLIC OF THE)",
+                       "PITCAIRN",
+                       "POLAND",
+                       "PORTUGAL",
+                       "PUERTO RICO",
+                       "QATAR",
+                       "REUNION",
+                       "ROMANIA",
+                       "RUSSIAN FEDERATION",
+                       "RWANDA",
+                       "SAMOA",
+                       "SAN MARINO",
+                       "SAO TOME/PRINCIPE",
+                       "SAUDI ARABIA",
+                       "SCOTLAND",
+                       "SENEGAL",
+                       "SERBIA",
+                       "SEYCHELLES",
+                       "SIERRA LEONE",
+                       "SINGAPORE",
+                       "SLOVAKIA",
+                       "SLOVENIA",
+                       "SOLOMON ISLANDS",
+                       "SOMALIA",
+                       "SOMOA,GILBERT,ELLICE ISLANDS",
+                       "SOUTH AFRICA",
+                       "SOUTH GEORGIA, SOUTH SANDWICH ISLANDS",
+                       "SOVIET UNION",
+                       "SPAIN",
+                       "SRI LANKA",
+                       "ST. HELENA",
+                       "ST. KITTS AND NEVIS",
+                       "ST. LUCIA",
+                       "ST. PIERRE AND MIQUELON",
+                       "ST. VINCENT & THE GRENADINES",
+                       "SUDAN",
+                       "SURINAME",
+                       "SVALBARD AND JAN MAYEN",
+                       "SWAZILAND",
+                       "SWEDEN",
+                       "SWITZERLAND",
+                       "SYRIAN ARAB REPUBLIC",
+                       "TAIWAN",
+                       "TAJIKISTAN",
+                       "TANZANIA, UNITED REPUBLIC OF",
+                       "THAILAND",
+                       "TOGO",
+                       "TOKELAU",
+                       "TONGA",
+                       "TRINIDAD AND TOBAGO",
+                       "TUNISIA",
+                       "TURKEY",
+                       "TURKMENISTAN",
+                       "TURKS AND CALCOS ISLANDS",
+                       "TUVALU",
+                       "UGANDA",
+                       "UKRAINE",
+                       "UNITED ARAB EMIRATES",
+                       "UNITED KINGDOM (no new registrations)",
+                       "UNITED KINGDOM",
+                       "UNITED STATES",
+                       "UNITED STATES MINOR OUTL.IS.",
+                       "URUGUAY",
+                       "UZBEKISTAN",
+                       "VANUATU",
+                       "VATICAN CITY STATE",
+                       "VENEZUELA",
+                       "VIET NAM",
+                       "VIRGIN ISLANDS (USA)",
+                       "WALLIS AND FUTUNA ISLANDS",
+                       "WESTERN SAHARA",
+                       "YEMEN",
+                       "ZAMBIA",
+                       "ZIMBABWE"]
+        self.chooseCountryBox.addItems(choosearray)
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(10)
@@ -268,30 +516,53 @@ class Ui_MainWindow(object):
         self.tabWidget.setCurrentWidget(self.tabWidget.findChild(
             QtWidgets.QWidget, "tab1"))
 
-        @pyqtSlot()
-        def ChangeNodeViewList():
+        model = QStandardItemModel(self.chosenNodeslistView)
 
-            self.chosenNodeslistView.setModel(
-                osf.Functions.BUildModelForListView(
-                    self, self.chosenNodeslistView,
-                    osf.Functions.torrcexitnodes))
+        foods = [
+                'Cookie dough',  # Must be store-bought
+                'Hummus',  # Must be homemade
+                'Spaghetti',  # Must be saucy
+                'Dal makhani',  # Must be spicy
+                'Chocolate whipped cream'  # Must be plentiful
+        ]
+
+        foods2 = [
+                'Cookie2 dough',  # Must be store-bought
+                'Hummus2',  # Must be homemade
+                'Spaghetti2',  # Must be saucy
+                'Dal2 makhani',  # Must be spicy
+                'Chocolate2 whipped cream'  # Must be plentiful
+        ]
+
+        for food in foods:
+            # create an item with a caption
+            item = QStandardItem(food)
+
+    # add a checkbox to it
+            # item.setCheckable(True)
+            item.setEditable(False)
+
+    # Add the item to the model
+            model.appendRow(item)
+
+        self.chosenNodeslistView.setModel(model)
+        self.chosenNodeslistView.show()
+
+        @pyqtSlot()
+        def ChangeList():
+            model.clear()
+            for food in foods2:
+                # create an item with a caption
+                item = QStandardItem(food)
+
+    # add a checkbox to it
+                item.setEditable(False)
+
+    # Add the item to the model
+                model.appendRow(item)
+
+            self.chosenNodeslistView.setModel(model)
             self.chosenNodeslistView.show()
-
-        @pyqtSlot()
-        def ChangeExcludedExitNodeViewList():
-            self.blacklistExitNodeslistView.setModel(
-                osf.Functions.BUildModelForListView(
-                    self, self.blacklistExitNodeslistView,
-                    osf.Functions.torrcexcludedexitnodes))
-            self.blacklistExitNodeslistView.show()
-
-        @pyqtSlot()
-        def ChangeExcludedAllNodeViewList():
-            self.blacklistAllNodeslistView.setModel(
-                osf.Functions.BUildModelForListView(
-                    self, self.blacklistAllNodeslistView,
-                    osf.Functions.torrcexcludednodes))
-            self.blacklistAllNodeslistView.show()
 
         @pyqtSlot()
         def OpenDialogAbout():
@@ -326,18 +597,9 @@ class Ui_MainWindow(object):
         @pyqtSlot()
         def GetTorrc():
             osf.Functions.GetTorrcFromFile(self)
-            ChangeNodeViewList()
 
         if osf.Functions.paramupdateavailable is True:
             self.updatelabel.show()
-
-        def InitializeGUI():
-            GetTorrc()
-            ChangeNodeViewList()
-            ChangeExcludedExitNodeViewList()
-            ChangeExcludedAllNodeViewList()
-
-        InitializeGUI()
 
         self.chooseNodeButton.clicked.connect(GetTorrc)
 

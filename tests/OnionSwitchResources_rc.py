@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-OnionSwitch | Easily switch the Tor-Exit-Node Destination Country in
-your Tor-Browser.
+OnionSwitch | Easily switch the Tor-Exit-Node Destination Country in your Tor-Browser.
 Copyright (C) 2019  Ned84 ned84@protonmail.com
 
 This program is free software: you can redistribute it and/or modify
@@ -1389,15 +1388,10 @@ qt_resource_struct = b"\
 \x00\x00\x00\x18\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\
 "
 
-
 def qInitResources():
-    QtCore.qRegisterResourceData(
-        0x01, qt_resource_struct, qt_resource_name, qt_resource_data)
-
+    QtCore.qRegisterResourceData(0x01, qt_resource_struct, qt_resource_name, qt_resource_data)
 
 def qCleanupResources():
-    QtCore.qUnregisterResourceData(
-        0x01, qt_resource_struct, qt_resource_name, qt_resource_data)
-
+    QtCore.qUnregisterResourceData(0x01, qt_resource_struct, qt_resource_name, qt_resource_data)
 
 qInitResources()
