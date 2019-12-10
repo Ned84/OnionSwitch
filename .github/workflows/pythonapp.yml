@@ -28,9 +28,9 @@ jobs:
         
     - name: create directory 
       run: |
-        mkdir C:\Users\runneradmin\AppData\Local\BreaktimeWatch
-        mkdir C:\Users\runneradmin\AppData\Local\BreaktimeWatch\TimeData
-        mkdir C:\Users\runneradmin\AppData\Local\BreaktimeWatch\Logfiles
+        mkdir C:\Users\runneradmin\AppData\Local\OnionSwitch
+        mkdir C:\Users\runneradmin\AppData\Local\OnionSwitch\osparam
+        mkdir C:\Users\runneradmin\AppData\Local\BreaktimeWatch\logfiles
         
     
       
