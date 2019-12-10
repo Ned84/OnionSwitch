@@ -59,7 +59,7 @@ class TestFunctions(object):
                 param_details['Update_available']
 
         except Exception:
-            TestFunctions.test_WriteLog(self,)
+            TestFunctions.test_WriteLog(self)
 
     def test_WriteSettingsToJson(self):
         try:
