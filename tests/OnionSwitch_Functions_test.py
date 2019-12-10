@@ -24,8 +24,10 @@ import datetime
 import json
 import re
 
+from PyQt5.QtGui import QStandardItem, QStandardItemModel
 
-class test_Functions(object):
+
+class TestFunctions(object):
 
     paramversion = ""
     parampathtotor = ""
@@ -34,9 +36,6 @@ class test_Functions(object):
     torrcexitnodes = []
     torrcexcludednodes = []
     torrcexcludedexitnodes = []
-
-    def __init__(self):
-        pass
 
     def test_GetSettingsFromJson(self):
 
@@ -55,22 +54,24 @@ class test_Functions(object):
                 param_list.append(param_details)
             file.close()
 
-            Functions.parampathtotor = param_details['Path_to_Tor']
-            Functions.paramupdateavailable = param_details['Update_available']
+            TestFunctions.parampathtotor = param_details['Path_to_Tor']
+            TestFunctions.paramupdateavailable = \
+                param_details['Update_available']
 
         except Exception as exc:
-            Functions.WriteLog(self, exc)
+            TestFunctions.WriteLog(self, exc)
 
-    def WriteSettingsToJson(self):
+    def test_WriteSettingsToJson(self):
         try:
             file = open(os.getenv(
                 'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json', "r")
             param_list = []
 
             param_details = {}
-            param_details['Path_to_Tor'] = Functions.parampathtotor
-            param_details['version'] = Functions.paramversion
-            param_details['Update_available'] = Functions.paramupdateavailable
+            param_details['Path_to_Tor'] = TestFunctions.parampathtotor
+            param_details['version'] = TestFunctions.paramversion
+            param_details['Update_available'] =\
+                TestFunctions.paramupdateavailable
             param_list.append(param_details)
             file.close()
 
@@ -80,9 +81,9 @@ class test_Functions(object):
             file.close()
 
         except Exception as exc:
-            Functions.WriteLog(self, exc)
+            TestFunctions.WriteLog(self, exc)
 
-    def GetTorrcFromFile(self):
+    def test_GetTorrcFromFile(self):
 
         try:
             file = open(os.getenv(
@@ -102,9 +103,109 @@ class test_Functions(object):
 
             file.close()
         except Exception as exc:
-            Functions.WriteLog(self, exc)
+            TestFunctions.WriteLog(self, exc)
 
-    def WriteLog(self, exc):
+    def test_GetTorrcFromFile(self):
+        try:
+            file = open(os.getenv(
+                'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\torrc')
+            torrc_readfile = file.read()
+
+            #  Get Torrc Exit Node configuration
+            index_1 = torrc_readfile.find("ExitNodes")
+            if index_1 != -1:
+                index_2 = torrc_readfile.find("\n", index_1)
+                index_1 = index_1 + len("ExitNodes")
+                sliceobject = slice(index_1, index_2)
+                exitnodes = torrc_readfile[sliceobject]
+
+                exitnodes = re.findall('{+[a-z]+}', exitnodes)
+
+                TestFunctions.torrcexitnodes.clear()
+
+                exitnodename = ""
+                for exitnode in exitnodes:
+                    i = 0
+                    for countrycode in TestFunctions.countrycodes:
+                        if countrycode == exitnode:
+                            exitnodename = TestFunctions.countrynames[i]
+                        i += 1
+                    TestFunctions.torrcexitnodes.append(exitnodename)
+            else:
+                TestFunctions.torrcexitnodes.clear()
+                TestFunctions.torrcexitnodes.append("No Country chosen.")
+
+            #  Get Torrc Blacklist Exit Nodes configuration
+            index_1 = torrc_readfile.find("ExcludeExitNodes")
+            if index_1 != -1:
+                index_2 = torrc_readfile.find("\n", index_1)
+                index_1 = index_1 + len("ExcludeExitNodes")
+                sliceobject = slice(index_1, index_2)
+                nodes = torrc_readfile[sliceobject]
+
+                nodes = re.findall('{+[a-z]+}', nodes)
+
+                TestFunctions.torrcexcludedexitnodes.clear()
+
+                exitnodename = ""
+                for exitnode in exitnodes:
+                    i = 0
+                    for countrycode in TestFunctions.countrycodes:
+                        if countrycode == exitnode:
+                            exitnodename = TestFunctions.countrynames[i]
+                        i += 1
+                    TestFunctions.torrcexcludedexitnodes.append(exitnodename)
+            else:
+                TestFunctions.torrcexcludedexitnodes.clear()
+                TestFunctions.torrcexcludedexitnodes.append("No Country chosen.")
+
+            #  Get Torrc Blacklist All Nodes configuration
+            index_1 = torrc_readfile.find("ExcludeNodes")
+            if index_1 != -1:
+                index_2 = torrc_readfile.find("\n", index_1)
+                index_1 = index_1 + len("ExcludeNodes")
+                sliceobject = slice(index_1, index_2)
+                nodes = torrc_readfile[sliceobject]
+
+                nodes = re.findall('{+[a-z]+}', nodes)
+
+                TestFunctions.torrcexcludednodes.clear()
+
+                exitnodename = ""
+                for exitnode in exitnodes:
+                    i = 0
+                    for countrycode in TestFunctions.countrycodes:
+                        if countrycode == exitnode:
+                            exitnodename = TestFunctions.countrynames[i]
+                        i += 1
+                    TestFunctions.tor.append(exitnodename)
+            else:
+                TestFunctions.torrcexcludednodes.clear()
+                TestFunctions.torrcexcludednodes.append("No Country chosen.")
+
+            file.close()
+        except Exception:
+            TestFunctions.test_WriteLog(self)
+
+    def test_BUildModelForListView(self):
+        listView = ""
+        nodeList = ""
+        try:
+
+            model = QStandardItemModel(listView)
+
+            for node in nodeList:
+                modelpart = QStandardItem(node)
+                modelpart.setEditable(False)
+                model.appendRow(modelpart)
+
+            return model
+
+        except Exception:
+            TestFunctions.test_WriteLog(self)
+
+    def test_WriteLog(self):
+        exc = ""
         logfile = open(os.getenv(
             'LOCALAPPDATA') + '\\OnionSwitch\\Logfiles\\oslog.txt', "a")
         dt = datetime.datetime.now()

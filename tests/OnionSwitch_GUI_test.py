@@ -30,8 +30,8 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
 from PyQt5.QtWidgets import QFileDialog
 
-import OnionSwitch_Functions as osf
-import OnionSwitchResources_rc
+import OnionSwitch_Functions_test as osf
+import OnionSwitchResources_rc_test
 
 version = "0.2"
 
@@ -43,7 +43,7 @@ class Ui_MainWindow(object):
     versionnew = ""
     versioncheckdone = False
 
-    OnionSwitchResources_rc.qInitResources()
+    OnionSwitchResources_rc_test.qInitResources()
 
     def __init__(self, *args, **kwargs):
         try:

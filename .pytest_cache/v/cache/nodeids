@@ -1,1 +1,7 @@
-[]
+[
+  "tests/OnionSwitch_Functions_test.py::TestFunctions::test_GetSettingsFromJson",
+  "tests/OnionSwitch_Functions_test.py::TestFunctions::test_WriteSettingsToJson",
+  "tests/OnionSwitch_Functions_test.py::TestFunctions::test_GetTorrcFromFile",
+  "tests/OnionSwitch_Functions_test.py::TestFunctions::test_BUildModelForListView",
+  "tests/OnionSwitch_Functions_test.py::TestFunctions::test_WriteLog"
+]
