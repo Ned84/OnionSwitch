@@ -59,7 +59,7 @@ class TestFunctions(object):
                 param_details['Update_available']
 
         except Exception as exc:
-            TestFunctions.WriteLog(self, exc)
+            TestFunctions.test_WriteLog(self, exc)
 
     def test_WriteSettingsToJson(self):
         try:
@@ -81,7 +81,7 @@ class TestFunctions(object):
             file.close()
 
         except Exception as exc:
-            TestFunctions.WriteLog(self, exc)
+            TestFunctions.test_WriteLog(self, exc)
 
     def test_GetTorrcFromFile(self):
 
