@@ -1,11 +1,16 @@
-# OnionSwitch Changelog
+# OnionSwitch Changelog7
+
+## V0.3
+
+Search Torrc File, Added pytest and circleci environment.
 
 ## V0.2
-FilePicker added, Start Tor via settings path
+
+FilePicker added, Start Tor via settings path.
 
 ## V0.1
-Basic GUI functionality. 
 
-
+Basic GUI functionality.
 
 reactivate LINK for update check before going public (up and down)
+Change TORRC FIle path!!!!! (VARIABLE!!!!!!)

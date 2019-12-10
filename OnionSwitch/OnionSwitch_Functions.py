@@ -24,6 +24,8 @@ import datetime
 import json
 import re
 
+from os import path
+
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
 
 
@@ -36,6 +38,10 @@ class Functions(object):
     torrcexitnodes = []
     torrcexcludednodes = []
     torrcexcludedexitnodes = []
+    torrcfilepath = "C:\\Users\\baumg\\AppData" + \
+        "\\Local\\OnionSwitch\\osparam\\torrc"
+    torrcfound = False
+    torrcstrictnodes = False
 
     countrynames = ["",
                     "ASCENSION ISLAND",
@@ -552,8 +558,14 @@ class Functions(object):
                 param_list.append(param_details)
             file.close()
 
+            param_details['version'] = Functions.paramversion
             Functions.parampathtotor = param_details['Path_to_Tor']
             Functions.paramupdateavailable = param_details['Update_available']
+
+            file = open(os.getenv(
+                'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json', "w")
+            json.dump(param_list, file, indent=1, sort_keys=True)
+            file.close()
 
         except Exception as exc:
             Functions.WriteLog(self, exc)
@@ -576,88 +588,132 @@ class Functions(object):
             json.dump(param_list, file, indent=1, sort_keys=True)
             file.close()
 
+            if path.exists(Functions.torrcfilepath) is False:
+                Functions.torrcfound = False
+            else:
+                Functions.torrcfound = True
+
+        except Exception as exc:
+            Functions.WriteLog(self, exc)
+
+    def ChangeTorrcStrictNodes(self):
+        try:
+            if Functions.torrcfound is True:
+                file = open(Functions.torrcfilepath, "r")
+                torrc_readfile = file.read()
+
+                index = torrc_readfile.find("StrictNodes")
+
+                if index == -1:
+                    torrc_readfile = torrc_readfile + "\nStrictNodes 1"
+
+                if Functions.torrcstrictnodes is False:
+                    index = torrc_readfile.find("StrictNodes 1")
+
+                    if index != -1:
+                        torrc_readfile = torrc_readfile.replace(
+                            "StrictNodes 1", "StrictNodes 0")
+                else:
+                    index = torrc_readfile.find("StrictNodes 0")
+
+                    if index != -1:
+                        torrc_readfile = torrc_readfile.replace(
+                            "StrictNodes 0", "StrictNodes 1")
+
+                file.close()
+
+                file = open(Functions.torrcfilepath, "w")
+                file.write(torrc_readfile)
+                file.close()
+
         except Exception as exc:
             Functions.WriteLog(self, exc)
 
     def GetTorrcFromFile(self):
         try:
-            file = open(os.getenv(
-                'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\torrc')
-            torrc_readfile = file.read()
-
-            #  Get Torrc Exit Node configuration
-            index_1 = torrc_readfile.find("ExitNodes")
-            if index_1 != -1:
-                index_2 = torrc_readfile.find("\n", index_1)
-                index_1 = index_1 + len("ExitNodes")
-                sliceobject = slice(index_1, index_2)
-                exitnodes = torrc_readfile[sliceobject]
-
-                exitnodes = re.findall('{+[a-z]+}', exitnodes)
-
-                Functions.torrcexitnodes.clear()
-
-                exitnodename = ""
-                for exitnode in exitnodes:
-                    i = 0
-                    for countrycode in Functions.countrycodes:
-                        if countrycode == exitnode:
-                            exitnodename = Functions.countrynames[i]
-                        i += 1
-                    Functions.torrcexitnodes.append(exitnodename)
+            if path.exists(Functions.torrcfilepath) is False:
+                Functions.torrcfound = False
             else:
-                Functions.torrcexitnodes.clear()
-                Functions.torrcexitnodes.append("No Country chosen.")
+                Functions.torrcfound = True
 
-            #  Get Torrc Blacklist Exit Nodes configuration
-            index_1 = torrc_readfile.find("ExcludeExitNodes")
-            if index_1 != -1:
-                index_2 = torrc_readfile.find("\n", index_1)
-                index_1 = index_1 + len("ExcludeExitNodes")
-                sliceobject = slice(index_1, index_2)
-                nodes = torrc_readfile[sliceobject]
+            if Functions.torrcfound is True:
+                file = open(Functions.torrcfilepath)
+                torrc_readfile = file.read()
 
-                nodes = re.findall('{+[a-z]+}', nodes)
+                #  Get Torrc Exit Node configuration
+                index_1 = torrc_readfile.find("ExitNodes")
+                if index_1 != -1:
+                    index_2 = torrc_readfile.find("\n", index_1)
+                    index_1 = index_1 + len("ExitNodes")
+                    sliceobject = slice(index_1, index_2)
+                    exitnodes = torrc_readfile[sliceobject]
 
-                Functions.torrcexcludedexitnodes.clear()
+                    exitnodes = re.findall('{+[a-z]+}', exitnodes)
 
-                exitnodename = ""
-                for exitnode in exitnodes:
-                    i = 0
-                    for countrycode in Functions.countrycodes:
-                        if countrycode == exitnode:
-                            exitnodename = Functions.countrynames[i]
-                        i += 1
-                    Functions.torrcexcludedexitnodes.append(exitnodename)
-            else:
-                Functions.torrcexcludedexitnodes.clear()
-                Functions.torrcexcludedexitnodes.append("No Country chosen.")
+                    Functions.torrcexitnodes.clear()
 
-            #  Get Torrc Blacklist All Nodes configuration
-            index_1 = torrc_readfile.find("ExcludeNodes")
-            if index_1 != -1:
-                index_2 = torrc_readfile.find("\n", index_1)
-                index_1 = index_1 + len("ExcludeNodes")
-                sliceobject = slice(index_1, index_2)
-                nodes = torrc_readfile[sliceobject]
+                    exitnodename = ""
+                    for exitnode in exitnodes:
+                        i = 0
+                        for countrycode in Functions.countrycodes:
+                            if countrycode == exitnode:
+                                exitnodename = Functions.countrynames[i]
+                            i += 1
+                        Functions.torrcexitnodes.append(exitnodename)
+                else:
+                    Functions.torrcexitnodes.clear()
+                    Functions.torrcexitnodes.append("No Country chosen.")
 
-                nodes = re.findall('{+[a-z]+}', nodes)
+                #  Get Torrc Blacklist Exit Nodes configuration
+                index_1 = torrc_readfile.find("ExcludeExitNodes")
+                if index_1 != -1:
+                    index_2 = torrc_readfile.find("\n", index_1)
+                    index_1 = index_1 + len("ExcludeExitNodes")
+                    sliceobject = slice(index_1, index_2)
+                    nodes = torrc_readfile[sliceobject]
 
-                Functions.torrcexcludednodes.clear()
+                    nodes = re.findall('{+[a-z]+}', nodes)
 
-                exitnodename = ""
-                for exitnode in exitnodes:
-                    i = 0
-                    for countrycode in Functions.countrycodes:
-                        if countrycode == exitnode:
-                            exitnodename = Functions.countrynames[i]
-                        i += 1
-                    Functions.tor.append(exitnodename)
-            else:
-                Functions.torrcexcludednodes.clear()
-                Functions.torrcexcludednodes.append("No Country chosen.")
+                    Functions.torrcexcludedexitnodes.clear()
 
-            file.close()
+                    exitnodename = ""
+                    for exitnode in nodes:
+                        i = 0
+                        for countrycode in Functions.countrycodes:
+                            if countrycode == exitnode:
+                                exitnodename = Functions.countrynames[i]
+                            i += 1
+                        Functions.torrcexcludedexitnodes.append(exitnodename)
+                else:
+                    Functions.torrcexcludedexitnodes.clear()
+                    Functions.torrcexcludedexitnodes.append(
+                        "No Country chosen.")
+
+                #  Get Torrc Blacklist All Nodes configuration
+                index_1 = torrc_readfile.find("ExcludeNodes")
+                if index_1 != -1:
+                    index_2 = torrc_readfile.find("\n", index_1)
+                    index_1 = index_1 + len("ExcludeNodes")
+                    sliceobject = slice(index_1, index_2)
+                    nodes = torrc_readfile[sliceobject]
+
+                    nodes = re.findall('{+[a-z]+}', nodes)
+
+                    Functions.torrcexcludednodes.clear()
+
+                    exitnodename = ""
+                    for exitnode in nodes:
+                        i = 0
+                        for countrycode in Functions.countrycodes:
+                            if countrycode == exitnode:
+                                exitnodename = Functions.countrynames[i]
+                            i += 1
+                        Functions.torrcexcludednodes.append(exitnodename)
+                else:
+                    Functions.torrcexcludednodes.clear()
+                    Functions.torrcexcludednodes.append("No Country chosen.")
+
+                file.close()
         except Exception as exc:
             Functions.WriteLog(self, exc)
 

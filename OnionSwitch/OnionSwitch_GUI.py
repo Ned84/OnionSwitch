@@ -24,7 +24,6 @@ import threading
 import webbrowser
 from urllib import request
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QFileDialog
@@ -32,10 +31,10 @@ from PyQt5.QtWidgets import QFileDialog
 import OnionSwitch_Functions as osf
 import OnionSwitchResources_rc
 
-version = "0.2"
+version = "0.3"
 
 
-class Ui_MainWindow(object):
+class Ui_MainWindow(QtWidgets.QWidget):
 
     updateavail = False
     serverconnection = False
@@ -46,6 +45,8 @@ class Ui_MainWindow(object):
 
     def __init__(self, *args, **kwargs):
         try:
+            super().__init__()
+
             osf.Functions.paramversion = version
 
             if path.exists(os.getenv(
@@ -81,6 +82,11 @@ class Ui_MainWindow(object):
                 file.close()
 
             osf.Functions.GetSettingsFromJson(self)
+
+            if path.exists(osf.Functions.torrcfilepath) is False:
+                osf.Functions.torrcfound = False
+            else:
+                osf.Functions.torrcfound = True
 
         except Exception as exc:
             osf.Functions.WriteLog(self, exc)
@@ -139,6 +145,16 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.chooseCountryBox.setFont(font)
         self.chooseCountryBox.setObjectName("chooseCountryBox")
+
+        self.strictnodesCheckBox = QtWidgets.QCheckBox(self.centralwidget)
+        self.strictnodesCheckBox.setGeometry(QtCore.QRect(250, 81, 311, 21))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(8)
+        font.setBold(True)
+        font.setWeight(75)
+        self.strictnodesCheckBox.setFont(font)
+
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 20, 311, 21))
         self.updatelabel = QtWidgets.QLabel(self.centralwidget)
@@ -240,6 +256,18 @@ class Ui_MainWindow(object):
         self.onionswitch_logo_frame3.setFrameShadow(QtWidgets.QFrame.Raised)
         self.onionswitch_logo_frame3.setObjectName("onionswitch_logo_frame")
         self.tabWidget.addTab(self.tab3, "")
+        self.faultLabel = QtWidgets.QLabel(self.centralwidget)
+        self.faultLabel.setGeometry(QtCore.QRect(140, 150, 381, 71))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.faultLabel.setFont(font)
+        self.faultLabel.setObjectName("faultLabel")
+        self.resettorrcButton = QtWidgets.QPushButton(self.centralwidget)
+        self.resettorrcButton.setGeometry(QtCore.QRect(256, 241, 121, 28))
+        self.resettorrcButton.hide()
         MainWindow.setCentralWidget(self.centralwidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 450, 26))
@@ -269,8 +297,15 @@ class Ui_MainWindow(object):
             QtWidgets.QWidget, "tab1"))
 
         @pyqtSlot()
-        def ChangeNodeViewList():
+        def ChangeStrictNodes():
+            if self.strictnodesCheckBox.isChecked() is True:
+                osf.Functions.torrcstrictnodes = True
+            else:
+                osf.Functions.torrcstrictnodes = False
+            osf.Functions.ChangeTorrcStrictNodes(self)
 
+        @pyqtSlot()
+        def ChangeNodeViewList():
             self.chosenNodeslistView.setModel(
                 osf.Functions.BUildModelForListView(
                     self, self.chosenNodeslistView,
@@ -315,6 +350,13 @@ class Ui_MainWindow(object):
             self.window.show()
 
         @pyqtSlot()
+        def OpenDialogFault():
+            self.window = QtWidgets.QDialog()
+            self.ui = Ui_FaultDialog()
+            self.ui.setupUi(self.window)
+            self.window.show()
+
+        @pyqtSlot()
         def StartTorBrowser():
             try:
                 torbrowserpath = osf.Functions.parampathtotor + \
@@ -326,31 +368,55 @@ class Ui_MainWindow(object):
         @pyqtSlot()
         def GetTorrc():
             osf.Functions.GetTorrcFromFile(self)
-            ChangeNodeViewList()
+            osf.Functions.ChangeTorrcStrictNodes(self)
+            if osf.Functions.torrcfound is True:
+                self.faultLabel.hide()
+                ChangeNodeViewList()
+                ChangeExcludedExitNodeViewList()
+                ChangeExcludedAllNodeViewList()
+                self.startTorBrowserButton.setEnabled(True)
+                self.startTorBrowserButton2.setEnabled(True)
+                self.startTorBrowserButton3.setEnabled(True)
+                self.resettorrcButton.hide()
+            else:
+                self.faultLabel.show()
+                self.startTorBrowserButton.setEnabled(False)
+                self.startTorBrowserButton2.setEnabled(False)
+                self.startTorBrowserButton3.setEnabled(False)
+                self.resettorrcButton.show()
 
         if osf.Functions.paramupdateavailable is True:
             self.updatelabel.show()
 
         def InitializeGUI():
-            GetTorrc()
-            ChangeNodeViewList()
-            ChangeExcludedExitNodeViewList()
-            ChangeExcludedAllNodeViewList()
+            if osf.Functions.torrcfound is True:
+                self.faultLabel.hide()
+                GetTorrc()
+                ChangeNodeViewList()
+                ChangeExcludedExitNodeViewList()
+                ChangeExcludedAllNodeViewList()
+                self.resettorrcButton.hide()
+            else:
+                self.faultLabel.show()
+                self.startTorBrowserButton.setEnabled(False)
+                self.startTorBrowserButton2.setEnabled(False)
+                self.startTorBrowserButton3.setEnabled(False)
+                self.resettorrcButton.show()
 
         InitializeGUI()
 
+        self.resettorrcButton.clicked.connect(GetTorrc)
+
         self.chooseNodeButton.clicked.connect(GetTorrc)
 
+        self.strictnodesCheckBox.clicked.connect(ChangeStrictNodes)
+
         self.actionAbout.triggered.connect(OpenDialogAbout)
-
         self.actionSettings.triggered.connect(OpenDialogSettings)
-
         self.actionUpdate.triggered.connect(OpenDialogUpdate)
 
         self.startTorBrowserButton.clicked.connect(StartTorBrowser)
-
         self.startTorBrowserButton2.clicked.connect(StartTorBrowser)
-
         self.startTorBrowserButton3.clicked.connect(StartTorBrowser)
 
     def retranslateUi(self, MainWindow):
@@ -367,6 +433,9 @@ class Ui_MainWindow(object):
         self.blacklistAllButton.setText(_translate("MainWindow", "Blacklist"))
         self.startTorBrowserButton.setText(_translate(
             "MainWindow", "Start Tor-Browser"))
+        self.strictnodesCheckBox.setText(_translate(
+            "MainWindow", "StrictNodes 0/1"))
+        self.resettorrcButton.setText(_translate("MainWindow", "Reset Torrc"))
         self.startTorBrowserButton3.setText(_translate(
             "MainWindow", "Start Tor-Browser"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(
@@ -379,6 +448,11 @@ class Ui_MainWindow(object):
         self.actionUpdate.setText(_translate("MainWindow", "Update"))
         self.actionSettings.setText(_translate("MainWindow", "Settings"))
         self.updatelabel.setText(_translate("MainWindow", "Update available"))
+        self.faultLabel.setText(_translate(
+                                "MainWindow",
+                                "Could not find torrc file.\n"
+                                "Please ensure the correct Path\n"
+                                "in the settings."))
 
 
 class Ui_AboutDialog(object):
@@ -471,10 +545,10 @@ class Ui_FaultDialog(object):
 
     def retranslateUi(self, FaultDialog):
         _translate = QtCore.QCoreApplication.translate
-        FaultDialog.setWindowTitle(_translate("FaultDialog", "Dialog"))
+        FaultDialog.setWindowTitle(_translate("FaultDialog", "Error"))
         self.okButton.setText(_translate("FaultDialog", "OK"))
         self.label.setText(_translate(
-            "FaultDialog", "Could not find the Tor-Browser.\n"
+            "FaultDialog", "Could not find torrc file.\n"
             "Please ensure the correct Path in the settings."))
 
 
