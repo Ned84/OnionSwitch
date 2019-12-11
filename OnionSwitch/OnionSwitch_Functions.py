@@ -36,8 +36,9 @@ class Functions(object):
     torrcexitnodes = []
     torrcexcludednodes = []
     torrcexcludedexitnodes = []
-    torrcfilepath = "C:\\Users\\baumg\\AppData" + \
-        "\\Local\\OnionSwitch\\osparam\\torrc"
+    # torrcfilepath = "C:\\Users\\baumg\\AppData" + \
+    #    "\\Local\\OnionSwitch\\osparam\\torrc"
+    torrcfilepath = ""
     torrcfound = False
     torrcstrictnodes = False
 
@@ -560,6 +561,9 @@ class Functions(object):
             Functions.parampathtotor = param_details['Path_to_Tor']
             Functions.paramupdateavailable = param_details['Update_available']
 
+            Functions.torrcfilepath = Functions.parampathtotor + \
+                "\\Browser\\TorBrowser\\Data\\Tor\\torrc"
+
             file = open(os.getenv(
                 'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json', "w")
             json.dump(param_list, file, indent=1, sort_keys=True)
@@ -720,10 +724,11 @@ class Functions(object):
             countrynamearray = []
             for name in Array:
                 if name != "No Country chosen.":
-                    countrynamearray.append(Functions.ChangeCountrynameToCountrycode(self, name))
-                else: 
+                    countrynamearray.append(
+                        Functions.ChangeCountrynameToCountrycode(self, name))
+                else:
                     countrynamearray.append("No Country chosen.")
-            
+
             Array = countrynamearray
 
             if Functions.torrcfound is True:
@@ -749,9 +754,12 @@ class Functions(object):
                                     nodes, nodestring)
                         else:
                             index = torrc_readfile.find("StrictNodes")
-                            sliceobject = slice(index, index + len("StrictNodes") + 2)
+                            sliceobject = slice(index, index + len(
+                                "StrictNodes") + 2)
                             strictnodetype = torrc_readfile[sliceobject]
-                            torrc_readfile = torrc_readfile.replace(strictnodetype, NodeStyle + "\n" + strictnodetype)
+                            torrc_readfile = torrc_readfile.replace(
+                                strictnodetype, NodeStyle + "\n" +
+                                strictnodetype)
 
                             nodestring = " "
                             for nodecountry in Array:
@@ -759,7 +767,6 @@ class Functions(object):
 
                             torrc_readfile = torrc_readfile.replace(
                                     NodeStyle, NodeStyle + nodestring)
-
 
                 else:
                     index = torrc_readfile.find(NodeStyle)
@@ -779,7 +786,6 @@ class Functions(object):
 
         except Exception as exc:
             Functions.WriteLog(self, exc)
-
 
     def ChangeCountrynameToCountrycode(self, Name):
         try:
