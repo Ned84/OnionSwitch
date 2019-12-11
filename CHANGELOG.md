@@ -1,5 +1,9 @@
 # OnionSwitch Changelog
 
+## V0.5
+
+Added Blacklisting and Bug fixes.
+
 ## V0.4
 
 Added StrictNodes, Added torrc not found error handling

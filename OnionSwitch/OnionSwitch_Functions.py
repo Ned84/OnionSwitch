@@ -40,6 +40,8 @@ class Functions(object):
     torrcfound = False
     torrcstrictnodes = False
 
+    settingschanged = False
+
     countrynames = ["",
                     "ASCENSION ISLAND",
                     "AFGHANISTAN",
@@ -539,7 +541,7 @@ class Functions(object):
         pass
 
     def GetSettingsFromJson(self):
-
+        # Get Settings from Json file and write parameter variables
         try:
             file = open(
                 os.getenv(
@@ -571,6 +573,7 @@ class Functions(object):
             Functions.WriteLog(self, exc)
 
     def WriteSettingsToJson(self):
+        # Write Settings to file 
         try:
             file = open(os.getenv(
                 'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json', "r")

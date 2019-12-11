@@ -396,6 +396,27 @@ class Ui_MainWindow(QtWidgets.QWidget):
                     self, "ExcludeExitNodes", osf.Functions.torrcexcludedexitnodes)
 
         @pyqtSlot()
+        def AddNodeToBlackListAllTableView():
+            if osf.Functions.torrcfound is True:
+                osf.Functions.torrcexcludednodes = osf.Functions.AddCountryToArray(
+                        self, osf.Functions.ChangeCountrycodeToCountryname(
+                            self, self.lineEdit.text()),
+                        osf.Functions.torrcexcludednodes)
+
+                i = 0
+                self.blacklistAllNodesTableView.setRowCount(len(
+                    osf.Functions.torrcexcludednodes))
+                for nodes in osf.Functions.torrcexcludednodes:
+                    self.blacklistAllNodesTableView.setItem(
+                        0, i, QtWidgets.QTableWidgetItem(
+                            osf.Functions.torrcexcludednodes[i]))
+                    i += 1
+                self.blacklistAllNodesTableView.resizeRowsToContents()
+
+                osf.Functions.WriteNodesToTorrc(
+                    self, "ExcludeNodes", osf.Functions.torrcexcludednodes)
+
+        @pyqtSlot()
         def DeleteNodeFromchosenNodeTableView():
             if osf.Functions.torrcfound is True:
                 for currentQTableWidgetItem in \
@@ -442,6 +463,29 @@ class Ui_MainWindow(QtWidgets.QWidget):
                     self, "ExcludeExitNodes", osf.Functions.torrcexcludedexitnodes)
 
         @pyqtSlot()
+        def DeleteNodeFromBlacklistAllTableView():
+            if osf.Functions.torrcfound is True:
+                for currentQTableWidgetItem in \
+                        self.blacklistAllNodesTableView.selectedItems():
+                    osf.Functions.torrcexcludednodes = \
+                        osf.Functions.DeleteCountryFromArray(
+                            self, currentQTableWidgetItem.text(),
+                            osf.Functions.torrcexcludednodes)
+
+                i = 0
+                self.blacklistAllNodesTableView.setRowCount(
+                    len(osf.Functions.torrcexcludednodes))
+                for nodes in osf.Functions.torrcexcludednodes:
+                    self.blacklistAllNodesTableView.setItem(
+                        0, i, QtWidgets.QTableWidgetItem(
+                            osf.Functions.torrcexcludednodes[i]))
+                    i += 1
+                self.blacklistAllNodesTableView.resizeRowsToContents()
+
+                osf.Functions.WriteNodesToTorrc(
+                    self, "ExcludeNodes", osf.Functions.torrcexcludednodes)
+
+        @pyqtSlot()
         def OpenDialogAbout():
             self.window = QtWidgets.QDialog()
             self.ui = Ui_AboutDialog()
@@ -481,18 +525,24 @@ class Ui_MainWindow(QtWidgets.QWidget):
         @pyqtSlot()
         def InitializeTableViews():
             # Initialize TableViews on Startup
-
             osf.Functions.ChangeTorrcStrictNodes(self)
             AddNodeToChosenNodeTableView()
             AddNodeToBlackListExitTableView()
+            AddNodeToBlackListAllTableView()
 
+        # GUI Label shown if Update is available
         if osf.Functions.paramupdateavailable is True:
-            # GUI Label shown if Update is available
             self.updatelabel.show()
 
         def InitializeGUI():
+            # Initialize GUI depending on if torrc is found or not
             osf.Functions.GetSettingsFromJson(self)
             osf.Functions.GetTorrcFromFile(self)
+
+            if osf.Functions.settingschanged is True:
+                InitializeTableViews()
+                osf.Functions.settingschanged = False
+
             if osf.Functions.torrcfound is True:
                 self.faultLabel.hide()
                 self.startTorBrowserButton.setEnabled(True)
@@ -523,6 +573,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.blacklistExitNodesTableView.doubleClicked.connect(
             DeleteNodeFromBlacklistExitTableView)
 
+        self.blacklistAllNodesTableView.doubleClicked.connect(
+            DeleteNodeFromBlacklistAllTableView)
+
         self.resettorrcButton.clicked.connect(InitializeGUI)
 
         self.chooseNodeButton.clicked.connect(InitializeGUI)
@@ -530,6 +583,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
         self.blacklistExitButton.clicked.connect(InitializeGUI)
         self.blacklistExitButton.clicked.connect(AddNodeToBlackListExitTableView)
+
+        self.blacklistAllButton.clicked.connect(InitializeGUI)
+        self.blacklistAllButton.clicked.connect(AddNodeToBlackListAllTableView)
 
         self.strictnodesCheckBox.clicked.connect(ChangeStrictNodes)
 
@@ -737,6 +793,7 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
             osf.Functions.WriteSettingsToJson(self)
             osf.Functions.torrcfilepath = osf.Functions.parampathtotor +\
                 "\\Browser\\TorBrowser\\Data\\Tor\\torrc"
+            osf.Functions.settingschanged = True
             if path.exists(osf.Functions.torrcfilepath) is False:
                 osf.Functions.torrcfound = False
             else:
