@@ -26,8 +26,6 @@ import re
 
 from os import path
 
-from PyQt5.QtGui import QStandardItem, QStandardItemModel
-
 
 class Functions(object):
 
@@ -717,17 +715,58 @@ class Functions(object):
         except Exception as exc:
             Functions.WriteLog(self, exc)
 
-    def BUildModelForListView(self, listView, nodeList):
+    def ChangeCountrynameToCountrycode(self, Name):
         try:
+            i = 0
+            code = ""
+            for countryname in Functions.countrynames:
+                if countryname == Name:
+                    code = Functions.countrycodes[i]
+                else:
+                    i += 1
 
-            model = QStandardItemModel(listView)
+            return code
 
-            for node in nodeList:
-                modelpart = QStandardItem(node)
-                modelpart.setEditable(False)
-                model.appendRow(modelpart)
+        except Exception as exc:
+            Functions.WriteLog(self, exc)
 
-            return model
+    def ChangeCountrycodeToCountryname(self, Code):
+        try:
+            i = 0
+            name = ""
+            for countrycode in Functions.countrycodes:
+                if countrycode == Code:
+                    name = Functions.countrynames[i]
+                else:
+                    i += 1
+
+            return name
+
+        except Exception as exc:
+            Functions.WriteLog(self, exc)
+
+    def AddCountryToArray(self, Country, Array):
+        try:
+            found = False
+            for name in Array:
+                if Country == name:
+                    found = True
+            if found is False:
+                Array.append(Country)
+            return Array
+
+        except Exception as exc:
+            Functions.WriteLog(self, exc)
+
+    def DeleteCountryFromArray(self, Country, Array):
+        try:
+            newArray = []
+
+            for name in Array:
+                if name != Country:
+                    newArray.append(name)
+
+            return newArray
 
         except Exception as exc:
             Functions.WriteLog(self, exc)

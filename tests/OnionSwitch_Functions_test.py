@@ -118,6 +118,39 @@ class TestFunctions(object):
         except Exception:
             TestFunctions.test_WriteLog(self)
 
+    def test_ChangeTorrcStrictNodes(self):
+        try:
+            if TestFunctions.torrcfound is True:
+                file = open(TestFunctions.torrcfilepath, "r")
+                torrc_readfile = file.read()
+
+                index = torrc_readfile.find("StrictNodes")
+
+                if index == -1:
+                    torrc_readfile = torrc_readfile + "\nStrictNodes 1"
+
+                if TestFunctions.torrcstrictnodes is False:
+                    index = torrc_readfile.find("StrictNodes 1")
+
+                    if index != -1:
+                        torrc_readfile = torrc_readfile.replace(
+                            "StrictNodes 1", "StrictNodes 0")
+                else:
+                    index = torrc_readfile.find("StrictNodes 0")
+
+                    if index != -1:
+                        torrc_readfile = torrc_readfile.replace(
+                            "StrictNodes 0", "StrictNodes 1")
+
+                file.close()
+
+                file = open(TestFunctions.torrcfilepath, "w")
+                file.write(torrc_readfile)
+                file.close()
+
+        except Exception:
+            TestFunctions.test_WriteLog(self)
+
     def test_GetTorrcFromFile(self):
         try:
             file = open(os.getenv(

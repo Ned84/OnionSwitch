@@ -31,7 +31,7 @@ from PyQt5.QtWidgets import QFileDialog
 import OnionSwitch_Functions as osf
 import OnionSwitchResources_rc
 
-version = "0.3"
+version = "0.4"
 
 
 class Ui_MainWindow(QtWidgets.QWidget):
@@ -145,7 +145,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         font.setPointSize(10)
         self.chooseCountryBox.setFont(font)
         self.chooseCountryBox.setObjectName("chooseCountryBox")
-
         self.strictnodesCheckBox = QtWidgets.QCheckBox(self.centralwidget)
         self.strictnodesCheckBox.setGeometry(QtCore.QRect(250, 81, 311, 21))
         font = QtGui.QFont()
@@ -154,7 +153,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         font.setBold(True)
         font.setWeight(75)
         self.strictnodesCheckBox.setFont(font)
-
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 20, 311, 21))
         self.updatelabel = QtWidgets.QLabel(self.centralwidget)
@@ -195,9 +193,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.chooseNodeButton = QtWidgets.QPushButton(self.tab1)
         self.chooseNodeButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
         self.chooseNodeButton.setObjectName("chooseNodeButton")
-        self.chosenNodeslistView = QtWidgets.QListView(self.tab1)
-        self.chosenNodeslistView.setGeometry(QtCore.QRect(384, -1, 141, 134))
-        self.chosenNodeslistView.setObjectName("chosenNodeslistView")
         self.onionswitch_logo_frame_2 = QtWidgets.QFrame(self.tab1)
         self.onionswitch_logo_frame_2.setGeometry(QtCore.QRect(
             10, -10, 120, 110))
@@ -211,16 +206,47 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.startTorBrowserButton2.setGeometry(QtCore.QRect(10, 100, 121, 28))
         self.startTorBrowserButton2.setObjectName("startTorBrowserButton2")
         self.tabWidget.addTab(self.tab1, "")
+        self.chosenNodesTableView = QtWidgets.QTableWidget(self.tab1)
+        self.chosenNodesTableView.setGeometry(QtCore.QRect(384, -1, 141, 134))
+        self.chosenNodesTableView.setObjectName("chosenNodesTableView")
+        self.chosenNodesTableView.setRowCount(4)
+        self.chosenNodesTableView.setColumnCount(1)
+        self.chosenNodesTableView.horizontalHeader().hide()
+        self.chosenNodesTableView.verticalHeader().hide()
+        self.chosenNodesTableView.setShowGrid(False)
+        self.chosenNodesTableView.setEditTriggers(
+            self.chosenNodesTableView.NoEditTriggers)
+        self.chosenNodesTableView.setItem(
+            0, 0, QtWidgets.QTableWidgetItem("Try"))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.chosenNodesTableView.setFont(font)
+        self.chosenNodesTableView.setColumnWidth(1, 141)
+        self.chosenNodesTableView.resizeRowsToContents()
         self.tab2 = QtWidgets.QWidget()
         self.tab2.setObjectName("tab2")
         self.blacklistAllButton = QtWidgets.QPushButton(self.tab2)
         self.blacklistAllButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
         self.blacklistAllButton.setObjectName("blacklistAllButton")
-        self.blacklistAllNodeslistView = QtWidgets.QListView(self.tab2)
-        self.blacklistAllNodeslistView.setGeometry(QtCore.QRect(
+        self.blacklistAllNodesTableView = QtWidgets.QTableWidget(self.tab2)
+        self.blacklistAllNodesTableView.setGeometry(QtCore.QRect(
             384, -1, 141, 134))
-        self.blacklistAllNodeslistView.setObjectName(
-            "blacklistAllNodeslistView")
+        self.blacklistAllNodesTableView.setObjectName(
+            "blacklistAllNodesTableView")
+        self.blacklistAllNodesTableView.setRowCount(4)
+        self.blacklistAllNodesTableView.setColumnCount(1)
+        self.blacklistAllNodesTableView.horizontalHeader().hide()
+        self.blacklistAllNodesTableView.verticalHeader().hide()
+        self.blacklistAllNodesTableView.setShowGrid(False)
+        self.blacklistAllNodesTableView.setEditTriggers(
+            self.chosenNodesTableView.NoEditTriggers)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.blacklistAllNodesTableView.setFont(font)
+        self.blacklistAllNodesTableView.setColumnWidth(1, 141)
+        self.blacklistAllNodesTableView.resizeRowsToContents()
         self.onionswitch_logo_frame = QtWidgets.QFrame(self.tab2)
         self.onionswitch_logo_frame.setGeometry(
             QtCore.QRect(10, -10, 120, 110))
@@ -235,11 +261,24 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.tabWidget.addTab(self.tab2, "")
         self.tab3 = QtWidgets.QWidget()
         self.tab3.setObjectName("tab3")
-        self.blacklistExitNodeslistView = QtWidgets.QListView(self.tab3)
-        self.blacklistExitNodeslistView.setGeometry(QtCore.QRect(
+        self.blacklistExitNodesTableView = QtWidgets.QTableWidget(self.tab3)
+        self.blacklistExitNodesTableView.setGeometry(QtCore.QRect(
             384, -1, 141, 134))
-        self.blacklistExitNodeslistView.setObjectName(
-            "blacklistExitNodeslistView")
+        self.blacklistExitNodesTableView.setObjectName(
+            "blacklistExitNodesTableView")
+        self.blacklistExitNodesTableView.setRowCount(4)
+        self.blacklistExitNodesTableView.setColumnCount(1)
+        self.blacklistExitNodesTableView.horizontalHeader().hide()
+        self.blacklistExitNodesTableView.verticalHeader().hide()
+        self.blacklistExitNodesTableView.setShowGrid(False)
+        self.blacklistExitNodesTableView.setEditTriggers(
+            self.chosenNodesTableView.NoEditTriggers)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(9)
+        self.blacklistExitNodesTableView.setFont(font)
+        self.blacklistExitNodesTableView.setColumnWidth(1, 141)
+        self.blacklistExitNodesTableView.resizeRowsToContents()
         self.blacklistExitButton = QtWidgets.QPushButton(self.tab3)
         self.blacklistExitButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
         self.blacklistExitButton.setObjectName("blacklistExitButton")
@@ -305,28 +344,17 @@ class Ui_MainWindow(QtWidgets.QWidget):
             osf.Functions.ChangeTorrcStrictNodes(self)
 
         @pyqtSlot()
-        def ChangeNodeViewList():
-            self.chosenNodeslistView.setModel(
-                osf.Functions.BUildModelForListView(
-                    self, self.chosenNodeslistView,
-                    osf.Functions.torrcexitnodes))
-            self.chosenNodeslistView.show()
+        def ChangeCountry():
+            self.lineEdit.setText("{0}".format(
+                osf.Functions.ChangeCountrynameToCountrycode(
+                    self, self.chooseCountryBox.currentText())))
 
         @pyqtSlot()
-        def ChangeExcludedExitNodeViewList():
-            self.blacklistExitNodeslistView.setModel(
-                osf.Functions.BUildModelForListView(
-                    self, self.blacklistExitNodeslistView,
-                    osf.Functions.torrcexcludedexitnodes))
-            self.blacklistExitNodeslistView.show()
-
-        @pyqtSlot()
-        def ChangeExcludedAllNodeViewList():
-            self.blacklistAllNodeslistView.setModel(
-                osf.Functions.BUildModelForListView(
-                    self, self.blacklistAllNodeslistView,
-                    osf.Functions.torrcexcludednodes))
-            self.blacklistAllNodeslistView.show()
+        def WriteCountryToNodeListView():
+            osf.Functions.torrcexitnodes = osf.Functions.AddCountryToArray(
+                self, osf.Functions.ChangeCountrycodeToCountryname(
+                    self, self.lineEdit.text()),
+                osf.Functions.torrcexitnodes)
 
         @pyqtSlot()
         def OpenDialogAbout():
@@ -371,9 +399,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
             osf.Functions.ChangeTorrcStrictNodes(self)
             if osf.Functions.torrcfound is True:
                 self.faultLabel.hide()
-                ChangeNodeViewList()
-                ChangeExcludedExitNodeViewList()
-                ChangeExcludedAllNodeViewList()
                 self.startTorBrowserButton.setEnabled(True)
                 self.startTorBrowserButton2.setEnabled(True)
                 self.startTorBrowserButton3.setEnabled(True)
@@ -392,9 +417,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
             if osf.Functions.torrcfound is True:
                 self.faultLabel.hide()
                 GetTorrc()
-                ChangeNodeViewList()
-                ChangeExcludedExitNodeViewList()
-                ChangeExcludedAllNodeViewList()
                 self.resettorrcButton.hide()
             else:
                 self.faultLabel.show()
@@ -403,11 +425,24 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.startTorBrowserButton3.setEnabled(False)
                 self.resettorrcButton.show()
 
+        @pyqtSlot()
+        def test():
+
+            for currentQTableWidgetItem in \
+                    self.chosenNodesTableView.selectedItems():
+                print(currentQTableWidgetItem.row(),
+                      currentQTableWidgetItem.column(),
+                      currentQTableWidgetItem.text())
+
         InitializeGUI()
+
+        self.chooseCountryBox.currentTextChanged.connect(ChangeCountry)
+
+        self.chosenNodesTableView.doubleClicked.connect(test)
 
         self.resettorrcButton.clicked.connect(GetTorrc)
 
-        self.chooseNodeButton.clicked.connect(GetTorrc)
+        self.chooseNodeButton.clicked.connect(WriteCountryToNodeListView)
 
         self.strictnodesCheckBox.clicked.connect(ChangeStrictNodes)
 

@@ -1,4 +1,8 @@
-# OnionSwitch Changelog7
+# OnionSwitch Changelog
+
+## V0.4
+
+Added StrictNodes, Added torrc not found error handling
 
 ## V0.3
 
