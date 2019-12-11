@@ -68,7 +68,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                             '\\OnionSwitch\\osparam\\Param.json', "w+")
 
                 data = [{"version": version, "Path_to_Tor": "",
-                         "Update_available": False}]
+                         "Update_available": False, "StrictNodes": 1}]
 
                 json.dump(data, file, indent=1, sort_keys=True)
                 file.close()
@@ -340,9 +340,12 @@ class Ui_MainWindow(QtWidgets.QWidget):
             # depending on the checkbox
             if self.strictnodesCheckBox.isChecked() is True:
                 osf.Functions.torrcstrictnodes = True
+                osf.Functions.paramstrictnodes = 1
             else:
                 osf.Functions.torrcstrictnodes = False
+                osf.Functions.paramstrictnodes = 0
             osf.Functions.ChangeTorrcStrictNodes(self)
+            osf.Functions.WriteSettingsToJson(self)
 
         @pyqtSlot()
         def ChangeCountry():
@@ -525,6 +528,14 @@ class Ui_MainWindow(QtWidgets.QWidget):
         @pyqtSlot()
         def InitializeTableViews():
             # Initialize TableViews on Startup
+            osf.Functions.ChangeTorrcStrictNodes(self)
+            if osf.Functions.paramstrictnodes == 0:
+                self.strictnodesCheckBox.setChecked(False)
+                osf.Functions.torrcstrictnodes = False
+            else:
+                self.strictnodesCheckBox.setChecked(True)
+                osf.Functions.torrcstrictnodes = True
+
             osf.Functions.ChangeTorrcStrictNodes(self)
             AddNodeToChosenNodeTableView()
             AddNodeToBlackListExitTableView()

@@ -32,6 +32,7 @@ class Functions(object):
     paramversion = ""
     parampathtotor = ""
     paramupdateavailable = False
+    paramstrictnodes = 0
 
     torrcexitnodes = []
     torrcexcludednodes = []
@@ -554,9 +555,11 @@ class Functions(object):
                 param_details['Path_to_Tor'] = item['Path_to_Tor']
                 param_details['version'] = item['version']
                 param_details['Update_available'] = item['Update_available']
+                param_details['StrictNodes'] = item['StrictNodes']
                 param_list.append(param_details)
             file.close()
 
+            Functions.paramstrictnodes = param_details['StrictNodes']
             param_details['version'] = Functions.paramversion
             Functions.parampathtotor = param_details['Path_to_Tor']
             Functions.paramupdateavailable = param_details['Update_available']
@@ -573,7 +576,7 @@ class Functions(object):
             Functions.WriteLog(self, exc)
 
     def WriteSettingsToJson(self):
-        # Write Settings to file 
+        # Write Settings to file
         try:
             file = open(os.getenv(
                 'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json', "r")
@@ -583,6 +586,7 @@ class Functions(object):
             param_details['Path_to_Tor'] = Functions.parampathtotor
             param_details['version'] = Functions.paramversion
             param_details['Update_available'] = Functions.paramupdateavailable
+            param_details['StrictNodes'] = Functions.paramstrictnodes
             param_list.append(param_details)
             file.close()
 
@@ -767,7 +771,8 @@ class Functions(object):
                                 nodestring = nodestring + nodecountry + " "
 
                             torrc_readfile = torrc_readfile.replace(
-                                    "\n" + NodeStyle, "\n" + NodeStyle + nodestring)
+                                    "\n" + NodeStyle, "\n" + NodeStyle +
+                                    nodestring)
 
                 else:
                     index = torrc_readfile.find(NodeStyle)
