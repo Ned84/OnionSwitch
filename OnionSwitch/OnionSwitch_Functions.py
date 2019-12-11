@@ -639,10 +639,10 @@ class Functions(object):
                 torrc_readfile = file.read()
 
                 #  Get Torrc Exit Node configuration
-                index_1 = torrc_readfile.find("ExitNodes")
+                index_1 = torrc_readfile.find("\nExitNodes")
                 if index_1 != -1:
-                    index_2 = torrc_readfile.find("\n", index_1)
-                    index_1 = index_1 + len("ExitNodes")
+                    index_2 = torrc_readfile.find("\n", index_1 + 3)
+                    index_1 = index_1 + len("\nExitNodes")
                     sliceobject = slice(index_1, index_2)
                     exitnodes = torrc_readfile[sliceobject]
 
@@ -715,6 +715,72 @@ class Functions(object):
         except Exception as exc:
             Functions.WriteLog(self, exc)
 
+    def WriteNodesToTorrc(self, NodeStyle, Array):
+        try:
+            countrynamearray = []
+            for name in Array:
+                if name != "No Country chosen.":
+                    countrynamearray.append(Functions.ChangeCountrynameToCountrycode(self, name))
+                else: 
+                    countrynamearray.append("No Country chosen.")
+            
+            Array = countrynamearray
+
+            if Functions.torrcfound is True:
+                file = open(Functions.torrcfilepath, "r")
+                torrc_readfile = file.read()
+
+                if Array[0] != "No Country chosen.":
+                    if Array[0] != '':
+                        index = torrc_readfile.find("\n" + NodeStyle)
+
+                        if index != -1:
+                            index_1 = torrc_readfile.find("\n" + NodeStyle)
+                            index_2 = torrc_readfile.find("\n", index_1 + 3)
+                            index_1 = index_1 + len("\n" + NodeStyle)
+                            sliceobject = slice(index_1, index_2)
+                            nodes = torrc_readfile[sliceobject]
+
+                            nodestring = " "
+                            for nodecountry in Array:
+                                nodestring = nodestring + nodecountry + " "
+
+                            torrc_readfile = torrc_readfile.replace(
+                                    nodes, nodestring)
+                        else:
+                            index = torrc_readfile.find("StrictNodes")
+                            sliceobject = slice(index, index + len("StrictNodes") + 2)
+                            strictnodetype = torrc_readfile[sliceobject]
+                            torrc_readfile = torrc_readfile.replace(strictnodetype, NodeStyle + "\n" + strictnodetype)
+
+                            nodestring = " "
+                            for nodecountry in Array:
+                                nodestring = nodestring + nodecountry + " "
+
+                            torrc_readfile = torrc_readfile.replace(
+                                    NodeStyle, NodeStyle + nodestring)
+
+
+                else:
+                    index = torrc_readfile.find(NodeStyle)
+                    if index != -1:
+                        index_1 = torrc_readfile.find("\n" + NodeStyle)
+                        index_2 = torrc_readfile.find("\n", index_1 + 3)
+                        sliceobject = slice(index_1, index_2)
+                        nodes = torrc_readfile[sliceobject]
+                        torrc_readfile = torrc_readfile.replace(
+                            nodes, "")
+
+                file.close()
+
+                file = open(Functions.torrcfilepath, "w")
+                file.write(torrc_readfile)
+                file.close()
+
+        except Exception as exc:
+            Functions.WriteLog(self, exc)
+
+
     def ChangeCountrynameToCountrycode(self, Name):
         try:
             i = 0
@@ -747,12 +813,15 @@ class Functions(object):
 
     def AddCountryToArray(self, Country, Array):
         try:
-            found = False
-            for name in Array:
-                if Country == name:
-                    found = True
-            if found is False:
-                Array.append(Country)
+            if Country != "":
+                found = False
+                for name in Array:
+                    if Country == name:
+                        found = True
+                    if name == "No Country chosen.":
+                        Array.clear()
+                if found is False:
+                    Array.append(Country)
             return Array
 
         except Exception as exc:
@@ -765,6 +834,9 @@ class Functions(object):
             for name in Array:
                 if name != Country:
                     newArray.append(name)
+
+            if len(newArray) == 0:
+                newArray.append("No Country chosen.")
 
             return newArray
 

@@ -337,6 +337,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
         @pyqtSlot()
         def ChangeStrictNodes():
+            # Change the strictnodes in the torrc file depending on the checkbox
             if self.strictnodesCheckBox.isChecked() is True:
                 osf.Functions.torrcstrictnodes = True
             else:
@@ -345,16 +346,45 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
         @pyqtSlot()
         def ChangeCountry():
+            # Change the display in the LineEdit after a Country is chosen in the dropdown.
             self.lineEdit.setText("{0}".format(
                 osf.Functions.ChangeCountrynameToCountrycode(
                     self, self.chooseCountryBox.currentText())))
 
         @pyqtSlot()
-        def WriteCountryToNodeListView():
+        def AddNodeToChosenNodeTableView():
+            # Write the countrycodes in the ChosenNodesTableView and Torrc
+
             osf.Functions.torrcexitnodes = osf.Functions.AddCountryToArray(
-                self, osf.Functions.ChangeCountrycodeToCountryname(
-                    self, self.lineEdit.text()),
-                osf.Functions.torrcexitnodes)
+                    self, osf.Functions.ChangeCountrycodeToCountryname(
+                        self, self.lineEdit.text()),
+                    osf.Functions.torrcexitnodes)
+
+            i = 0
+            self.chosenNodesTableView.setRowCount(len(osf.Functions.torrcexitnodes))
+            for nodes in osf.Functions.torrcexitnodes:
+                self.chosenNodesTableView.setItem(0, i, QtWidgets.QTableWidgetItem(osf.Functions.torrcexitnodes[i]))
+                i += 1
+            self.chosenNodesTableView.resizeRowsToContents()
+
+            osf.Functions.WriteNodesToTorrc(self, "ExitNodes", osf.Functions.torrcexitnodes)
+
+
+        @pyqtSlot()
+        def DeleteNodeFromchosenNodeTableView():
+            for currentQTableWidgetItem in \
+                    self.chosenNodesTableView.selectedItems():
+                osf.Functions.torrcexitnodes = osf.Functions.DeleteCountryFromArray(self, currentQTableWidgetItem.text(), osf.Functions.torrcexitnodes)
+
+            i = 0
+            self.chosenNodesTableView.setRowCount(len(osf.Functions.torrcexitnodes))
+            for nodes in osf.Functions.torrcexitnodes:
+                self.chosenNodesTableView.setItem(0, i, QtWidgets.QTableWidgetItem(osf.Functions.torrcexitnodes[i]))
+                i += 1
+            self.chosenNodesTableView.resizeRowsToContents()
+
+            osf.Functions.WriteNodesToTorrc(self, "ExitNodes", osf.Functions.torrcexitnodes)
+
 
         @pyqtSlot()
         def OpenDialogAbout():
@@ -395,8 +425,11 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
         @pyqtSlot()
         def GetTorrc():
+            # Get Torrc data and initialize GUI depending on if Torrc is found or not
             osf.Functions.GetTorrcFromFile(self)
             osf.Functions.ChangeTorrcStrictNodes(self)
+            AddNodeToChosenNodeTableView()
+
             if osf.Functions.torrcfound is True:
                 self.faultLabel.hide()
                 self.startTorBrowserButton.setEnabled(True)
@@ -411,6 +444,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.resettorrcButton.show()
 
         if osf.Functions.paramupdateavailable is True:
+            # GUI Label shown if Update is available
             self.updatelabel.show()
 
         def InitializeGUI():
@@ -425,24 +459,19 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.startTorBrowserButton3.setEnabled(False)
                 self.resettorrcButton.show()
 
-        @pyqtSlot()
-        def test():
-
-            for currentQTableWidgetItem in \
-                    self.chosenNodesTableView.selectedItems():
-                print(currentQTableWidgetItem.row(),
-                      currentQTableWidgetItem.column(),
-                      currentQTableWidgetItem.text())
+        
+     
+      
 
         InitializeGUI()
 
         self.chooseCountryBox.currentTextChanged.connect(ChangeCountry)
 
-        self.chosenNodesTableView.doubleClicked.connect(test)
+        self.chosenNodesTableView.doubleClicked.connect(DeleteNodeFromchosenNodeTableView)
 
         self.resettorrcButton.clicked.connect(GetTorrc)
 
-        self.chooseNodeButton.clicked.connect(WriteCountryToNodeListView)
+        self.chooseNodeButton.clicked.connect(AddNodeToChosenNodeTableView)
 
         self.strictnodesCheckBox.clicked.connect(ChangeStrictNodes)
 
