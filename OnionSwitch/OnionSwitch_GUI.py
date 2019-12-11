@@ -375,6 +375,27 @@ class Ui_MainWindow(QtWidgets.QWidget):
                     self, "ExitNodes", osf.Functions.torrcexitnodes)
 
         @pyqtSlot()
+        def AddNodeToBlackListExitTableView():
+            if osf.Functions.torrcfound is True:
+                osf.Functions.torrcexcludedexitnodes = osf.Functions.AddCountryToArray(
+                        self, osf.Functions.ChangeCountrycodeToCountryname(
+                            self, self.lineEdit.text()),
+                        osf.Functions.torrcexcludedexitnodes)
+
+                i = 0
+                self.blacklistExitNodesTableView.setRowCount(len(
+                    osf.Functions.torrcexcludedexitnodes))
+                for nodes in osf.Functions.torrcexcludedexitnodes:
+                    self.blacklistExitNodesTableView.setItem(
+                        0, i, QtWidgets.QTableWidgetItem(
+                            osf.Functions.torrcexcludedexitnodes[i]))
+                    i += 1
+                self.blacklistExitNodesTableView.resizeRowsToContents()
+
+                osf.Functions.WriteNodesToTorrc(
+                    self, "ExcludeExitNodes", osf.Functions.torrcexcludedexitnodes)
+
+        @pyqtSlot()
         def DeleteNodeFromchosenNodeTableView():
             if osf.Functions.torrcfound is True:
                 for currentQTableWidgetItem in \
@@ -396,6 +417,29 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
                 osf.Functions.WriteNodesToTorrc(
                     self, "ExitNodes", osf.Functions.torrcexitnodes)
+
+        @pyqtSlot()
+        def DeleteNodeFromBlacklistExitTableView():
+            if osf.Functions.torrcfound is True:
+                for currentQTableWidgetItem in \
+                        self.blacklistExitNodesTableView.selectedItems():
+                    osf.Functions.torrcexcludedexitnodes = \
+                        osf.Functions.DeleteCountryFromArray(
+                            self, currentQTableWidgetItem.text(),
+                            osf.Functions.torrcexcludedexitnodes)
+
+                i = 0
+                self.blacklistExitNodesTableView.setRowCount(
+                    len(osf.Functions.torrcexcludedexitnodes))
+                for nodes in osf.Functions.torrcexcludedexitnodes:
+                    self.blacklistExitNodesTableView.setItem(
+                        0, i, QtWidgets.QTableWidgetItem(
+                            osf.Functions.torrcexcludedexitnodes[i]))
+                    i += 1
+                self.blacklistExitNodesTableView.resizeRowsToContents()
+
+                osf.Functions.WriteNodesToTorrc(
+                    self, "ExcludeExitNodes", osf.Functions.torrcexcludedexitnodes)
 
         @pyqtSlot()
         def OpenDialogAbout():
@@ -435,12 +479,12 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 osf.Functions.WriteLog(self, exc)
 
         @pyqtSlot()
-        def GetTorrc():
-            # Get Torrc data and initialize GUI depending on
-            # if Torrc is found or not
+        def InitializeTableViews():
+            # Initialize TableViews on Startup
 
             osf.Functions.ChangeTorrcStrictNodes(self)
             AddNodeToChosenNodeTableView()
+            AddNodeToBlackListExitTableView()
 
         if osf.Functions.paramupdateavailable is True:
             # GUI Label shown if Update is available
@@ -450,7 +494,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
             osf.Functions.GetSettingsFromJson(self)
             osf.Functions.GetTorrcFromFile(self)
             if osf.Functions.torrcfound is True:
-                GetTorrc()
                 self.faultLabel.hide()
                 self.startTorBrowserButton.setEnabled(True)
                 self.startTorBrowserButton2.setEnabled(True)
@@ -470,16 +513,23 @@ class Ui_MainWindow(QtWidgets.QWidget):
                     0, 0, QtWidgets.QTableWidgetItem("Torrc not found."))
 
         InitializeGUI()
+        InitializeTableViews()
 
         self.chooseCountryBox.currentTextChanged.connect(ChangeCountry)
 
         self.chosenNodesTableView.doubleClicked.connect(
             DeleteNodeFromchosenNodeTableView)
 
+        self.blacklistExitNodesTableView.doubleClicked.connect(
+            DeleteNodeFromBlacklistExitTableView)
+
         self.resettorrcButton.clicked.connect(InitializeGUI)
 
         self.chooseNodeButton.clicked.connect(InitializeGUI)
         self.chooseNodeButton.clicked.connect(AddNodeToChosenNodeTableView)
+
+        self.blacklistExitButton.clicked.connect(InitializeGUI)
+        self.blacklistExitButton.clicked.connect(AddNodeToBlackListExitTableView)
 
         self.strictnodesCheckBox.clicked.connect(ChangeStrictNodes)
 

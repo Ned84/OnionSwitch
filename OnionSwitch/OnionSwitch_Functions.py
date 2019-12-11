@@ -36,8 +36,6 @@ class Functions(object):
     torrcexitnodes = []
     torrcexcludednodes = []
     torrcexcludedexitnodes = []
-    # torrcfilepath = "C:\\Users\\baumg\\AppData" + \
-    #    "\\Local\\OnionSwitch\\osparam\\torrc"
     torrcfilepath = ""
     torrcfound = False
     torrcstrictnodes = False
@@ -766,7 +764,7 @@ class Functions(object):
                                 nodestring = nodestring + nodecountry + " "
 
                             torrc_readfile = torrc_readfile.replace(
-                                    NodeStyle, NodeStyle + nodestring)
+                                    "\n" + NodeStyle, "\n" + NodeStyle + nodestring)
 
                 else:
                     index = torrc_readfile.find(NodeStyle)
