@@ -29,6 +29,7 @@ from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QFileDialog
 
 import OnionSwitch_Functions as osf
+import OnionSwitch_TorCheck as ostc
 import OnionSwitchResources_rc
 
 version = "0.7"
@@ -304,15 +305,18 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.faultLabel.setFont(font)
         self.faultLabel.setObjectName("faultLabel")
 
-        self.sameNodeInMultiArrayFaultLabel = QtWidgets.QLabel(self.centralwidget)
-        self.sameNodeInMultiArrayFaultLabel.setGeometry(QtCore.QRect(140, 150, 200, 71))
+        self.sameNodeInMultiArrayFaultLabel = QtWidgets.QLabel(
+            self.centralwidget)
+        self.sameNodeInMultiArrayFaultLabel.setGeometry(
+            QtCore.QRect(140, 150, 200, 71))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
         self.sameNodeInMultiArrayFaultLabel.setFont(font)
-        self.sameNodeInMultiArrayFaultLabel.setObjectName("sameNodeInMultiArrayFaultLabel")
+        self.sameNodeInMultiArrayFaultLabel.setObjectName(
+            "sameNodeInMultiArrayFaultLabel")
         self.sameNodeInMultiArrayFaultLabel.hide()
 
         self.resettorrcButton = QtWidgets.QPushButton(self.centralwidget)
@@ -373,7 +377,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
             if osf.Functions.torrcfound is True:
 
                 found = False
-                countrycode = osf.Functions.ChangeCountrycodeToCountryname(self, self.lineEdit.text())
+                countrycode = osf.Functions.ChangeCountrycodeToCountryname(
+                    self, self.lineEdit.text())
                 for code in osf.Functions.torrcexcludedexitnodes:
                     if code == countrycode:
                         found = True
@@ -384,7 +389,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 if found is False:
                     self.sameNodeInMultiArrayFaultLabel.hide()
 
-                    osf.Functions.torrcexitnodes = osf.Functions.AddCountryToArray(
+                    osf.Functions.torrcexitnodes = \
+                        osf.Functions.AddCountryToArray(
                             self, osf.Functions.ChangeCountrycodeToCountryname(
                                 self, self.lineEdit.text()),
                             osf.Functions.torrcexitnodes)
@@ -409,15 +415,17 @@ class Ui_MainWindow(QtWidgets.QWidget):
         def AddNodeToBlackListExitTableView():
             if osf.Functions.torrcfound is True:
                 found = False
-                countrycode = osf.Functions.ChangeCountrycodeToCountryname(self, self.lineEdit.text())
+                countrycode = osf.Functions.ChangeCountrycodeToCountryname(
+                    self, self.lineEdit.text())
                 for code in osf.Functions.torrcexitnodes:
                     if code == countrycode:
                         found = True
 
                 if found is False:
-                    self.sameNodeInMultiArrayFaultLabel.hide()  
+                    self.sameNodeInMultiArrayFaultLabel.hide()
 
-                    osf.Functions.torrcexcludedexitnodes = osf.Functions.AddCountryToArray(
+                    osf.Functions.torrcexcludedexitnodes = \
+                        osf.Functions.AddCountryToArray(
                             self, osf.Functions.ChangeCountrycodeToCountryname(
                                 self, self.lineEdit.text()),
                             osf.Functions.torrcexcludedexitnodes)
@@ -433,7 +441,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
                     self.blacklistExitNodesTableView.resizeRowsToContents()
 
                     osf.Functions.WriteNodesToTorrc(
-                        self, "ExcludeExitNodes", osf.Functions.torrcexcludedexitnodes)
+                        self, "ExcludeExitNodes",
+                        osf.Functions.torrcexcludedexitnodes)
 
                 else:
                     self.sameNodeInMultiArrayFaultLabel.show()
@@ -443,7 +452,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
             if osf.Functions.torrcfound is True:
 
                 found = False
-                countrycode = osf.Functions.ChangeCountrycodeToCountryname(self, self.lineEdit.text())
+                countrycode = osf.Functions.ChangeCountrycodeToCountryname(
+                    self, self.lineEdit.text())
                 for code in osf.Functions.torrcexitnodes:
                     if code == countrycode:
                         found = True
@@ -451,7 +461,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 if found is False:
                     self.sameNodeInMultiArrayFaultLabel.hide()
 
-                    osf.Functions.torrcexcludednodes = osf.Functions.AddCountryToArray(
+                    osf.Functions.torrcexcludednodes = \
+                        osf.Functions.AddCountryToArray(
                             self, osf.Functions.ChangeCountrycodeToCountryname(
                                 self, self.lineEdit.text()),
                             osf.Functions.torrcexcludednodes)
@@ -495,7 +506,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 osf.Functions.WriteNodesToTorrc(
                     self, "ExitNodes", osf.Functions.torrcexitnodes)
 
-                countrycode = osf.Functions.ChangeCountrycodeToCountryname(self, self.lineEdit.text())
+                countrycode = osf.Functions.ChangeCountrycodeToCountryname(
+                    self, self.lineEdit.text())
                 self.sameNodeInMultiArrayFaultLabel.hide()
                 for code in osf.Functions.torrcexcludednodes:
                     if code == countrycode:
@@ -525,10 +537,11 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.blacklistExitNodesTableView.resizeRowsToContents()
 
                 osf.Functions.WriteNodesToTorrc(
-                    self, "ExcludeExitNodes", osf.Functions.torrcexcludedexitnodes)
+                    self, "ExcludeExitNodes",
+                    osf.Functions.torrcexcludedexitnodes)
 
-                
-                countrycode = osf.Functions.ChangeCountrycodeToCountryname(self, self.lineEdit.text())
+                countrycode = osf.Functions.ChangeCountrycodeToCountryname(
+                    self, self.lineEdit.text())
                 self.sameNodeInMultiArrayFaultLabel.hide()
                 for code in osf.Functions.torrcexitnodes:
                     if code == countrycode:
@@ -557,7 +570,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 osf.Functions.WriteNodesToTorrc(
                     self, "ExcludeNodes", osf.Functions.torrcexcludednodes)
 
-                countrycode = osf.Functions.ChangeCountrycodeToCountryname(self, self.lineEdit.text())
+                countrycode = osf.Functions.ChangeCountrycodeToCountryname(
+                    self, self.lineEdit.text())
                 self.sameNodeInMultiArrayFaultLabel.hide()
                 for code in osf.Functions.torrcexitnodes:
                     if code == countrycode:
@@ -594,9 +608,15 @@ class Ui_MainWindow(QtWidgets.QWidget):
         @pyqtSlot()
         def StartTorBrowser():
             try:
-                torbrowserpath = osf.Functions.parampathtotor + \
-                    "\\Start Tor Browser.lnk"
-                os.system('"' + torbrowserpath + '"')
+                unavailable_nodes = ""
+                for name in osf.Functions.torrcexitnodes:
+                    if ostc.TorCheck.CheckTor(self, osf.Functions.ChangeCountrynameToCountrycode(self, name)) is False:
+                        unavailable_nodes = unavailable_nodes + " " + name
+
+                if unavailable_nodes == "":
+                    """ torbrowserpath = osf.Functions.parampathtotor + \
+                        "\\Start Tor Browser.lnk"
+                    os.system('"' + torbrowserpath + '"') """
             except Exception as exc:
                 osf.Functions.WriteLog(self, exc)
 
@@ -605,18 +625,12 @@ class Ui_MainWindow(QtWidgets.QWidget):
             # Embrace countrycode in bracets (Line-Edit) only if its
             # a valid input
 
-            
-
             if len(self.lineEdit.text()) == 2:
                 if self.lineEdit.text().isalpha():
                     withbracets = "{" + self.lineEdit.text() + "}"
                     for code in osf.Functions.countrycodes:
                         if code == withbracets:
                             self.lineEdit.setText(withbracets)
-
-
-
-                    
 
         @pyqtSlot()
         def InitializeTableViews():
@@ -686,7 +700,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.chooseNodeButton.clicked.connect(AddNodeToChosenNodeTableView)
 
         self.blacklistExitButton.clicked.connect(InitializeGUI)
-        self.blacklistExitButton.clicked.connect(AddNodeToBlackListExitTableView)
+        self.blacklistExitButton.clicked.connect(
+            AddNodeToBlackListExitTableView)
 
         self.blacklistAllButton.clicked.connect(InitializeGUI)
         self.blacklistAllButton.clicked.connect(AddNodeToBlackListAllTableView)
@@ -738,7 +753,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                                 "Please ensure the correct Path\n"
                                 "in the settings."))
         self.sameNodeInMultiArrayFaultLabel.setText(_translate(
-                                                    "MainWindow", 
+                                                    "MainWindow",
                                                     "Chosen Node cant be the\n"
                                                     "same as Excluded Node."))
 

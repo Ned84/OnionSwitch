@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-OnionSwitch | Easily switch the Tor-Exit-Node Destination Country in your Tor-Browser.
+OnionSwitch | Easily switch the Tor-Exit-Node Destination Country in
+your Tor-Browser.
 Copyright (C) 2019  Ned84 ned84@protonmail.com
 
 This program is free software: you can redistribute it and/or modify
