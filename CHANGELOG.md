@@ -1,12 +1,20 @@
 # OnionSwitch Changelog
 
+## V0.7
+
+Added auto curly bracets when manually entered into Line-Edit.
+
+## V0.6
+
+First basic working Version.
+
 ## V0.5
 
 Added Blacklisting and Bug fixes.
 
 ## V0.4
 
-Added StrictNodes, Added torrc not found error handling
+Added StrictNodes, Added torrc not found error handling.
 
 ## V0.3
 
