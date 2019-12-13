@@ -32,7 +32,7 @@ import OnionSwitch_Functions as osf
 import OnionSwitch_TorCheck as ostc
 import OnionSwitchResources_rc
 
-version = "0.7"
+version = "0.8"
 
 
 class Ui_MainWindow(QtWidgets.QWidget):
@@ -41,6 +41,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
     serverconnection = False
     versionnew = ""
     versioncheckdone = False
+    firstrun = True
 
     OnionSwitchResources_rc.qInitResources()
 
@@ -304,7 +305,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         font.setWeight(75)
         self.faultLabel.setFont(font)
         self.faultLabel.setObjectName("faultLabel")
-
         self.sameNodeInMultiArrayFaultLabel = QtWidgets.QLabel(
             self.centralwidget)
         self.sameNodeInMultiArrayFaultLabel.setGeometry(
@@ -318,7 +318,31 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.sameNodeInMultiArrayFaultLabel.setObjectName(
             "sameNodeInMultiArrayFaultLabel")
         self.sameNodeInMultiArrayFaultLabel.hide()
-
+        self.cantConnectToNodeFaultLabel = QtWidgets.QLabel(
+            self.centralwidget)
+        self.cantConnectToNodeFaultLabel.setGeometry(
+            QtCore.QRect(140, 150, 200, 71))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.cantConnectToNodeFaultLabel.setFont(font)
+        self.cantConnectToNodeFaultLabel.setObjectName(
+            "cantConnectToNodeFaultLabel")
+        self.cantConnectToNodeFaultLabel.hide()
+        self.standbyLabel = QtWidgets.QLabel(
+            self.tab1)
+        self.standbyLabel.setGeometry(
+            QtCore.QRect(175, 10, 200, 71))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.standbyLabel.setFont(font)
+        self.standbyLabel.setObjectName(
+            "standbyLabel")
         self.resettorrcButton = QtWidgets.QPushButton(self.centralwidget)
         self.resettorrcButton.setGeometry(QtCore.QRect(256, 241, 121, 28))
         self.resettorrcButton.hide()
@@ -387,29 +411,47 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         found = True
 
                 if found is False:
-                    self.sameNodeInMultiArrayFaultLabel.hide()
 
-                    osf.Functions.torrcexitnodes = \
-                        osf.Functions.AddCountryToArray(
-                            self, osf.Functions.ChangeCountrycodeToCountryname(
-                                self, self.lineEdit.text()),
-                            osf.Functions.torrcexitnodes)
+                    if Ui_MainWindow.firstrun is False:
+                        connection_count = 0
+                        ostc.TorCheck.CheckTor(self, self.lineEdit.text())
+                        if ostc.TorCheck.connected is False:
+                            connection_count = 0
+                        else:
+                            connection_count += 1
+                    else:
+                        connection_count = 1
+                        Ui_MainWindow.firstrun = False
 
-                    i = 0
-                    self.chosenNodesTableView.setRowCount(len(
-                        osf.Functions.torrcexitnodes))
-                    for nodes in osf.Functions.torrcexitnodes:
-                        self.chosenNodesTableView.setItem(
-                            0, i, QtWidgets.QTableWidgetItem(
-                                osf.Functions.torrcexitnodes[i]))
-                        i += 1
-                    self.chosenNodesTableView.resizeRowsToContents()
+                    if connection_count != 0:
+                        self.sameNodeInMultiArrayFaultLabel.hide()
 
-                    osf.Functions.WriteNodesToTorrc(
-                        self, "ExitNodes", osf.Functions.torrcexitnodes)
+                        osf.Functions.torrcexitnodes = \
+                            osf.Functions.AddCountryToArray(
+                                self,
+                                osf.Functions.ChangeCountrycodeToCountryname(
+                                    self, self.lineEdit.text()),
+                                osf.Functions.torrcexitnodes)
+
+                        i = 0
+                        self.chosenNodesTableView.setRowCount(len(
+                            osf.Functions.torrcexitnodes))
+                        for nodes in osf.Functions.torrcexitnodes:
+                            self.chosenNodesTableView.setItem(
+                                0, i, QtWidgets.QTableWidgetItem(
+                                    osf.Functions.torrcexitnodes[i]))
+                            i += 1
+                        self.chosenNodesTableView.resizeRowsToContents()
+
+                        osf.Functions.WriteNodesToTorrc(
+                            self, "ExitNodes", osf.Functions.torrcexitnodes)
+                    else:
+                        self.cantConnectToNodeFaultLabel.show()
+                        self.standbyLabel.hide()
 
                 else:
                     self.sameNodeInMultiArrayFaultLabel.show()
+                    self.standbyLabel.hide()
 
         @pyqtSlot()
         def AddNodeToBlackListExitTableView():
@@ -509,12 +551,15 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 countrycode = osf.Functions.ChangeCountrycodeToCountryname(
                     self, self.lineEdit.text())
                 self.sameNodeInMultiArrayFaultLabel.hide()
+                self.standbyLabel.show()
                 for code in osf.Functions.torrcexcludednodes:
                     if code == countrycode:
                         self.sameNodeInMultiArrayFaultLabel.show()
+                        self.standbyLabel.hide()
                 for code in osf.Functions.torrcexcludedexitnodes:
                     if code == countrycode:
                         self.sameNodeInMultiArrayFaultLabel.show()
+                        self.standbyLabel.hide()
 
         @pyqtSlot()
         def DeleteNodeFromBlacklistExitTableView():
@@ -543,6 +588,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 countrycode = osf.Functions.ChangeCountrycodeToCountryname(
                     self, self.lineEdit.text())
                 self.sameNodeInMultiArrayFaultLabel.hide()
+                self.standbyLabel.show()
                 for code in osf.Functions.torrcexitnodes:
                     if code == countrycode:
                         self.sameNodeInMultiArrayFaultLabel.show()
@@ -573,6 +619,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 countrycode = osf.Functions.ChangeCountrycodeToCountryname(
                     self, self.lineEdit.text())
                 self.sameNodeInMultiArrayFaultLabel.hide()
+                self.standbyLabel.show()
                 for code in osf.Functions.torrcexitnodes:
                     if code == countrycode:
                         self.sameNodeInMultiArrayFaultLabel.show()
@@ -608,15 +655,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
         @pyqtSlot()
         def StartTorBrowser():
             try:
-                unavailable_nodes = ""
-                for name in osf.Functions.torrcexitnodes:
-                    if ostc.TorCheck.CheckTor(self, osf.Functions.ChangeCountrynameToCountrycode(self, name)) is False:
-                        unavailable_nodes = unavailable_nodes + " " + name
+                torbrowserpath = osf.Functions.parampathtotor + \
+                    "\\Start Tor Browser.lnk"
+                os.system('"' + torbrowserpath + '"')
 
-                if unavailable_nodes == "":
-                    """ torbrowserpath = osf.Functions.parampathtotor + \
-                        "\\Start Tor Browser.lnk"
-                    os.system('"' + torbrowserpath + '"') """
             except Exception as exc:
                 osf.Functions.WriteLog(self, exc)
 
@@ -656,6 +698,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
             # Initialize GUI depending on if torrc is found or not
             osf.Functions.GetSettingsFromJson(self)
             osf.Functions.GetTorrcFromFile(self)
+            self.cantConnectToNodeFaultLabel.hide()
+            self.standbyLabel.show()
 
             if osf.Functions.settingschanged is True:
                 InitializeTableViews()
@@ -756,6 +800,15 @@ class Ui_MainWindow(QtWidgets.QWidget):
                                                     "MainWindow",
                                                     "Chosen Node cant be the\n"
                                                     "same as Excluded Node."))
+        self.cantConnectToNodeFaultLabel.setText(_translate(
+                                                    "MainWindow",
+                                                    "Your chosen\n"
+                                                    "Node cant be reached."))
+        self.standbyLabel.setText(_translate(
+                                        "MainWindow",
+                                        "Adding node can take.\n"
+                                        "up to 10 seconds.\n"
+                                        "Please stand by."))
 
 
 class Ui_AboutDialog(object):

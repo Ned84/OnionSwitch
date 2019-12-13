@@ -1,5 +1,9 @@
 # OnionSwitch Changelog
 
+## V0.8
+
+Added Stem for Tor Relay check when adding node.
+
 ## V0.7
 
 Added auto curly bracets when manually entered into Line-Edit.

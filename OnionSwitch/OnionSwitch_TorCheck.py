@@ -27,18 +27,15 @@ import os
 
 import stem.process
 
-import OnionSwitch_Functions as osf
-
 from stem.util import term
 
 SOCKS_PORT = 7000
 
 
-
-
 class TorCheck(object):
 
     ended_successfull = False
+    connected = False
 
     def query(url):
         """
@@ -68,10 +65,10 @@ class TorCheck(object):
             print(line)
 
     def CheckNode(self, countrycode):
-       # try:
+        try:
             website_string = ""
-            found = False
 
+            TorCheck.connected = False
             if len(countrycode) > 0:
                 print(term.format("Starting Tor:\n", term.Attr.BOLD))
 
@@ -94,23 +91,31 @@ class TorCheck(object):
                     "Congratulations. This browser is configured to use Tor.")
 
                 tor_process.kill()  # stops tor
-                
 
                 if index != -1:
-                    found = True
+                    TorCheck.connected = True
                 else:
-                    found = False
+                    TorCheck.connected = False
 
                 TorCheck.ended_successfull = True
-                return found
+                return TorCheck.connected
 
-       # except BaseException as exc:
-       #     print(exc)
+        except Exception:
+            TorCheck.ended_successfull = False
+            TorCheck.found = False
 
     def CheckTor(self, countrycode):
 
         try:
-            urlthread = threading.Thread(target=TorCheck.CheckNode,args=(self, countrycode), daemon=True)
+            tasks = os.popen('tasklist').readlines()
+
+            for task in tasks:
+                tor_index = task.find("tor.exe")
+                if tor_index != -1:
+                    os.system("taskkill /f /im tor.exe")
+
+            urlthread = threading.Thread(target=TorCheck.CheckNode, args=(
+                self, countrycode), daemon=True)
             urlthread.start()
             urlthread.join(timeout=10)
             if TorCheck.ended_successfull is False:
@@ -122,5 +127,3 @@ class TorCheck(object):
                         os.system("taskkill /f /im tor.exe")
         except Exception as exc:
             print(exc)
-
-       
