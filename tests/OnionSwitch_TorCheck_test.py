@@ -18,13 +18,9 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import io
-import pycurl
-import certifi
+
 import threading
 import os
-
-
 import stem.process
 
 from stem.util import term
@@ -37,37 +33,15 @@ class TestTorCheck(object):
     ended_successfull = False
     connected = False
 
-    def query(self):
-        """
-        Uses pycurl to fetch a site using the proxy on the SOCKS_PORT.
-        """
-        url = "www.example.com"
-
-        output = io.BytesIO()
-
-        query = pycurl.Curl()
-        query.setopt(pycurl.URL, url)
-        query.setopt(pycurl.CAINFO, certifi.where())
-        query.setopt(pycurl.PROXY, 'localhost')
-        query.setopt(pycurl.PROXYPORT, SOCKS_PORT)
-        query.setopt(pycurl.PROXYTYPE, pycurl.PROXYTYPE_SOCKS5_HOSTNAME)
-        query.setopt(pycurl.WRITEFUNCTION, output.write)
-        query.setopt(pycurl.TIMEOUT, 10)
-
-        try:
-            query.perform()
-            return output.getvalue()
-        except pycurl.error as exc:
-            return "Unable to reach %s (%s)" % (url, exc)
-
     def test_Print_Bootstrap_Lines(line):
         line = ""
         if "Bootstrapped " in line:
             print(line)
+            if line.find("100%") != -1:
+                TestTorCheck.connected = True
 
     def test_CheckNode(self):
         try:
-            website_string = ""
             countrycode = ""
 
             TestTorCheck.connected = False
@@ -82,22 +56,7 @@ class TestTorCheck(object):
                     init_msg_handler=TestTorCheck.Print_Bootstrap_Lines,
                 )
 
-                print(term.format(
-                    "\nChecking our endpoint:\n", term.Attr.BOLD))
-                website_string = term.format(TestTorCheck.query(
-                    "https://check.torproject.org/"))
-                print(term.format(
-                    "\nDone!\n", term.Attr.BOLD))
-
-                index = website_string.find(
-                    "Congratulations. This browser is configured to use Tor.")
-
                 tor_process.kill()  # stops tor
-
-                if index != -1:
-                    TestTorCheck.connected = True
-                else:
-                    TestTorCheck.connected = False
 
                 TestTorCheck.ended_successfull = True
                 return TestTorCheck.connected

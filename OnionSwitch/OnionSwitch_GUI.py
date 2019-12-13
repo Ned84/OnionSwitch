@@ -399,6 +399,11 @@ class Ui_MainWindow(QtWidgets.QWidget):
         def AddNodeToChosenNodeTableView():
             # Write the countrycodes in the ChosenNodesTableView and Torrc
             if osf.Functions.torrcfound is True:
+                lineedit_string = self.lineEdit.text()
+                index_1 = lineedit_string.find("{")
+                index_2 = lineedit_string.find("}")
+
+
 
                 found = False
                 countrycode = osf.Functions.ChangeCountrycodeToCountryname(
@@ -666,13 +671,21 @@ class Ui_MainWindow(QtWidgets.QWidget):
         def WriteBracetsInLineEdit():
             # Embrace countrycode in bracets (Line-Edit) only if its
             # a valid input
-
+            found = False
             if len(self.lineEdit.text()) == 2:
                 if self.lineEdit.text().isalpha():
                     withbracets = "{" + self.lineEdit.text() + "}"
                     for code in osf.Functions.countrycodes:
                         if code == withbracets:
                             self.lineEdit.setText(withbracets)
+                            found = True
+                        else:
+                            if found is False:
+                                self.lineEdit.setText("")
+                else:
+                    self.lineEdit.setText("")
+            else:
+                self.lineEdit.setText("")
 
         @pyqtSlot()
         def InitializeTableViews():
@@ -711,8 +724,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.startTorBrowserButton2.setEnabled(True)
                 self.startTorBrowserButton3.setEnabled(True)
                 self.resettorrcButton.hide()
+                self.standbyLabel.show()
             else:
                 self.faultLabel.show()
+                self.standbyLabel.hide()
                 self.startTorBrowserButton.setEnabled(False)
                 self.startTorBrowserButton2.setEnabled(False)
                 self.startTorBrowserButton3.setEnabled(False)
@@ -726,6 +741,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
         InitializeGUI()
         InitializeTableViews()
+
+        self.lineEdit.returnPressed.connect(WriteBracetsInLineEdit)
+        self.lineEdit.editingFinished.connect(WriteBracetsInLineEdit)
 
         self.chooseCountryBox.currentTextChanged.connect(ChangeCountry)
 
@@ -755,8 +773,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.actionAbout.triggered.connect(OpenDialogAbout)
         self.actionSettings.triggered.connect(OpenDialogSettings)
         self.actionUpdate.triggered.connect(OpenDialogUpdate)
-
-        self.lineEdit.returnPressed.connect(WriteBracetsInLineEdit)
 
         self.startTorBrowserButton.clicked.connect(StartTorBrowser)
         self.startTorBrowserButton2.clicked.connect(StartTorBrowser)

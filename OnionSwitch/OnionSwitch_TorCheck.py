@@ -18,9 +18,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import io
-import pycurl
-import certifi
 import threading
 import os
 
@@ -37,38 +34,15 @@ class TorCheck(object):
     ended_successfull = False
     connected = False
 
-    def query(url):
-        """
-        Uses pycurl to fetch a site using the proxy on the SOCKS_PORT.
-        """
-
-        output = io.BytesIO()
-
-        query = pycurl.Curl()
-        query.setopt(pycurl.URL, url)
-        query.setopt(pycurl.CAINFO, certifi.where())
-        query.setopt(pycurl.PROXY, 'localhost')
-        query.setopt(pycurl.PROXYPORT, SOCKS_PORT)
-        query.setopt(pycurl.PROXYTYPE, pycurl.PROXYTYPE_SOCKS5_HOSTNAME)
-        query.setopt(pycurl.WRITEFUNCTION, output.write)
-        query.setopt(pycurl.TIMEOUT, 10)
-
-        try:
-            query.perform()
-            return output.getvalue()
-        except pycurl.error as exc:
-            return "Unable to reach %s (%s)" % (url, exc)
-
     def Print_Bootstrap_Lines(line):
 
         if "Bootstrapped " in line:
             print(line)
+            if line.find("100%") != -1:
+                TorCheck.connected = True
 
     def CheckNode(self, countrycode):
         try:
-            website_string = ""
-
-            TorCheck.connected = False
             if len(countrycode) > 0:
                 print(term.format("Starting Tor:\n", term.Attr.BOLD))
 
@@ -80,50 +54,36 @@ class TorCheck(object):
                     init_msg_handler=TorCheck.Print_Bootstrap_Lines,
                 )
 
-                print(term.format(
-                    "\nChecking our endpoint:\n", term.Attr.BOLD))
-                website_string = term.format(TorCheck.query(
-                    "https://check.torproject.org/"))
-                print(term.format(
-                    "\nDone!\n", term.Attr.BOLD))
-
-                index = website_string.find(
-                    "Congratulations. This browser is configured to use Tor.")
-
                 tor_process.kill()  # stops tor
-
-                if index != -1:
-                    TorCheck.connected = True
-                else:
-                    TorCheck.connected = False
 
                 TorCheck.ended_successfull = True
                 return TorCheck.connected
 
         except Exception:
             TorCheck.ended_successfull = False
-            TorCheck.found = False
 
     def CheckTor(self, countrycode):
 
         try:
-            tasks = os.popen('tasklist').readlines()
-
-            for task in tasks:
-                tor_index = task.find("tor.exe")
-                if tor_index != -1:
-                    os.system("taskkill /f /im tor.exe")
-
-            urlthread = threading.Thread(target=TorCheck.CheckNode, args=(
-                self, countrycode), daemon=True)
-            urlthread.start()
-            urlthread.join(timeout=10)
-            if TorCheck.ended_successfull is False:
+            if countrycode != "":
+                TorCheck.connected = False
                 tasks = os.popen('tasklist').readlines()
 
                 for task in tasks:
                     tor_index = task.find("tor.exe")
                     if tor_index != -1:
                         os.system("taskkill /f /im tor.exe")
+
+                urlthread = threading.Thread(target=TorCheck.CheckNode, args=(
+                    self, countrycode), daemon=True)
+                urlthread.start()
+                urlthread.join(timeout=10)
+                if TorCheck.ended_successfull is False:
+                    tasks = os.popen('tasklist').readlines()
+
+                    for task in tasks:
+                        tor_index = task.find("tor.exe")
+                        if tor_index != -1:
+                            os.system("taskkill /f /im tor.exe")
         except Exception as exc:
             print(exc)
