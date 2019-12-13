@@ -37,7 +37,7 @@ class TestTorCheck(object):
     ended_successfull = False
     connected = False
 
-    def test_query(self):
+    def query(self):
         """
         Uses pycurl to fetch a site using the proxy on the SOCKS_PORT.
         """
