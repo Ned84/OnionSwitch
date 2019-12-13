@@ -602,6 +602,7 @@ class TestFunctions(object):
             param_details['version'] = TestFunctions.paramversion
             param_details['Update_available'] =\
                 TestFunctions.paramupdateavailable
+            param_details['StrictNodes'] = Functions.paramstrictnodes
             param_list.append(param_details)
             file.close()
 

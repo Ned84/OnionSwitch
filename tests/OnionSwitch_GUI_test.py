@@ -68,7 +68,7 @@ class Ui_MainWindow(object):
                             '\\OnionSwitch\\osparam\\Param.json', "w+")
 
                 data = [{"version": version, "Path_to_Tor": "",
-                         "Update_available": False}]
+                         "Update_available": False, "StrictNodes": 0}]
 
                 json.dump(data, file, indent=1, sort_keys=True)
                 file.close()
