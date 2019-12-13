@@ -9,5 +9,9 @@
   "tests/OnionSwitch_Functions_test.py::TestFunctions::test_ChangeCountrycodeToCountryname",
   "tests/OnionSwitch_Functions_test.py::TestFunctions::test_AddCountryToArray",
   "tests/OnionSwitch_Functions_test.py::TestFunctions::test_DeleteCountryFromArray",
-  "tests/OnionSwitch_Functions_test.py::TestFunctions::test_WriteLog"
+  "tests/OnionSwitch_Functions_test.py::TestFunctions::test_WriteLog",
+  "tests/OnionSwitch_TorCheck_test.py::TestTorCheck::test_query",
+  "tests/OnionSwitch_TorCheck_test.py::TestTorCheck::test_Print_Bootstrap_Lines",
+  "tests/OnionSwitch_TorCheck_test.py::TestTorCheck::test_CheckNode",
+  "tests/OnionSwitch_TorCheck_test.py::TestTorCheck::test_CheckTor"
 ]
