@@ -1,6 +1,6 @@
 # OnionSwitch
 
-Interface to easily change the Tor Exit node Destination.
+Interface to easily change the Tor Exit node Destination...
 
     StrictNodes 0|1
 
