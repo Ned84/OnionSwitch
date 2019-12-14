@@ -22,7 +22,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import threading
 import os
 import stem.process
-from mock import MagicMock
 
 from stem.util import term
 
