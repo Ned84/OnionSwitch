@@ -23,6 +23,7 @@ import os
 
 
 import stem.process
+import time
 
 from stem.util import term
 
@@ -35,6 +36,7 @@ class TorCheck(object):
     connected = False
 
     def Print_Bootstrap_Lines(line):
+        # print or process msg handler and check for msg "100%! done"
 
         if "Bootstrapped " in line:
             print(line)
@@ -43,6 +45,7 @@ class TorCheck(object):
 
     def CheckNode(self, countrycode):
         try:
+            # Start tor_process and check if Node is available
             if len(countrycode) > 0:
                 print(term.format("Starting Tor:\n", term.Attr.BOLD))
 
@@ -65,6 +68,12 @@ class TorCheck(object):
     def CheckTor(self, countrycode):
 
         try:
+            # If tor.exe is already started, quit it and start a new thread to
+            # check Nodes.
+            # Thread timeouts after 10 sec.
+            # Check again if tor.exe is still running (because of possible
+            # timeout) and delete it if so.
+
             if countrycode != "":
                 TorCheck.connected = False
                 tasks = os.popen('tasklist').readlines()
@@ -74,10 +83,13 @@ class TorCheck(object):
                     if tor_index != -1:
                         os.system("taskkill /f /im tor.exe")
 
-                urlthread = threading.Thread(target=TorCheck.CheckNode, args=(
+                torcheck_thread = threading.Thread(target=TorCheck.CheckNode, args=(
                     self, countrycode), daemon=True)
-                urlthread.start()
-                urlthread.join(timeout=10)
+
+                torcheck_thread.start()
+
+                torcheck_thread.join(timeout=10)
+
                 if TorCheck.ended_successfull is False:
                     tasks = os.popen('tasklist').readlines()
 

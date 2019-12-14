@@ -399,12 +399,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         def AddNodeToChosenNodeTableView():
             # Write the countrycodes in the ChosenNodesTableView and Torrc
             if osf.Functions.torrcfound is True:
-                lineedit_string = self.lineEdit.text()
-                index_1 = lineedit_string.find("{")
-                index_2 = lineedit_string.find("}")
-
-
-
                 found = False
                 countrycode = osf.Functions.ChangeCountrycodeToCountryname(
                     self, self.lineEdit.text())
@@ -416,43 +410,47 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         found = True
 
                 if found is False:
+                    for code in osf.Functions.torrcexitnodes:
+                        if code == countrycode:
+                            found = True
 
-                    if Ui_MainWindow.firstrun is False:
-                        connection_count = 0
-                        ostc.TorCheck.CheckTor(self, self.lineEdit.text())
-                        if ostc.TorCheck.connected is False:
+                    if found is False:
+                        if Ui_MainWindow.firstrun is False:
                             connection_count = 0
+                            ostc.TorCheck.CheckTor(self, self.lineEdit.text())
+                            if ostc.TorCheck.connected is False:
+                                connection_count = 0
+                            else:
+                                connection_count += 1
                         else:
-                            connection_count += 1
-                    else:
-                        connection_count = 1
-                        Ui_MainWindow.firstrun = False
+                            connection_count = 1
+                            Ui_MainWindow.firstrun = False
 
-                    if connection_count != 0:
-                        self.sameNodeInMultiArrayFaultLabel.hide()
+                        if connection_count != 0:
+                            self.sameNodeInMultiArrayFaultLabel.hide()
 
-                        osf.Functions.torrcexitnodes = \
-                            osf.Functions.AddCountryToArray(
-                                self,
-                                osf.Functions.ChangeCountrycodeToCountryname(
-                                    self, self.lineEdit.text()),
-                                osf.Functions.torrcexitnodes)
+                            osf.Functions.torrcexitnodes = \
+                                osf.Functions.AddCountryToArray(
+                                    self,
+                                    osf.Functions.ChangeCountrycodeToCountryname(
+                                        self, self.lineEdit.text()),
+                                    osf.Functions.torrcexitnodes)
 
-                        i = 0
-                        self.chosenNodesTableView.setRowCount(len(
-                            osf.Functions.torrcexitnodes))
-                        for nodes in osf.Functions.torrcexitnodes:
-                            self.chosenNodesTableView.setItem(
-                                0, i, QtWidgets.QTableWidgetItem(
-                                    osf.Functions.torrcexitnodes[i]))
-                            i += 1
-                        self.chosenNodesTableView.resizeRowsToContents()
+                            i = 0
+                            self.chosenNodesTableView.setRowCount(len(
+                                osf.Functions.torrcexitnodes))
+                            for nodes in osf.Functions.torrcexitnodes:
+                                self.chosenNodesTableView.setItem(
+                                    0, i, QtWidgets.QTableWidgetItem(
+                                        osf.Functions.torrcexitnodes[i]))
+                                i += 1
+                            self.chosenNodesTableView.resizeRowsToContents()
 
-                        osf.Functions.WriteNodesToTorrc(
-                            self, "ExitNodes", osf.Functions.torrcexitnodes)
-                    else:
-                        self.cantConnectToNodeFaultLabel.show()
-                        self.standbyLabel.hide()
+                            osf.Functions.WriteNodesToTorrc(
+                                self, "ExitNodes", osf.Functions.torrcexitnodes)
+                        else:
+                            self.cantConnectToNodeFaultLabel.show()
+                            self.standbyLabel.hide()
 
                 else:
                     self.sameNodeInMultiArrayFaultLabel.show()
@@ -493,6 +491,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
                 else:
                     self.sameNodeInMultiArrayFaultLabel.show()
+                    self.standbyLabel.hide()
 
         @pyqtSlot()
         def AddNodeToBlackListAllTableView():
@@ -529,6 +528,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
                 else:
                     self.sameNodeInMultiArrayFaultLabel.show()
+                    self.standbyLabel.hide()
 
         @pyqtSlot()
         def DeleteNodeFromchosenNodeTableView():
@@ -597,6 +597,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 for code in osf.Functions.torrcexitnodes:
                     if code == countrycode:
                         self.sameNodeInMultiArrayFaultLabel.show()
+                        self.standbyLabel.hide()
 
         @pyqtSlot()
         def DeleteNodeFromBlacklistAllTableView():
@@ -628,6 +629,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 for code in osf.Functions.torrcexitnodes:
                     if code == countrycode:
                         self.sameNodeInMultiArrayFaultLabel.show()
+                        self.standbyLabel.hide()
 
         @pyqtSlot()
         def OpenDialogAbout():
@@ -685,7 +687,14 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 else:
                     self.lineEdit.setText("")
             else:
-                self.lineEdit.setText("")
+                if len(self.lineEdit.text()) == 4:
+                    for code in osf.Functions.countrycodes:
+                        if code == self.lineEdit.text():
+                            found = True
+                    if found is False:
+                        self.lineEdit.setText("")
+                else:
+                    self.lineEdit.setText("")
 
         @pyqtSlot()
         def InitializeTableViews():
@@ -725,6 +734,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.startTorBrowserButton3.setEnabled(True)
                 self.resettorrcButton.hide()
                 self.standbyLabel.show()
+                self.sameNodeInMultiArrayFaultLabel.hide()
             else:
                 self.faultLabel.show()
                 self.standbyLabel.hide()
@@ -733,16 +743,15 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.startTorBrowserButton3.setEnabled(False)
                 self.resettorrcButton.show()
                 self.chosenNodesTableView.setItem(
-                    0, 0, QtWidgets.QTableWidgetItem("Torrc not found."))
+                    0, 0, QtWidgets.QTableWidgetItem("Tor not found."))
                 self.blacklistAllNodesTableView.setItem(
-                    0, 0, QtWidgets.QTableWidgetItem("Torrc not found."))
+                    0, 0, QtWidgets.QTableWidgetItem("Tor not found."))
                 self.blacklistExitNodesTableView.setItem(
-                    0, 0, QtWidgets.QTableWidgetItem("Torrc not found."))
+                    0, 0, QtWidgets.QTableWidgetItem("Tor not found."))
 
         InitializeGUI()
         InitializeTableViews()
 
-        self.lineEdit.returnPressed.connect(WriteBracetsInLineEdit)
         self.lineEdit.editingFinished.connect(WriteBracetsInLineEdit)
 
         self.chooseCountryBox.currentTextChanged.connect(ChangeCountry)
@@ -809,7 +818,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.updatelabel.setText(_translate("MainWindow", "Update available"))
         self.faultLabel.setText(_translate(
                                 "MainWindow",
-                                "Could not find torrc file.\n"
+                                "Could not find Tor.\n"
                                 "Please ensure the correct Path\n"
                                 "in the settings."))
         self.sameNodeInMultiArrayFaultLabel.setText(_translate(
@@ -842,7 +851,7 @@ class Ui_AboutDialog(object):
         self.closeButton.setGeometry(QtCore.QRect(290, 210, 93, 28))
         self.closeButton.setObjectName("closeButton")
         self.ned84_logo_frame = QtWidgets.QFrame(AboutDialog)
-        self.ned84_logo_frame.setGeometry(QtCore.QRect(0, 50, 141, 131))
+        self.ned84_logo_frame.setGeometry(QtCore.QRect(10, 50, 141, 131))
         self.ned84_logo_frame.setStyleSheet(
             "image: url(:/resources/Ned84_Logo.png);")
         self.ned84_logo_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -1029,7 +1038,7 @@ class Ui_UpdateDialog(object):
         self.updateButton.setGeometry(QtCore.QRect(180, 210, 93, 28))
         self.updateButton.setObjectName("updateButton")
         self.onionswitch_logo_frame = QtWidgets.QFrame(UpdateDialog)
-        self.onionswitch_logo_frame.setGeometry(QtCore.QRect(0, 50, 141, 131))
+        self.onionswitch_logo_frame.setGeometry(QtCore.QRect(10, 50, 141, 131))
         self.onionswitch_logo_frame.setStyleSheet(
             "image: url(:/resources/OnionSwitch_Logo.png);")
         self.onionswitch_logo_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)

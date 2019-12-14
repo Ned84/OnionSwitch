@@ -576,7 +576,7 @@ class Functions(object):
             Functions.WriteLog(self, exc)
 
     def WriteSettingsToJson(self):
-        # Write Settings to file
+        # Write Settings to json file
         try:
             file = open(os.getenv(
                 'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json', "r")
@@ -605,6 +605,7 @@ class Functions(object):
 
     def ChangeTorrcStrictNodes(self):
         try:
+            # change strictnodes settings in torrc file
             if Functions.torrcfound is True:
                 file = open(Functions.torrcfilepath, "r")
                 torrc_readfile = file.read()
@@ -638,6 +639,8 @@ class Functions(object):
 
     def GetTorrcFromFile(self):
         try:
+            # open the torrc file and ierate through it to find the use
+            # ExitNodes and B-listed Nodes
             if path.exists(Functions.torrcfilepath) is False:
                 Functions.torrcfound = False
             else:
@@ -726,6 +729,7 @@ class Functions(object):
 
     def WriteNodesToTorrc(self, NodeStyle, Array):
         try:
+            # Open torrc file and write chosen nodes 
             countrynamearray = []
             for name in Array:
                 if name != "No Country chosen.":
@@ -794,6 +798,7 @@ class Functions(object):
             Functions.WriteLog(self, exc)
 
     def ChangeCountrynameToCountrycode(self, Name):
+        # Feed a Countryname and get the countrycode
         try:
             i = 0
             code = ""
@@ -809,6 +814,7 @@ class Functions(object):
             Functions.WriteLog(self, exc)
 
     def ChangeCountrycodeToCountryname(self, Code):
+        # Feed a countrycode and get the countryname
         try:
             i = 0
             name = ""
@@ -824,6 +830,9 @@ class Functions(object):
             Functions.WriteLog(self, exc)
 
     def AddCountryToArray(self, Country, Array):
+        # Pass a countryname and the array you would like in the function and
+        # get a new array with added country (only if country doesnt exist in
+        # the passed in array already)
         try:
             if Country != "":
                 found = False
@@ -840,6 +849,9 @@ class Functions(object):
             Functions.WriteLog(self, exc)
 
     def DeleteCountryFromArray(self, Country, Array):
+        # Pass a countryname and the array you would like in the function and
+        # get a new array with deleted country (if new array is empty itll
+        # append the string "no country chosen")
         try:
             newArray = []
 
@@ -856,6 +868,7 @@ class Functions(object):
             Functions.WriteLog(self, exc)
 
     def WriteLog(self, exc):
+        # Function to write passed in Exceptions into a log file if so chosen in a try/catch block
         logfile = open(os.getenv(
             'LOCALAPPDATA') + '\\OnionSwitch\\Logfiles\\oslog.txt', "a")
         dt = datetime.datetime.now()
