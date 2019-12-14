@@ -620,8 +620,11 @@ class TestFunctions(object):
         file.close()
 
     def test_ChangeTorrcStrictNodes(self):
-        file = open("C:\\Users\\baumg\\AppData\\Local\\OnionSwitch\\osparam\\torrc", "r")
-        torrc_readfile = file.read()
+        torrc_readfile = "DataDirectory O:\\Tor Browser\\"
+        "Browser\\TorBrowser\\Data\\Tor\n"
+        "GeoIPFile O:\\Tor Browser\\Browser\\TorBrowser\\Data\\Tor\\geoip\n"
+        "GeoIPv6File O:\\Tor Browser\\Browser\\TorBrowser\\Data\\Tor\\geoip6\n"
+        "StrictNodes 0"
 
         index = torrc_readfile.find("StrictNodes")
 
@@ -640,13 +643,15 @@ class TestFunctions(object):
             if index != -1:
                 torrc_readfile = torrc_readfile.replace(
                     "StrictNodes 0", "StrictNodes 1")
-        file.close()
+
         assert (torrc_readfile.find("StrictNodes")) != -1
 
     def test_GetTorrcFromFile(self):
-        file = open(os.getenv(
-            'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\torrc')
-        torrc_readfile = file.read()
+        torrc_readfile = "DataDirectory O:\\Tor Browser\\"
+        "Browser\\TorBrowser\\Data\\Tor\n"
+        "GeoIPFile O:\\Tor Browser\\Browser\\TorBrowser\\Data\\Tor\\geoip\n"
+        "GeoIPv6File O:\\Tor Browser\\Browser\\TorBrowser\\Data\\Tor\\geoip6\n"
+        "StrictNodes 0"
 
         #  Get Torrc Exit Node configuration
         index_1 = torrc_readfile.find("ExitNodes")
@@ -720,8 +725,6 @@ class TestFunctions(object):
         else:
             TestFunctions.torrcexcludednodes.clear()
             TestFunctions.torrcexcludednodes.append("No Country chosen.")
-
-        file.close()
 
     def test_WriteNodesToTorrc(self):
         NodeStyle = ""
