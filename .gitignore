@@ -1,0 +1,7 @@
+# VS Specific
+.vscode
+.vs
+
+# Unit-test and debug
+__pycache__
+.pytest_cache
