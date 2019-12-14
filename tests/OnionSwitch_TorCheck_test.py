@@ -22,6 +22,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import threading
 import os
 import stem.process
+from mock import MagicMock
 
 from stem.util import term
 
@@ -41,51 +42,42 @@ class TestTorCheck(object):
                 TestTorCheck.connected = True
 
     def test_CheckNode(self):
-        try:
-            countrycode = ""
+        countrycode = ""
 
-            TestTorCheck.connected = False
-            if len(countrycode) > 0:
-                print(term.format("Starting Tor:\n", term.Attr.BOLD))
+        TestTorCheck.connected = False
+        if len(countrycode) > 0:
+            print(term.format("Starting Tor:\n", term.Attr.BOLD))
 
-                tor_process = stem.process.launch_tor_with_config(
-                    config={
-                        'SocksPort': str(SOCKS_PORT),
-                        'ExitNodes': countrycode,
-                    },
-                    init_msg_handler=TestTorCheck.Print_Bootstrap_Lines,
-                )
+            tor_process = stem.process.launch_tor_with_config(
+                config={
+                    'SocksPort': str(SOCKS_PORT),
+                    'ExitNodes': countrycode,
+                },
+                init_msg_handler=TestTorCheck.Print_Bootstrap_Lines,
+            )
 
-                tor_process.kill()  # stops tor
+            tor_process.kill()  # stops tor
 
-                TestTorCheck.ended_successfull = True
-                return TestTorCheck.connected
-
-        except Exception:
-            TestTorCheck.ended_successfull = False
-            TestTorCheck.found = False
+            TestTorCheck.ended_successfull = True
+            return TestTorCheck.connected
 
     def test_CheckTor(self):
 
-        try:
-            countrycode = ""
+        countrycode = ""
+        tasks = os.popen('tasklist').readlines()
+
+        for task in tasks:
+            tor_index = task.find("tor.exe")
+            if tor_index != -1:
+                os.system("taskkill /f /im tor.exe")
+        urlthread = threading.Thread(target=TestTorCheck.test_CheckNode, args=(
+            self, countrycode), daemon=True)
+        urlthread.start()
+        urlthread.join(timeout=10)
+        if TestTorCheck.ended_successfull is False:
             tasks = os.popen('tasklist').readlines()
 
             for task in tasks:
                 tor_index = task.find("tor.exe")
                 if tor_index != -1:
                     os.system("taskkill /f /im tor.exe")
-
-            urlthread = threading.Thread(target=TestTorCheck.CheckNode, args=(
-                self, countrycode), daemon=True)
-            urlthread.start()
-            urlthread.join(timeout=10)
-            if TestTorCheck.ended_successfull is False:
-                tasks = os.popen('tasklist').readlines()
-
-                for task in tasks:
-                    tor_index = task.find("tor.exe")
-                    if tor_index != -1:
-                        os.system("taskkill /f /im tor.exe")
-        except Exception as exc:
-            print(exc)

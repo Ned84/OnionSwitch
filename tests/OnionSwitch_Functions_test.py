@@ -25,18 +25,22 @@ import json
 import re
 from os import path
 
-from PyQt5.QtGui import QStandardItem, QStandardItemModel
-
 
 class TestFunctions(object):
 
     paramversion = ""
     parampathtotor = ""
     paramupdateavailable = False
+    paramstrictnodes = 0
 
     torrcexitnodes = []
     torrcexcludednodes = []
     torrcexcludedexitnodes = []
+    torrcfilepath = ""
+    torrcfound = False
+    torrcstrictnodes = False
+
+    settingschanged = False
 
     countrynames = ["",
                     "ASCENSION ISLAND",
@@ -569,323 +573,271 @@ class TestFunctions(object):
 
     def test_GetSettingsFromJson(self):
 
-        try:
-            file = open(
-                os.getenv(
-                    'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json')
-            json_array = json.load(file)
-            param_list = []
+        file = open(
+            os.getenv(
+                'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json')
+        json_array = json.load(file)
+        param_list = []
 
-            for item in json_array:
-                param_details = {}
-                param_details['Path_to_Tor'] = item['Path_to_Tor']
-                param_details['version'] = item['version']
-                param_details['Update_available'] = item['Update_available']
-                param_list.append(param_details)
-            file.close()
+        for item in json_array:
+            param_details = {}
+            param_details['Path_to_Tor'] = item['Path_to_Tor']
+            param_details['version'] = item['version']
+            param_details['Update_available'] = item['Update_available']
+            param_list.append(param_details)
+        file.close()
 
-            TestFunctions.parampathtotor = param_details['Path_to_Tor']
-            TestFunctions.paramupdateavailable = \
-                param_details['Update_available']
-
-        except Exception:
-            TestFunctions.test_WriteLog(self)
+        TestFunctions.parampathtotor = param_details['Path_to_Tor']
+        TestFunctions.paramupdateavailable = \
+            param_details['Update_available']
+        assert type(TestFunctions.parampathtotor) == str
+        assert type(TestFunctions.paramstrictnodes) == int
+        assert type(TestFunctions.paramversion) == str
+        assert type(TestFunctions.paramupdateavailable) == bool
 
     def test_WriteSettingsToJson(self):
-        try:
-            file = open(os.getenv(
-                'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json', "r")
-            param_list = []
+        file = open(os.getenv(
+            'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json', "r")
+        param_list = []
 
-            param_details = {}
-            param_details['Path_to_Tor'] = TestFunctions.parampathtotor
-            param_details['version'] = TestFunctions.paramversion
-            param_details['Update_available'] =\
-                TestFunctions.paramupdateavailable
-            param_details['StrictNodes'] = Functions.paramstrictnodes
-            param_list.append(param_details)
-            file.close()
+        param_details = {}
+        param_details['Path_to_Tor'] = TestFunctions.parampathtotor
+        param_details['version'] = TestFunctions.paramversion
+        param_details['Update_available'] =\
+            TestFunctions.paramupdateavailable
+        param_details['StrictNodes'] = TestFunctions.paramstrictnodes
+        param_list.append(param_details)
+        file.close()
 
-            file = open(os.getenv(
-                'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json', "w")
-            json.dump(param_list, file, indent=1, sort_keys=True)
-            file.close()
+        assert type(param_details['Path_to_Tor']) == str
+        assert type(param_details['StrictNodes']) == int
+        assert type(param_details['version']) == str
+        assert type(param_details['Update_available']) == bool
 
-        except Exception:
-            TestFunctions.test_WriteLog(self)
+        file = open(os.getenv(
+            'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json', "w")
+        json.dump(param_list, file, indent=1, sort_keys=True)
+        file.close()
 
     def test_ChangeTorrcStrictNodes(self):
-        try:
-            if TestFunctions.torrcfound is True:
-                file = open(TestFunctions.torrcfilepath, "r")
-                torrc_readfile = file.read()
+        file = open("C:\\Users\\baumg\\AppData\\Local\\OnionSwitch\\osparam\\torrc", "r")
+        torrc_readfile = file.read()
 
-                index = torrc_readfile.find("StrictNodes")
+        index = torrc_readfile.find("StrictNodes")
 
-                if index == -1:
-                    torrc_readfile = torrc_readfile + "\nStrictNodes 1"
+        if index == -1:
+            torrc_readfile = torrc_readfile + "\nStrictNodes 1"
 
-                if TestFunctions.torrcstrictnodes is False:
-                    index = torrc_readfile.find("StrictNodes 1")
+        if TestFunctions.torrcstrictnodes is False:
+            index = torrc_readfile.find("StrictNodes 1")
 
-                    if index != -1:
-                        torrc_readfile = torrc_readfile.replace(
-                            "StrictNodes 1", "StrictNodes 0")
-                else:
-                    index = torrc_readfile.find("StrictNodes 0")
+            if index != -1:
+                torrc_readfile = torrc_readfile.replace(
+                    "StrictNodes 1", "StrictNodes 0")
+        else:
+            index = torrc_readfile.find("StrictNodes 0")
 
-                    if index != -1:
-                        torrc_readfile = torrc_readfile.replace(
-                            "StrictNodes 0", "StrictNodes 1")
-
-                file.close()
-
-                file = open(TestFunctions.torrcfilepath, "w")
-                file.write(torrc_readfile)
-                file.close()
-
-        except Exception:
-            TestFunctions.test_WriteLog(self)
+            if index != -1:
+                torrc_readfile = torrc_readfile.replace(
+                    "StrictNodes 0", "StrictNodes 1")
+        file.close()
+        assert (torrc_readfile.find("StrictNodes")) != -1
 
     def test_GetTorrcFromFile(self):
-        try:
-            file = open(os.getenv(
-                'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\torrc')
-            torrc_readfile = file.read()
+        file = open(os.getenv(
+            'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\torrc')
+        torrc_readfile = file.read()
 
-            #  Get Torrc Exit Node configuration
-            index_1 = torrc_readfile.find("ExitNodes")
-            if index_1 != -1:
-                index_2 = torrc_readfile.find("\n", index_1)
-                index_1 = index_1 + len("ExitNodes")
-                sliceobject = slice(index_1, index_2)
-                exitnodes = torrc_readfile[sliceobject]
+        #  Get Torrc Exit Node configuration
+        index_1 = torrc_readfile.find("ExitNodes")
+        if index_1 != -1:
+            index_2 = torrc_readfile.find("\n", index_1)
+            index_1 = index_1 + len("ExitNodes")
+            sliceobject = slice(index_1, index_2)
+            exitnodes = torrc_readfile[sliceobject]
 
-                exitnodes = re.findall('{+[a-z]+}', exitnodes)
+            exitnodes = re.findall('{+[a-z]+}', exitnodes)
 
-                TestFunctions.torrcexitnodes.clear()
+            TestFunctions.torrcexitnodes.clear()
 
-                exitnodename = ""
-                for exitnode in exitnodes:
-                    i = 0
-                    for countrycode in TestFunctions.countrycodes:
-                        if countrycode == exitnode:
-                            exitnodename = TestFunctions.countrynames[i]
-                        i += 1
-                    TestFunctions.torrcexitnodes.append(exitnodename)
-            else:
-                TestFunctions.torrcexitnodes.clear()
-                TestFunctions.torrcexitnodes.append("No Country chosen.")
+            exitnodename = ""
+            for exitnode in exitnodes:
+                i = 0
+                for countrycode in TestFunctions.countrycodes:
+                    if countrycode == exitnode:
+                        exitnodename = TestFunctions.countrynames[i]
+                    i += 1
+                TestFunctions.torrcexitnodes.append(exitnodename)
+        else:
+            TestFunctions.torrcexitnodes.clear()
+            TestFunctions.torrcexitnodes.append("No Country chosen.")
 
-            #  Get Torrc Blacklist Exit Nodes configuration
-            index_1 = torrc_readfile.find("ExcludeExitNodes")
-            if index_1 != -1:
-                index_2 = torrc_readfile.find("\n", index_1)
-                index_1 = index_1 + len("ExcludeExitNodes")
-                sliceobject = slice(index_1, index_2)
-                nodes = torrc_readfile[sliceobject]
+        #  Get Torrc Blacklist Exit Nodes configuration
+        index_1 = torrc_readfile.find("ExcludeExitNodes")
+        if index_1 != -1:
+            index_2 = torrc_readfile.find("\n", index_1)
+            index_1 = index_1 + len("ExcludeExitNodes")
+            sliceobject = slice(index_1, index_2)
+            nodes = torrc_readfile[sliceobject]
 
-                nodes = re.findall('{+[a-z]+}', nodes)
+            nodes = re.findall('{+[a-z]+}', nodes)
 
-                TestFunctions.torrcexcludedexitnodes.clear()
+            TestFunctions.torrcexcludedexitnodes.clear()
 
-                exitnodename = ""
-                for exitnode in exitnodes:
-                    i = 0
-                    for countrycode in TestFunctions.countrycodes:
-                        if countrycode == exitnode:
-                            exitnodename = TestFunctions.countrynames[i]
-                        i += 1
-                    TestFunctions.torrcexcludedexitnodes.append(exitnodename)
-            else:
-                TestFunctions.torrcexcludedexitnodes.clear()
-                TestFunctions.torrcexcludedexitnodes.append(
-                    "No Country chosen.")
+            exitnodename = ""
+            for exitnode in exitnodes:
+                i = 0
+                for countrycode in TestFunctions.countrycodes:
+                    if countrycode == exitnode:
+                        exitnodename = TestFunctions.countrynames[i]
+                    i += 1
+                TestFunctions.torrcexcludedexitnodes.append(exitnodename)
+        else:
+            TestFunctions.torrcexcludedexitnodes.clear()
+            TestFunctions.torrcexcludedexitnodes.append(
+                "No Country chosen.")
 
-            #  Get Torrc Blacklist All Nodes configuration
-            index_1 = torrc_readfile.find("ExcludeNodes")
-            if index_1 != -1:
-                index_2 = torrc_readfile.find("\n", index_1)
-                index_1 = index_1 + len("ExcludeNodes")
-                sliceobject = slice(index_1, index_2)
-                nodes = torrc_readfile[sliceobject]
+        #  Get Torrc Blacklist All Nodes configuration
+        index_1 = torrc_readfile.find("ExcludeNodes")
+        if index_1 != -1:
+            index_2 = torrc_readfile.find("\n", index_1)
+            index_1 = index_1 + len("ExcludeNodes")
+            sliceobject = slice(index_1, index_2)
+            nodes = torrc_readfile[sliceobject]
 
-                nodes = re.findall('{+[a-z]+}', nodes)
+            nodes = re.findall('{+[a-z]+}', nodes)
 
-                TestFunctions.torrcexcludednodes.clear()
+            TestFunctions.torrcexcludednodes.clear()
 
-                exitnodename = ""
-                for exitnode in exitnodes:
-                    i = 0
-                    for countrycode in TestFunctions.countrycodes:
-                        if countrycode == exitnode:
-                            exitnodename = TestFunctions.countrynames[i]
-                        i += 1
-                    TestFunctions.tor.append(exitnodename)
-            else:
-                TestFunctions.torrcexcludednodes.clear()
-                TestFunctions.torrcexcludednodes.append("No Country chosen.")
+            exitnodename = ""
+            for exitnode in exitnodes:
+                i = 0
+                for countrycode in TestFunctions.countrycodes:
+                    if countrycode == exitnode:
+                        exitnodename = TestFunctions.countrynames[i]
+                    i += 1
+                TestFunctions.tor.append(exitnodename)
+        else:
+            TestFunctions.torrcexcludednodes.clear()
+            TestFunctions.torrcexcludednodes.append("No Country chosen.")
 
-            file.close()
-        except Exception:
-            TestFunctions.test_WriteLog(self)
+        file.close()
 
     def test_WriteNodesToTorrc(self):
-        try:
-            NodeStyle = ""
-            Array = []
-            countrynamearray = []
-            for name in Array:
-                if name != "No Country chosen.":
-                    countrynamearray.append(
-                        TestFunctions.ChangeCountrynameToCountrycode(
-                            self, name))
-                else:
-                    countrynamearray.append("No Country chosen.")
+        NodeStyle = ""
+        Array = []
+        countrynamearray = []
+        for name in Array:
+            if name != "No Country chosen.":
+                countrynamearray.append(
+                    TestFunctions.ChangeCountrynameToCountrycode(
+                        self, name))
+            else:
+                countrynamearray.append("No Country chosen.")
 
-            Array = countrynamearray
+        Array = countrynamearray
 
-            if TestFunctions.torrcfound is True:
-                file = open(TestFunctions.torrcfilepath, "r")
-                torrc_readfile = file.read()
+        if TestFunctions.torrcfound is True:
+            file = open(TestFunctions.torrcfilepath, "r")
+            torrc_readfile = file.read()
 
-                if Array[0] != "No Country chosen.":
-                    if Array[0] != '':
-                        index = torrc_readfile.find("\n" + NodeStyle)
+            if Array[0] != "No Country chosen.":
+                if Array[0] != '':
+                    index = torrc_readfile.find("\n" + NodeStyle)
 
-                        if index != -1:
-                            index_1 = torrc_readfile.find("\n" + NodeStyle)
-                            index_2 = torrc_readfile.find("\n", index_1 + 3)
-                            index_1 = index_1 + len("\n" + NodeStyle)
-                            sliceobject = slice(index_1, index_2)
-                            nodes = torrc_readfile[sliceobject]
-
-                            nodestring = " "
-                            for nodecountry in Array:
-                                nodestring = nodestring + nodecountry + " "
-
-                            torrc_readfile = torrc_readfile.replace(
-                                    nodes, nodestring)
-                        else:
-                            index = torrc_readfile.find("StrictNodes")
-                            sliceobject = slice(index, index + len(
-                                "StrictNodes") + 2)
-                            strictnodetype = torrc_readfile[sliceobject]
-                            torrc_readfile = torrc_readfile.replace(
-                                strictnodetype, NodeStyle + "\n" +
-                                strictnodetype)
-
-                            nodestring = " "
-                            for nodecountry in Array:
-                                nodestring = nodestring + nodecountry + " "
-
-                            torrc_readfile = torrc_readfile.replace(
-                                    "\n" + NodeStyle, "\n" + NodeStyle +
-                                    nodestring)
-
-                else:
-                    index = torrc_readfile.find(NodeStyle)
                     if index != -1:
                         index_1 = torrc_readfile.find("\n" + NodeStyle)
                         index_2 = torrc_readfile.find("\n", index_1 + 3)
+                        index_1 = index_1 + len("\n" + NodeStyle)
                         sliceobject = slice(index_1, index_2)
                         nodes = torrc_readfile[sliceobject]
+
+                        nodestring = " "
+                        for nodecountry in Array:
+                            nodestring = nodestring + nodecountry + " "
+
                         torrc_readfile = torrc_readfile.replace(
-                            nodes, "")
+                                nodes, nodestring)
+                    else:
+                        index = torrc_readfile.find("StrictNodes")
+                        sliceobject = slice(index, index + len(
+                            "StrictNodes") + 2)
+                        strictnodetype = torrc_readfile[sliceobject]
+                        torrc_readfile = torrc_readfile.replace(
+                            strictnodetype, NodeStyle + "\n" +
+                            strictnodetype)
 
-                file.close()
+                        nodestring = " "
+                        for nodecountry in Array:
+                            nodestring = nodestring + nodecountry + " "
 
-                file = open(TestFunctions.torrcfilepath, "w")
-                file.write(torrc_readfile)
-                file.close()
+                        torrc_readfile = torrc_readfile.replace(
+                                "\n" + NodeStyle, "\n" + NodeStyle +
+                                nodestring)
 
-        except Exception:
-            TestFunctions.test_WriteLog(self)
+            else:
+                index = torrc_readfile.find(NodeStyle)
+                if index != -1:
+                    index_1 = torrc_readfile.find("\n" + NodeStyle)
+                    index_2 = torrc_readfile.find("\n", index_1 + 3)
+                    sliceobject = slice(index_1, index_2)
+                    nodes = torrc_readfile[sliceobject]
+                    torrc_readfile = torrc_readfile.replace(
+                        nodes, "")
 
-    def test_BUildModelForListView(self):
-        listView = ""
-        nodeList = ""
-        try:
-
-            model = QStandardItemModel(listView)
-
-            for node in nodeList:
-                modelpart = QStandardItem(node)
-                modelpart.setEditable(False)
-                model.appendRow(modelpart)
-
-            return model
-
-        except Exception:
-            TestFunctions.test_WriteLog(self)
+            file.close()
 
     def test_ChangeCountrynameToCountrycode(self):
-        try:
-            Name = ""
-            i = 0
-            code = ""
-            for countryname in TestFunctions.countrynames:
-                if countryname == Name:
-                    code = TestFunctions.countrycodes[i]
-                else:
-                    i += 1
 
-            return code
-
-        except Exception as exc:
-            TestFunctions.WriteLog(self, exc)
+        Name = "AUSTRIA"
+        i = 0
+        code = ""
+        for countryname in TestFunctions.countrynames:
+            if countryname == Name:
+                code = TestFunctions.countrycodes[i]
+            else:
+                i += 1
+        assert code == "{at}"
 
     def test_ChangeCountrycodeToCountryname(self):
-        try:
-            Code = ""
-            i = 0
-            name = ""
-            for countrycode in TestFunctions.countrycodes:
-                if countrycode == Code:
-                    name = TestFunctions.countrynames[i]
-                else:
-                    i += 1
-
-            return name
-
-        except Exception as exc:
-            TestFunctions.WriteLog(self, exc)
+        Code = "{at}"
+        i = 0
+        name = ""
+        for countrycode in TestFunctions.countrycodes:
+            if countrycode == Code:
+                name = TestFunctions.countrynames[i]
+            else:
+                i += 1
+        assert name == "AUSTRIA"
 
     def test_AddCountryToArray(self):
-        try:
-            Country = ""
-            Array = []
-            if Country != "":
-                found = False
-                for name in Array:
-                    if Country == name:
-                        found = True
-                    if name == "No Country chosen.":
-                        Array.clear()
-                if found is False:
-                    Array.append(Country)
-            return Array
-
-        except Exception:
-            TestFunctions.test_WriteLog(self)
+        Country = "GERMANY"
+        Array = ["AUSTRIA", "USA"]
+        oldArray = ["AUSTRIA", "USA"]
+        if Country != "":
+            found = False
+            for name in Array:
+                if Country == name:
+                    found = True
+                if name == "No Country chosen.":
+                    Array.clear()
+            if found is False:
+                Array.append(Country)
+        assert len(Array) > len(oldArray)
 
     def test_DeleteCountryFromArray(self):
-        try:
-            Country = ""
-            Array = []
-            newArray = []
+        Country = "AUSTRIA"
+        Array = ["AUSTRIA", "USA"]
+        newArray = []
 
-            for name in Array:
-                if name != Country:
-                    newArray.append(name)
+        for name in Array:
+            if name != Country:
+                newArray.append(name)
 
-            if len(newArray) == 0:
-                newArray.append("No Country chosen.")
+        if len(newArray) == 0:
+            newArray.append("No Country chosen.")
 
-            return newArray
-
-        except Exception:
-            TestFunctions.test_WriteLog(self)
+        assert len(Array) > len(newArray)
 
     def test_WriteLog(self):
         exc = ""
