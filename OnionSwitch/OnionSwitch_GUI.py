@@ -129,7 +129,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         MainWindow.setMinimumSize(QtCore.QSize(525, 300))
         MainWindow.setMaximumSize(QtCore.QSize(525, 300))
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(":/resources/OnionSwitch_Logo.png"),
+        icon.addPixmap(QtGui.QPixmap(":/resources/OnionSwitch_w_w_bgr.png"),
                        QtGui.QIcon.Normal, QtGui.QIcon.Off)
         MainWindow.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
