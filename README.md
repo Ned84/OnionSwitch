@@ -25,12 +25,15 @@ Interface to easily switch the Tor-Exit-Node Destination Country in your Tor-Bro
 Newest Python from [here](https://www.python.org/downloads/).
 
 ```pip install PyQt5```
+
 PYQT5 information at [this link](https://pypi.org/project/PyQt5/).
 
 ```pip install Stem```
+
 Stem information are [here](https://stem.torproject.org/).
 
 ```pip install pyinstaller```
+
 Optional Pyinstaller. Infos are [here](https://www.pyinstaller.org/downloads.html).
 
 ## License
@@ -53,8 +56,11 @@ Optional Pyinstaller. Infos are [here](https://www.pyinstaller.org/downloads.htm
 ### Build executable from .py
 
 ```pip install pyinstaller```
+
 ```pip install PyQt5```
+
 ```pip install Stem```
+
 ```pyinstaller --windowed --icon=Icon/onionswitch_icon.ico --clean --name OnionSwitch.py OnionSwitch_GUI.py```
 
 ## Support
