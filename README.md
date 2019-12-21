@@ -24,6 +24,10 @@ Please close the Tor-Browser (if opened) before starting and using OnionSwitch
 
 ![OnionSwitch GUI](https://github.com/Ned84/OnionSwitch/blob/master/Screenshots/OnionSwitch_GUI.png)
 
+Choose the path to your Tor-Browser (the very first folder in the Tor-Browser structure) as shown below.
+
+![OnionSwitch TorPath](https://github.com/Ned84/OnionSwitch/blob/master/Screenshots/Choose_Tor_Path.png)
+
 Node-Country can be chosen in the dropbox or it is possible to write the country code directly into the countrycode-box underneath the dropbox.
 Only valid countrycodes work, otherwise the line will get deleted.
 
