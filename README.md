@@ -20,6 +20,8 @@
 Interface to easily switch the Tor-Exit-Node Destination Country in your Tor-Browser.
 It is possible to force exit nodes to a specific country, exlude exit node countries and/or exclude countries for every Relay not only the exit relay.
 
+Please close the Tor-Browser (if opened) before starting and using OnionSwitch
+
 ![OnionSwitch GUI](https://github.com/Ned84/OnionSwitch/blob/master/Screenshots/OnionSwitch_GUI.png)
 
 Node-Country can be chosen in the dropbox or it is possible to write the country code directly into the countrycode-box underneath the dropbox.
