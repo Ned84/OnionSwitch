@@ -52,7 +52,7 @@ jobs:
           command: |
             mkdir C:\Users\circleci\AppData\Local\OnionSwitch
             mkdir C:\Users\circleci\AppData\Local\OnionSwitch\osparam
-            mkdir C:\Users\circleci\AppData\Local\BreaktimeWatch\logfiles
+            mkdir C:\Users\circleci\AppData\Local\OnionSwitch\logfiles
 
       # run tests!
       # this example uses Django's built-in test-runner
