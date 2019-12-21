@@ -23,6 +23,7 @@ from os import path
 import threading
 import webbrowser
 from urllib import request
+from tkinter import Tk
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSlot
@@ -358,6 +359,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.actionUpdate.setObjectName("actionUpdate")
         self.actionSettings = QtWidgets.QAction(MainWindow)
         self.actionSettings.setObjectName("actionSettings")
+        self.actionMetrics = QtWidgets.QAction(MainWindow)
+        self.actionMetrics.setObjectName("actionMetrics")
+        self.menuHelp.addAction(self.actionMetrics)
         self.menuHelp.addAction(self.actionUpdate)
         self.menuHelp.addAction(self.actionAbout)
         self.menuEdit.addAction(self.actionSettings)
@@ -669,6 +673,20 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 osf.Functions.WriteLog(self, exc)
 
         @pyqtSlot()
+        def StartTorMetrics():
+            try:
+                cb = Tk()
+                cb.withdraw()
+                cb.clipboard_clear()
+                cb.clipboard_append('https://metrics.torproject.org/rs.html#search/flag:exit%20country:at%20')
+                cb.update() # now it stays on the clipboard after the window is closed
+                cb.destroy()
+
+            except Exception as exc:
+                osf.Functions.WriteLog(self, exc)
+
+
+        @pyqtSlot()
         def WriteBracetsInLineEdit():
             # Embrace countrycode in bracets (Line-Edit) only if its
             # a valid input
@@ -787,6 +805,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.actionSettings.triggered.connect(OpenDialogSettings)
         self.actionUpdate.triggered.connect(OpenDialogUpdate)
 
+        self.actionMetrics.triggered.connect(StartTorMetrics)
+        self.actionMetrics.triggered.connect(OpenDialogFault)
+
         self.startTorBrowserButton.clicked.connect(StartTorBrowser)
         self.startTorBrowserButton2.clicked.connect(StartTorBrowser)
         self.startTorBrowserButton3.clicked.connect(StartTorBrowser)
@@ -819,6 +840,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.actionAbout.setText(_translate("MainWindow", "About"))
         self.actionUpdate.setText(_translate("MainWindow", "Update"))
         self.actionSettings.setText(_translate("MainWindow", "Settings"))
+        self.actionMetrics.setText(_translate("MainWindow", "Tor Metrics"))
         self.updatelabel.setText(_translate("MainWindow", "Update\n"
                                             "available"))
         self.faultLabel.setText(_translate(
@@ -915,7 +937,7 @@ class Ui_FaultDialog(object):
         self.okButton.setGeometry(QtCore.QRect(290, 110, 93, 28))
         self.okButton.setObjectName("okButton")
         self.label = QtWidgets.QLabel(FaultDialog)
-        self.label.setGeometry(QtCore.QRect(20, 10, 381, 71))
+        self.label.setGeometry(QtCore.QRect(20, 20, 381, 71))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(10)
@@ -931,11 +953,11 @@ class Ui_FaultDialog(object):
 
     def retranslateUi(self, FaultDialog):
         _translate = QtCore.QCoreApplication.translate
-        FaultDialog.setWindowTitle(_translate("FaultDialog", "Error"))
+        FaultDialog.setWindowTitle(_translate("FaultDialog", "Information"))
         self.okButton.setText(_translate("FaultDialog", "OK"))
         self.label.setText(_translate(
-            "FaultDialog", "Could not find torrc file.\n"
-            "Please ensure the correct Path in the settings."))
+            "FaultDialog", "URL to Tor Metrics is copied to the Clipboard.\n"
+            "Please open it in the Browser of your choice."))
 
 
 class Ui_SettingsDialog(QtWidgets.QWidget):
