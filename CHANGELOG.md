@@ -1,5 +1,10 @@
 # OnionSwitch Changelog
 
+## V1.0
+
+Changed Repo from Private to Public.
+Changed Update URL.
+
 ## V0.8
 
 Added Stem for Tor Relay check when adding node.

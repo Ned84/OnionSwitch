@@ -32,7 +32,7 @@ import OnionSwitch_Functions as osf
 import OnionSwitch_TorCheck as ostc
 import OnionSwitchResources_rc
 
-version = "0.7"
+version = "1.0"
 
 
 class Ui_MainWindow(QtWidgets.QWidget):
@@ -431,7 +431,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
                             osf.Functions.torrcexitnodes = \
                                 osf.Functions.AddCountryToArray(
                                     self,
-                                    osf.Functions.ChangeCountrycodeToCountryname(
+                                    osf.Functions.
+                                    ChangeCountrycodeToCountryname(
                                         self, self.lineEdit.text()),
                                     osf.Functions.torrcexitnodes)
 
@@ -446,7 +447,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
                             self.chosenNodesTableView.resizeRowsToContents()
 
                             osf.Functions.WriteNodesToTorrc(
-                                self, "ExitNodes", osf.Functions.torrcexitnodes)
+                                self,
+                                "ExitNodes", osf.Functions.torrcexitnodes)
                         else:
                             self.cantConnectToNodeFaultLabel.show()
                             self.standbyLabel.hide()

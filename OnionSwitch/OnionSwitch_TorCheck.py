@@ -23,7 +23,6 @@ import os
 
 
 import stem.process
-import time
 
 from stem.util import term
 
