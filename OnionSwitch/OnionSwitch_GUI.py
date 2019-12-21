@@ -37,7 +37,6 @@ version = "1.0"
 
 class Ui_MainWindow(QtWidgets.QWidget):
 
-    updateavail = False
     serverconnection = False
     versionnew = ""
     versioncheckdone = False
@@ -104,21 +103,20 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
                 if version < Ui_MainWindow.versionnew:
                     Ui_MainWindow.serverconnection = True
-                    Ui_MainWindow.updateavail = True
-                    Ui_MainWindow.versioncheckdone = True
                     osf.Functions.paramupdateavailable = True
+                    Ui_MainWindow.versioncheckdone = True
 
                 else:
                     Ui_MainWindow.serverconnection = True
-                    Ui_MainWindow.updateavail = False
-                    Ui_MainWindow.versioncheckdone = True
                     osf.Functions.paramupdateavailable = False
+                    Ui_MainWindow.versioncheckdone = True
+
+                osf.Functions.WriteSettingsToJson(self)
 
             urlthread = threading.Thread(target=UpdateCheck, daemon=True)
             urlthread.start()
 
         except Exception:
-            Ui_MainWindow.updateavail = False
             osf.Functions.paramupdateavailable = False
             Ui_MainWindow.versioncheckdone = True
 
@@ -152,12 +150,13 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 20, 311, 21))
         self.updatelabel = QtWidgets.QLabel(self.centralwidget)
-        self.updatelabel.setGeometry(QtCore.QRect(20, 80, 311, 21))
+        self.updatelabel.setGeometry(QtCore.QRect(20, 60, 100, 35))
         font2 = QtGui.QFont()
         font2.setFamily("Arial")
         font2.setPointSize(10)
         font2.setBold(True)
         font2.setWeight(75)
+        self.updatelabel.setStyleSheet("color: rgb(89, 49, 107)")
         self.updatelabel.setFont(font2)
         self.updatelabel.hide()
         font = QtGui.QFont()
@@ -170,7 +169,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
         self.lineEdit.setGeometry(QtCore.QRect(113, 80, 113, 22))
         self.lineEdit.setObjectName("lineEdit")
-        # self.lineEdit.setStyleSheet("background-color: rgb(240, 240, 240);")
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
         self.tabWidget.setGeometry(QtCore.QRect(0, 110, 525, 171))
         self.tabWidget.setTabPosition(QtWidgets.QTabWidget.North)
@@ -724,6 +722,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
             self.cantConnectToNodeFaultLabel.hide()
             self.standbyLabel.show()
 
+            if osf.Functions.paramupdateavailable is False:
+                self.updatelabel.hide()
+
             if osf.Functions.settingschanged is True:
                 InitializeTableViews()
                 osf.Functions.settingschanged = False
@@ -818,7 +819,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.actionAbout.setText(_translate("MainWindow", "About"))
         self.actionUpdate.setText(_translate("MainWindow", "Update"))
         self.actionSettings.setText(_translate("MainWindow", "Settings"))
-        self.updatelabel.setText(_translate("MainWindow", "Update available"))
+        self.updatelabel.setText(_translate("MainWindow", "Update\n"
+                                            "available"))
         self.faultLabel.setText(_translate(
                                 "MainWindow",
                                 "Could not find Tor.\n"
@@ -1111,7 +1113,7 @@ class Ui_UpdateDialog(object):
             self.label4.hide()
             self.label3.show()
         else:
-            if Ui_MainWindow.updateavail is True:
+            if osf.Functions.paramupdateavailable is True:
                 self.updateButton.setEnabled(True)
                 self.label2.show()
                 self.label4.hide()

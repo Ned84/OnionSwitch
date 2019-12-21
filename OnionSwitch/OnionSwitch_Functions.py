@@ -729,7 +729,7 @@ class Functions(object):
 
     def WriteNodesToTorrc(self, NodeStyle, Array):
         try:
-            # Open torrc file and write chosen nodes 
+            # Open torrc file and write chosen nodes
             countrynamearray = []
             for name in Array:
                 if name != "No Country chosen.":
@@ -868,7 +868,8 @@ class Functions(object):
             Functions.WriteLog(self, exc)
 
     def WriteLog(self, exc):
-        # Function to write passed in Exceptions into a log file if so chosen in a try/catch block
+        # Function to write passed in Exceptions into a log file if so chosen
+        # in a try/catch block
         logfile = open(os.getenv(
             'LOCALAPPDATA') + '\\OnionSwitch\\Logfiles\\oslog.txt', "a")
         dt = datetime.datetime.now()
