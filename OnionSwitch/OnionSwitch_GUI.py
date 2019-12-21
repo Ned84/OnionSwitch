@@ -678,13 +678,14 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 cb = Tk()
                 cb.withdraw()
                 cb.clipboard_clear()
-                cb.clipboard_append('https://metrics.torproject.org/rs.html#search/flag:exit%20country:at%20')
-                cb.update() # now it stays on the clipboard after the window is closed
+                cb.clipboard_append(
+                    "https://metrics.torproject.org/rs.html#search"
+                    "/flag:exit%20country:at%20")
+                cb.update()
                 cb.destroy()
 
             except Exception as exc:
                 osf.Functions.WriteLog(self, exc)
-
 
         @pyqtSlot()
         def WriteBracetsInLineEdit():
