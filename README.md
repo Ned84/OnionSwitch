@@ -6,6 +6,7 @@
 [![CircleCI](https://circleci.com/gh/Ned84/OnionSwitch.svg?style=svg)](https://circleci.com/gh/Ned84/OnionSwitch)
 
 * [Description](#description)
+  * [StrictNodes](#strictnodes)
 * [Dependencies](#dependencies)
 * [License](#license)
 * [Install](#install)
@@ -17,10 +18,13 @@
 ## Description
 
 Interface to easily switch the Tor-Exit-Node Destination Country in your Tor-Browser.
+It is possible to force exit nodes to a specific country, exlude exit node countries and/or exclude countries for every Relay not only the exit relay.
 
-    StrictNodes 0|1
+### StrictNodes
 
-    If StrictNodes is set to 1, Tor will treat the ExcludeNodes option as a requirement to follow for all the circuits you generate, even if doing so will break functionality for you. If StrictNodes is set to 0, Tor will still try to avoid nodes in the ExcludeNodes list, but it will err on the side of avoiding unexpected errors. Specifically, StrictNodes 0 tells Tor that it is okay to use an excluded node when it is necessary to perform relay reachability self-tests, connect to a hidden service, provide a hidden service to a client, fulfill a .exit request, upload directory information, or download directory information. (Default: 0)
+If StrictNodes is set to 1, Tor will treat the ExcludeNodes option as a requirement to follow for all the circuits you generate, even if doing so will break functionality for you. If StrictNodes is set to 0, Tor will still try to avoid nodes in the ExcludeNodes list, but it will err on the side of avoiding unexpected errors. Specifically, StrictNodes 0 tells Tor that it is okay to use an excluded node when it is necessary to perform relay reachability self-tests, connect to a hidden service, provide a hidden service to a client, fulfill a .exit request, upload directory information, or download directory information.
+
+Please refer to the Tor manual [here](https://2019.www.torproject.org/docs/tor-manual.html.en) for more information.
 
 ## Dependencies
 
