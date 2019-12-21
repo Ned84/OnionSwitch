@@ -89,9 +89,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
             osf.Functions.WriteLog(self, exc)
         try:
             def UpdateCheck():
-                # link = ("https://github.com/Ned84/
-                #           OnionSwitch/blob/master/VERSION.md")
-                link = "https://github.com/Ned84"
+                link = ("https://github.com/Ned84/OnionSwitch/blob/master/" +
+                        "VERSION.md")
                 url = request.urlopen(link)
                 readurl = url.read()
                 text = readurl.decode(encoding='utf-8', errors='ignore')
