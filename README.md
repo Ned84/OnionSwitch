@@ -7,6 +7,7 @@
 
 * [Description](#description)
   * [StrictNodes](#strictnodes)
+  * [Tor Metrics](#tor-metrics)
 * [Dependencies](#dependencies)
 * [License](#license)
 * [Install](#install)
@@ -40,6 +41,11 @@ If no exitnode is found it will tell you so, otherwise your chosen country will 
 If StrictNodes is set to 1, Tor will treat the ExcludeNodes option as a requirement to follow for all the circuits you generate, even if doing so will break functionality for you. If StrictNodes is set to 0, Tor will still try to avoid nodes in the ExcludeNodes list, but it will err on the side of avoiding unexpected errors. Specifically, StrictNodes 0 tells Tor that it is okay to use an excluded node when it is necessary to perform relay reachability self-tests, connect to a hidden service, provide a hidden service to a client, fulfill a .exit request, upload directory information, or download directory information.
 
 Please refer to the Tor manual [here](https://2019.www.torproject.org/docs/tor-manual.html.en) for more information.
+
+### Tor Metrics
+
+In the menubar under "Help" you will find the option "Tor Metrics".
+If you want to search for specific or overall available Exit nodes, click on "Tor Metrics" and it will copy the URL to tor-metrics into your clipboard, so you can open it in the browser of your choice without being forced to connect to the torproject with your normal browser if you dont want to.
 
 ## Dependencies
 
