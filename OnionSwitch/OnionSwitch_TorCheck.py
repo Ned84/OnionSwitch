@@ -80,7 +80,8 @@ class TorCheck(object):
                 for task in tasks:
                     tor_index = task.find("tor.exe")
                     if tor_index != -1:
-                        os.system("taskkill /f /im tor.exe")
+                        if tor_index == 0:
+                            os.system("taskkill /f /im tor.exe")
 
                 torcheck_thread = threading.Thread(
                     target=TorCheck.CheckNode, args=(

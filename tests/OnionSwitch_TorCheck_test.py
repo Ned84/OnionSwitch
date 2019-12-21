@@ -68,7 +68,8 @@ class TestTorCheck(object):
         for task in tasks:
             tor_index = task.find("tor.exe")
             if tor_index != -1:
-                os.system("taskkill /f /im tor.exe")
+                if tor_index == 0:
+                    os.system("taskkill /f /im tor.exe")
         urlthread = threading.Thread(target=TestTorCheck.test_CheckNode, args=(
             self, countrycode), daemon=True)
         urlthread.start()
