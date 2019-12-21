@@ -20,6 +20,30 @@
 Interface to easily switch the Tor-Exit-Node Destination Country in your Tor-Browser.
 It is possible to force exit nodes to a specific country, exlude exit node countries and/or exclude countries for every Relay not only the exit relay.
 
+![OnionSwitch GUI](https://github.com/Ned84/OnionSwitch/blob/master/Screenshots/OnionSwitch_GUI.png)
+
+<br/><br/>
+Node-Country can be chosen in the dropbox or it is possible to write the country code directly into the countrycode-box underneath the dropbox.
+Only valid countrycodes work, otherwise the line will get deleted.
+<br/><br/>
+
+![OnionSwitch GUI](https://github.com/Ned84/OnionSwitch/blob/master/Screenshots/OnionSwitch_GUI2.png)
+
+<br/><br/>
+After choosing the country, its possible to add it to the torrc with clicking the button "Choose Node" or "Blacklist" respectively.
+<br/><br/>
+
+
+![OnionSwitch GUI](https://github.com/Ned84/OnionSwitch/blob/master/Screenshots/OnionSwitch_GUI3.png)
+
+<br/><br/>
+OnionSwitch will try to connect to an ExitNode in this country. This can take up to max. 10 seconds.
+If no exitnode is found it will tell you so, otherwise your chosen country will be added to the list.
+<br/><br/>
+
+![OnionSwitch GUI](https://github.com/Ned84/OnionSwitch/blob/master/Screenshots/OnionSwitch_GUI4.png)
+
+<br/><br/>
 ### StrictNodes
 
 If StrictNodes is set to 1, Tor will treat the ExcludeNodes option as a requirement to follow for all the circuits you generate, even if doing so will break functionality for you. If StrictNodes is set to 0, Tor will still try to avoid nodes in the ExcludeNodes list, but it will err on the side of avoiding unexpected errors. Specifically, StrictNodes 0 tells Tor that it is okay to use an excluded node when it is necessary to perform relay reachability self-tests, connect to a hidden service, provide a hidden service to a client, fulfill a .exit request, upload directory information, or download directory information.
