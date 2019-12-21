@@ -93,6 +93,7 @@ Optional Pyinstaller. Infos are [here](https://www.pyinstaller.org/downloads.htm
 
 ```pip install Stem```
 
+Use Pyinstaller from within the OnionSwitch_GUI folder.
 ```pyinstaller --windowed --icon=Icon/onionswitch_icon.ico --clean --name OnionSwitch.py OnionSwitch_GUI.py```
 
 ## Support
