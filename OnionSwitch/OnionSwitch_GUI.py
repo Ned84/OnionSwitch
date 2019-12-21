@@ -32,7 +32,7 @@ import OnionSwitch_Functions as osf
 import OnionSwitch_TorCheck as ostc
 import OnionSwitchResources_rc
 
-version = "0.8"
+version = "0.7"
 
 
 class Ui_MainWindow(QtWidgets.QWidget):
@@ -751,8 +751,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
         InitializeGUI()
         InitializeTableViews()
 
+        self.lineEdit.editingFinished.connect(InitializeGUI)
         self.lineEdit.editingFinished.connect(WriteBracetsInLineEdit)
 
+        self.chooseCountryBox.currentTextChanged.connect(InitializeGUI)
         self.chooseCountryBox.currentTextChanged.connect(ChangeCountry)
 
         self.chosenNodesTableView.doubleClicked.connect(
