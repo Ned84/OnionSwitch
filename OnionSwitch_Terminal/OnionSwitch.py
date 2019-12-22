@@ -85,26 +85,58 @@ class OnionSwitch_Terminal(object):
         title_x = int((width // 2) - (33 // 2) - 33 % 2)
         title_y = int((height // 2) - 2)
 
-        stdscr.addstr(title_y - 7, title_x, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-        stdscr.addstr(title_y - 6, title_x, "@@@@@@@@@@@@@@#(((((((@@@@@@@@@@@@@@@@@@@@@@")
-        stdscr.addstr(title_y - 5, title_x, "@@@@@@@@@@@@&((((((/((((#@@@@@@@@@@@@@@@@@@@")
-        stdscr.addstr(title_y - 4, title_x, "@@@@@@@@@@@#(((((#@@@@@@(((@@@@@@@@@@@@@@@@@")
-        stdscr.addstr(title_y - 3, title_x, "@@@@@@@@@@#(((((((@@#(((&@(((@@@@@@@@@@@@@@@")
-        stdscr.addstr(title_y - 2, title_x, "@@@@@@@@@@((((((((#@((((((%@((&@@@@@@@@@@@@@")
-        stdscr.addstr(title_y - 1, title_x, "@@@@@@@@@#(((((((((%@((#@@((&(((@@@@@@@@@@@@")
-        stdscr.addstr(title_y, title_x,     "@@@@@@@@@(((((((((((#@((#@@((#@((@@@@@@@@@@@")
-        stdscr.addstr(title_y + 1, title_x, "@@@@@@@@@(((((((((((((@@((##((#@((@@@@@@@@@@")
-        stdscr.addstr(title_y + 2, title_x, "@@@@@@@@@@((((((((((((((@@(((((@@((@@@@@@@@@")
-        stdscr.addstr(title_y + 3, title_x, "@@@@@@@/((((((((((((((((((@@@@@@@(((@@@@@@@@")
-        stdscr.addstr(title_y + 4, title_x, "@@@@@@@@@(((((((((((((((((((#@@@&(((@@@@@@@@")
-        stdscr.addstr(title_y + 5, title_x, "@@@@@@//((((((((((((((((((((((((((((@@@@@@@@")
-        stdscr.addstr(title_y + 6, title_x, "@@@@@@@@@#(/((/((((((((((((((((((((@@@@@@@@@")
-        stdscr.addstr(title_y + 7, title_x, "@@@@@@@@@@@(/((#(@((((((((((((((@@@@@@@@@@@@")
-        stdscr.addstr(title_y + 8, title_x, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        stdscr.addstr(
+            title_y - 7, title_x, 
+            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        stdscr.addstr(
+            title_y - 6, title_x, 
+            "@@@@@@@@@@@@@@#(((((((@@@@@@@@@@@@@@@@@@@@@@")
+        stdscr.addstr(
+            title_y - 5, title_x, 
+            "@@@@@@@@@@@@&((((((/((((#@@@@@@@@@@@@@@@@@@@")
+        stdscr.addstr(
+            title_y - 4, title_x, 
+            "@@@@@@@@@@@#(((((#@@@@@@(((@@@@@@@@@@@@@@@@@")
+        stdscr.addstr(
+            title_y - 3, title_x, 
+            "@@@@@@@@@@#(((((((@@#(((&@(((@@@@@@@@@@@@@@@")
+        stdscr.addstr(
+            title_y - 2, title_x, 
+            "@@@@@@@@@@((((((((#@((((((%@((&@@@@@@@@@@@@@")
+        stdscr.addstr(
+            title_y - 1, title_x, 
+            "@@@@@@@@@#(((((((((%@((#@@((&(((@@@@@@@@@@@@")
+        stdscr.addstr(
+            title_y, title_x,     
+            "@@@@@@@@@(((((((((((#@((#@@((#@((@@@@@@@@@@@")
+        stdscr.addstr(
+            title_y + 1, title_x, 
+            "@@@@@@@@@(((((((((((((@@((##((#@((@@@@@@@@@@")
+        stdscr.addstr(
+            title_y + 2, title_x, 
+            "@@@@@@@@@@((((((((((((((@@(((((@@((@@@@@@@@@")
+        stdscr.addstr(
+            title_y + 3, title_x, 
+            "@@@@@@@/((((((((((((((((((@@@@@@@(((@@@@@@@@")
+        stdscr.addstr(
+            title_y + 4, title_x, 
+            "@@@@@@@@@(((((((((((((((((((#@@@&(((@@@@@@@@")
+        stdscr.addstr(
+            title_y + 5, title_x, 
+            "@@@@@@//((((((((((((((((((((((((((((@@@@@@@@")
+        stdscr.addstr(
+            title_y + 6, title_x, 
+            "@@@@@@@@@#(/((/((((((((((((((((((((@@@@@@@@@")
+        stdscr.addstr(
+            title_y + 7, title_x, 
+            "@@@@@@@@@@@(/((#(@((((((((((((((@@@@@@@@@@@@")
+        stdscr.addstr(
+            title_y + 8, title_x, 
+            "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
 
         stdscr.refresh()
 
-        curses.napms(5000)
+        curses.napms(1000)
 
         stdscr.clear()
         stdscr.refresh()
@@ -127,7 +159,7 @@ class OnionSwitch_Terminal(object):
         stdscr.addstr(title_y + 1, title_2_x, title_2)
         stdscr.addstr(title_y + 2, title_3_x, title_3)
         stdscr.refresh()
-        curses.napms(5000)
+        curses.napms(1000)
         stdscr.clear()
         stdscr.refresh()
 
