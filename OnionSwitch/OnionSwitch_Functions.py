@@ -541,7 +541,7 @@ class Functions(object):
     def __init__(self):
         pass
 
-    def GetSettingsFromJson(self):
+    def GetSettingsFromJson():
         # Get Settings from Json file and write parameter variables
         try:
             file = open(
