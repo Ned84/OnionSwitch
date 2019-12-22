@@ -573,9 +573,9 @@ class Functions(object):
             file.close()
 
         except Exception as exc:
-            Functions.WriteLog(self, exc)
+            Functions.WriteLog(exc)
 
-    def WriteSettingsToJson(self):
+    def WriteSettingsToJson():
         # Write Settings to json file
         try:
             file = open(os.getenv(
@@ -601,7 +601,7 @@ class Functions(object):
                 Functions.torrcfound = True
 
         except Exception as exc:
-            Functions.WriteLog(self, exc)
+            Functions.WriteLog(exc)
 
     def ChangeTorrcStrictNodes(self):
         try:
@@ -867,7 +867,7 @@ class Functions(object):
         except Exception as exc:
             Functions.WriteLog(self, exc)
 
-    def WriteLog(self, exc):
+    def WriteLog(exc):
         # Function to write passed in Exceptions into a log file if so chosen
         # in a try/catch block
         logfile = open(os.getenv(
