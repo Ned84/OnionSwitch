@@ -11,7 +11,8 @@
 * [Dependencies](#dependencies)
 * [License](#license)
 * [Install](#install)
-  * [Build executable from .py](#build-executable-from-py)
+  * [Build executable GUI Version from .py](#build-executable-gui-version-from-py)
+  * [Build executable Terminal Version from .py](#build-executable-terminal-version-from-py)
 * [Support](#support)
 * [Get my Public Key](#get-my-public-key)
 
@@ -85,7 +86,7 @@ Optional Pyinstaller. Infos are [here](https://www.pyinstaller.org/downloads.htm
 
 ## Install
 
-### Build executable from .py
+### Build executable GUI Version from .py
 
 ```pip install pyinstaller```
 
@@ -95,6 +96,10 @@ Optional Pyinstaller. Infos are [here](https://www.pyinstaller.org/downloads.htm
 
 Use Pyinstaller from within the OnionSwitch_GUI folder.
 ```pyinstaller --windowed --icon=Icon/onionswitch_icon.ico --clean --name OnionSwitch.py OnionSwitch_GUI.py```
+
+### Build executable Terminal Version from .py
+
+Unfortunatelly the terminal version is not ready yet.
 
 ## Support
 
