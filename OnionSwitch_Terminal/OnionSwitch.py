@@ -78,6 +78,37 @@ class OnionSwitch_Terminal(object):
         recentmenu = ""
         jumponce = False
         height, width = stdscr.getmaxyx()
+
+        stdscr.clear()
+        stdscr.refresh()
+
+        title_x = int((width // 2) - (33 // 2) - 33 % 2)
+        title_y = int((height // 2) - 2)
+
+        stdscr.addstr(title_y - 7, title_x, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        stdscr.addstr(title_y - 6, title_x, "@@@@@@@@@@@@@@#(((((((@@@@@@@@@@@@@@@@@@@@@@")
+        stdscr.addstr(title_y - 5, title_x, "@@@@@@@@@@@@&((((((/((((#@@@@@@@@@@@@@@@@@@@")
+        stdscr.addstr(title_y - 4, title_x, "@@@@@@@@@@@#(((((#@@@@@@(((@@@@@@@@@@@@@@@@@")
+        stdscr.addstr(title_y - 3, title_x, "@@@@@@@@@@#(((((((@@#(((&@(((@@@@@@@@@@@@@@@")
+        stdscr.addstr(title_y - 2, title_x, "@@@@@@@@@@((((((((#@((((((%@((&@@@@@@@@@@@@@")
+        stdscr.addstr(title_y - 1, title_x, "@@@@@@@@@#(((((((((%@((#@@((&(((@@@@@@@@@@@@")
+        stdscr.addstr(title_y, title_x,     "@@@@@@@@@(((((((((((#@((#@@((#@((@@@@@@@@@@@")
+        stdscr.addstr(title_y + 1, title_x, "@@@@@@@@@(((((((((((((@@((##((#@((@@@@@@@@@@")
+        stdscr.addstr(title_y + 2, title_x, "@@@@@@@@@@((((((((((((((@@(((((@@((@@@@@@@@@")
+        stdscr.addstr(title_y + 3, title_x, "@@@@@@@/((((((((((((((((((@@@@@@@(((@@@@@@@@")
+        stdscr.addstr(title_y + 4, title_x, "@@@@@@@@@(((((((((((((((((((#@@@&(((@@@@@@@@")
+        stdscr.addstr(title_y + 5, title_x, "@@@@@@//((((((((((((((((((((((((((((@@@@@@@@")
+        stdscr.addstr(title_y + 6, title_x, "@@@@@@@@@#(/((/((((((((((((((((((((@@@@@@@@@")
+        stdscr.addstr(title_y + 7, title_x, "@@@@@@@@@@@(/((#(@((((((((((((((@@@@@@@@@@@@")
+        stdscr.addstr(title_y + 8, title_x, "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+
+        stdscr.refresh()
+
+        curses.napms(5000)
+
+        stdscr.clear()
+        stdscr.refresh()
+
         title = "OnionSwitch"
         title_2 = "Easily switch the Tor-Exit-Node Destination "
         "Country in your Tor-Browser."
@@ -96,7 +127,7 @@ class OnionSwitch_Terminal(object):
         stdscr.addstr(title_y + 1, title_2_x, title_2)
         stdscr.addstr(title_y + 2, title_3_x, title_3)
         stdscr.refresh()
-        curses.napms(1000)
+        curses.napms(5000)
         stdscr.clear()
         stdscr.refresh()
 
@@ -126,19 +157,26 @@ class OnionSwitch_Terminal(object):
                 stdscr.refresh()
 
             # Settings
-            if key == ord('4') and recentmenu == "Main":
+            if (key == ord('4') and recentmenu == "Main") or recentmenu == "Settings":
                 stdscr.clear()
                 recentmenu = "Settings"
                 answer = ""
+                jumponce = False
                 stdscr.refresh()
 
-                stdscr.addstr(0, 0, "OnionSwitch: Settings")
+                osf.Functions.GetTorrcFromFile()
+
+                if osf.Functions.torrcfound is True:
+                    stdscr.addstr(0, 0, "OnionSwitch: Settings | Torrc found")
+                else:
+                    stdscr.addstr(0, 0, "OnionSwitch: Settings | Torrc not found")
                 stdscr.addstr(1, 0, "----------------------")
                 stdscr.addstr(3, 0, "Path to Tor-Browser:", curses.A_REVERSE)
                 stdscr.addstr(
                     5, 10, "{0}".format(osf.Functions.parampathtotor))
                 stdscr.addstr(7, 0, "Do you want to change this path?(y, n)")
                 stdscr.addstr(height-1, 0, infobarstr, curses.A_REVERSE)
+                
                 stdscr.refresh()
 
                 answer = stdscr.getch()
@@ -157,6 +195,7 @@ class OnionSwitch_Terminal(object):
                     input = input.replace("\\\\", "/")
                     osf.Functions.parampathtotor = "{0}".format(input)
                     osf.Functions.WriteSettingsToJson()
+                    osf.Functions.GetSettingsFromJson()
                     curses.noecho()
                     key = ord('m')
                     jumponce = True
@@ -165,7 +204,8 @@ class OnionSwitch_Terminal(object):
                     if answer == ord('Z'):
                         key = ord('Z')
                         jumponce = True
-                    else:
+
+                    if answer == ord('m') or answer == ord('n'):
                         key = ord('m')
                         jumponce = True
 
@@ -236,6 +276,29 @@ class OnionSwitch_Terminal(object):
                         recentmenu = "Help"
                         key = ord('5')
                         jumponce = True
+
+            # Help Menu Update
+            if (key == ord('2') and recentmenu == "Help") or recentmenu == "Update":
+                stdscr.clear()
+                answer = ""
+                jumponce = False
+                recentmenu = "Update"
+                stdscr.refresh()
+
+                stdscr.addstr(0, 0, "OnionSwitch: Help | Update")
+                stdscr.addstr(1, 0, "-------------------------------")
+                stdscr.addstr(
+                    3, 10, "Checking for Update please stand by.")
+                stdscr.addstr(
+                    height-1, 0, infobarstr + "| Press 'b' to return "
+                    "to last menu.", curses.A_REVERSE)
+                stdscr.refresh()
+
+
+
+
+
+
 
             # Help Menu About
             if (key == ord(

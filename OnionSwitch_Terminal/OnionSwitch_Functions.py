@@ -637,7 +637,7 @@ class Functions(object):
         except Exception as exc:
             Functions.WriteLog(self, exc)
 
-    def GetTorrcFromFile(self):
+    def GetTorrcFromFile():
         try:
             # open the torrc file and ierate through it to find the use
             # ExitNodes and B-listed Nodes
