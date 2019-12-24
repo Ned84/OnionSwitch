@@ -23,7 +23,6 @@ from os import path
 import threading
 import webbrowser
 from urllib import request
-from tkinter import Tk
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSlot
@@ -675,14 +674,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
         @pyqtSlot()
         def StartTorMetrics():
             try:
-                cb = Tk()
-                cb.withdraw()
-                cb.clipboard_clear()
-                cb.clipboard_append(
-                    "https://metrics.torproject.org/rs.html#search"
-                    "/flag:exit%20country:at%20")
-                cb.update()
-                cb.destroy()
+                os.system('echo ' + "https://metrics."
+                                    "torproject.org/rs.html"
+                                    "#search/flag:exit%20country:at%20" +
+                                    '| clip')
 
             except Exception as exc:
                 osf.Functions.WriteLog(self, exc)
