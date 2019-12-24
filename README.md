@@ -39,7 +39,7 @@ After choosing the country, its possible to add it to the torrc with clicking th
 
 ![OnionSwitch GUI](https://github.com/Ned84/OnionSwitch/blob/master/Screenshots/OnionSwitch_GUI3.png)
 
-OnionSwitch will try to connect to an ExitNode in this country. This can take up to max. 10 seconds.
+OnionSwitch will try to connect to an ExitNode in this country. This can take up to max. 10 seconds because OnionSwitch will try to connect to the Exitcountry you chose.
 If no exitnode is found it will tell you so, otherwise your chosen country will be added to the list.
 
 ![OnionSwitch GUI](https://github.com/Ned84/OnionSwitch/blob/master/Screenshots/OnionSwitch_GUI4.png)
