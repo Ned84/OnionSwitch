@@ -12,3 +12,6 @@ GUI
 Output
 build
 *.spec
+
+# Ignore till finished
+OnionSwitch_Console
