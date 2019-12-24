@@ -6,7 +6,9 @@
 __pycache__
 .pytest_cache
 
-# INstall Files
+# Install Files
 Console
 GUI
 Output
+build
+*.spec

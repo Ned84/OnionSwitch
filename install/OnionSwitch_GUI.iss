@@ -2,8 +2,8 @@
 #define MyName "Baumgartner Rene Mario"
 
 [Setup]
-//SignedUninstaller=yes
-//SignTool=Certum
+SignedUninstaller=yes
+SignTool=Certum
 SetupIconFile=Icon\onionswitch_icon.ico
 AppName=OnionSwitch
 AppVersion={#MyAppVersion}
@@ -22,10 +22,10 @@ SolidCompression=yes
 
 [Files]
 Source: "GUI\OnionSwitch_V{#MyAppVersion}_GUI\OnionSwitch.py\*"; DestDir: "{app}"; Flags: recursesubdirs
-//Source: "GUI\OnionSwitch_V{#MyAppVersion}_GUI\OnionSwitch.py\OnionSwitch.py.exe"; DestDir: "{app}"; Flags: sign
+Source: "GUI\OnionSwitch_V{#MyAppVersion}_GUI\OnionSwitch.py\OnionSwitch.py.exe"; DestDir: "{app}"; Flags: sign
 
 
 [Icons]
-Name: "{group}\OnionSwitch"; Filename: "{app}\OnionSwitch.py.exe"; IconFilename: "C:\Users\baumg\Documents\GitHub\Publish\OnionSwitch\Icon\onionswitch_icon.ico"; IconIndex: 0
-Name: "{commondesktop}\OnionSwitch"; Filename: "{app}\OnionSwitch.py.exe"; IconFilename: "C:\Users\baumg\Documents\GitHub\Publish\OnionSwitch\Icon\onionswitch_icon.ico"; IconIndex: 0
-Name: "{commonstartup}\OnionSwitch"; Filename: "{app}\OnionSwitch.py.exe"; IconFilename: "C:\Users\baumg\Documents\GitHub\Publish\OnionSwitch\Icon\onionswitch_icon.ico"; IconIndex: 0
+Name: "{group}\OnionSwitch"; Filename: "{app}\OnionSwitch.py.exe"; IconFilename: "C:\Users\baumg\Documents\GitHub\Ned84\OnionSwitch\install\Icon\onionswitch_icon.ico"; IconIndex: 0
+Name: "{commondesktop}\OnionSwitch"; Filename: "{app}\OnionSwitch.py.exe"; IconFilename: "C:\Users\baumg\Documents\GitHub\Ned84\OnionSwitch\install\Icon\onionswitch_icon.ico"; IconIndex: 0
+Name: "{commonstartup}\OnionSwitch"; Filename: "{app}\OnionSwitch.py.exe"; IconFilename: "C:\Users\baumg\Documents\GitHub\Ned84\OnionSwitch\install\Icon\onionswitch_icon.ico"; IconIndex: 0
