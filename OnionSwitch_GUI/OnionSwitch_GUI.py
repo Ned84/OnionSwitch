@@ -211,7 +211,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.chosenNodesTableView.setEditTriggers(
             self.chosenNodesTableView.NoEditTriggers)
         self.chosenNodesTableView.setItem(
-            0, 0, QtWidgets.QTableWidgetItem("Torrc not found."))
+            0, 0, QtWidgets.QTableWidgetItem("Tor not found."))
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(9)
@@ -242,7 +242,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.blacklistAllNodesTableView.setColumnWidth(1, 141)
         self.blacklistAllNodesTableView.resizeRowsToContents()
         self.blacklistAllNodesTableView.setItem(
-            0, 0, QtWidgets.QTableWidgetItem("Torrc not found."))
+            0, 0, QtWidgets.QTableWidgetItem("Tor not found."))
         self.onionswitch_logo_frame = QtWidgets.QFrame(self.tab2)
         self.onionswitch_logo_frame.setGeometry(
             QtCore.QRect(10, 0, 120, 110))
@@ -276,7 +276,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.blacklistExitNodesTableView.setColumnWidth(1, 141)
         self.blacklistExitNodesTableView.resizeRowsToContents()
         self.blacklistExitNodesTableView.setItem(
-            0, 0, QtWidgets.QTableWidgetItem("Torrc not found."))
+            0, 0, QtWidgets.QTableWidgetItem("Tor not found."))
         self.blacklistExitButton = QtWidgets.QPushButton(self.tab3)
         self.blacklistExitButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
         self.blacklistExitButton.setObjectName("blacklistExitButton")
@@ -415,7 +415,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                             found = True
 
                     if found is False:
-                        if Ui_MainWindow.firstrun is False:
+                        if (Ui_MainWindow.firstrun is False) and (osf.Functions.settingschanged is False):
                             connection_count = 0
                             ostc.TorCheck.CheckTor(self, self.lineEdit.text())
                             if ostc.TorCheck.connected is False:
@@ -740,10 +740,13 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.updatelabel.hide()
 
             if osf.Functions.settingschanged is True:
+                self.chooseCountryBox.setCurrentIndex(0)
+                self.lineEdit.setText("")
                 InitializeTableViews()
                 osf.Functions.settingschanged = False
 
             if osf.Functions.torrcfound is True:
+                self.cantConnectToNodeFaultLabel.hide()
                 self.faultLabel.hide()
                 self.startTorBrowserButton.setEnabled(True)
                 self.startTorBrowserButton2.setEnabled(True)
@@ -758,12 +761,33 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.startTorBrowserButton2.setEnabled(False)
                 self.startTorBrowserButton3.setEnabled(False)
                 self.resettorrcButton.show()
-                self.chosenNodesTableView.setItem(
-                    0, 0, QtWidgets.QTableWidgetItem("Tor not found."))
-                self.blacklistAllNodesTableView.setItem(
-                    0, 0, QtWidgets.QTableWidgetItem("Tor not found."))
-                self.blacklistExitNodesTableView.setItem(
-                    0, 0, QtWidgets.QTableWidgetItem("Tor not found."))
+
+                i = 0
+                for item in osf.Functions.torrcexitnodes:
+                    self.chosenNodesTableView.setItem(
+                        i, 0, QtWidgets.QTableWidgetItem("Tor not found."))
+                    if i >= 1:
+                        self.chosenNodesTableView.setItem(
+                            i, 0, QtWidgets.QTableWidgetItem(" "))
+                    i += 1
+
+                i = 0
+                for item in osf.Functions.torrcexcludednodes:
+                    self.blacklistAllNodesTableView.setItem(
+                        i, 0, QtWidgets.QTableWidgetItem("Tor not found."))
+                    if i >= 1:
+                        self.blacklistAllNodesTableView.setItem(
+                            i, 0, QtWidgets.QTableWidgetItem(" "))
+                    i += 1
+
+                i = 0
+                for item in osf.Functions.torrcexcludedexitnodes:
+                    self.blacklistExitNodesTableView.setItem(
+                        0, 0, QtWidgets.QTableWidgetItem("Tor not found."))
+                    if i >= 1:
+                        self.blacklistExitNodesTableView.setItem(
+                            i, 0, QtWidgets.QTableWidgetItem(" "))
+                    i += 1
 
         InitializeGUI()
         InitializeTableViews()
