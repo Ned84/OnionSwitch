@@ -9,6 +9,7 @@
   * [StrictNodes](#strictnodes)
   * [Tor Metrics](#tor-metrics)
 * [Dependencies](#dependencies)
+  * [Tor Browser](#tor-browser)
 * [License](#license)
 * [Install](#install)
   * [Build executable GUI Version from .py](#build-executable-gui-version-from-py)
@@ -69,6 +70,10 @@ Stem information are [here](https://stem.torproject.org/).
 ```pip install pyinstaller```
 
 Optional Pyinstaller. Infos are [here](https://www.pyinstaller.org/downloads.html).
+
+### Tor Browser
+
+Get the Tor Browser from the Tor Project site [here](https://www.torproject.org/).
 
 ## License
 
