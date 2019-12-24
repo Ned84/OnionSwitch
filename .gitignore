@@ -5,3 +5,8 @@
 # Unit-test and debug
 __pycache__
 .pytest_cache
+
+Console
+GUI
+install\Icon
+Output
