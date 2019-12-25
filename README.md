@@ -26,7 +26,7 @@ Please close the Tor-Browser (if opened) before starting and using OnionSwitch
 
 ![OnionSwitch GUI](https://github.com/Ned84/OnionSwitch/blob/master/Screenshots/OnionSwitch_GUI.png)
 
-Choose the path to your Tor-Browser (the very first folder in the Tor-Browser structure) as shown below.
+Choose the path to your Tor-Browser (the very first folder in the Tor-Browser structure) as shown below (in Edit -> Settings)
 
 ![OnionSwitch TorPath](https://github.com/Ned84/OnionSwitch/blob/master/Screenshots/Choose_Tor_Path.png)
 
