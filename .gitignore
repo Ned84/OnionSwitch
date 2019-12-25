@@ -1,6 +1,7 @@
 # VS Specific
 .vscode
 .vs
+ChangelogRecent.txt
 
 # Unit-test and debug
 __pycache__

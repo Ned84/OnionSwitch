@@ -17,7 +17,7 @@ DefaultDirName={autopf}\OnionSwitch
 DefaultGroupName=OnionSwitch
 UninstallDisplayIcon="C:\Users\baumg\Documents\GitHub\Ned84\OnionSwitch\install\Icon\onionswitch_icon.ico"
 UninstallDisplayName=OnionSwitch
-OutputDir="C:\Users\baumg\Documents\GitHub\Ned84\OnionSwitch\install\Output\GUI_V1.0"
+OutputDir="C:\Users\baumg\Documents\GitHub\Ned84\OnionSwitch\install\Output\GUI_V{#MyAppVersion}"
 Compression=lzma2
 SolidCompression=yes
 

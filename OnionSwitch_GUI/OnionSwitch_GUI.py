@@ -415,7 +415,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
                             found = True
 
                     if found is False:
-                        if (Ui_MainWindow.firstrun is False) and (osf.Functions.settingschanged is False):
+                        if (Ui_MainWindow.firstrun is False) and (
+                            osf.Functions.settingschanged is False):
                             connection_count = 0
                             ostc.TorCheck.CheckTor(self, self.lineEdit.text())
                             if ostc.TorCheck.connected is False:
@@ -928,7 +929,7 @@ class Ui_AboutDialog(object):
 
     def retranslateUi(self, AboutDialog):
         _translate = QtCore.QCoreApplication.translate
-        AboutDialog.setWindowTitle(_translate("AboutDialog", "Dialog"))
+        AboutDialog.setWindowTitle(_translate("AboutDialog", "About"))
         self.closeButton.setText(_translate("AboutDialog", "Close"))
         self.label.setText(_translate("AboutDialog", "OnionSwitch"))
         self.label_2.setText(_translate(
@@ -1059,7 +1060,7 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
 
     def retranslateUi(self, SettingsDialog):
         _translate = QtCore.QCoreApplication.translate
-        SettingsDialog.setWindowTitle(_translate("SettingsDialog", "Dialog"))
+        SettingsDialog.setWindowTitle(_translate("SettingsDialog", "Settings"))
         self.okButton.setText(_translate("SettingsDialog", "OK"))
         self.cancelButton.setText(_translate("SettingsDialog", "Cancel"))
         self.label.setText(_translate(
@@ -1122,7 +1123,7 @@ class Ui_UpdateDialog(object):
 
     def retranslateUi(self, UpdateDialog):
         _translate = QtCore.QCoreApplication.translate
-        UpdateDialog.setWindowTitle(_translate("UpdateDialog", "Dialog"))
+        UpdateDialog.setWindowTitle(_translate("UpdateDialog", "Update"))
         self.cancelButton.setText(_translate("UpdateDialog", "Cancel"))
         self.updateButton.setText(_translate("UpdateDialog", "Update"))
         self.label.setText(_translate("UpdateDialog", "OnionSwitch"))
