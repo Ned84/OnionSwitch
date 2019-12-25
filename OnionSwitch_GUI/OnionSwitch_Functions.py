@@ -757,7 +757,7 @@ class Functions(object):
 
                             nodestring = " "
                             for nodecountry in Array:
-                                nodestring = nodestring + nodecountry + " "
+                                nodestring = nodestring + nodecountry + ","
 
                             torrc_readfile = torrc_readfile.replace(
                                     nodes, nodestring)
