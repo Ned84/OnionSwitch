@@ -189,15 +189,13 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.tab1 = QtWidgets.QWidget()
         self.tab1.setObjectName("tab1")
         self.chooseNodeButton = QtWidgets.QPushButton(self.tab1)
-        self.chooseNodeButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
+        self.chooseNodeButton.setGeometry(QtCore.QRect(256, 241, 121, 28))
         self.chooseNodeButton.setObjectName("chooseNodeButton")
         self.onionswitch_logo_frame_2 = QtWidgets.QFrame(self.tab1)
         self.onionswitch_logo_frame_2.setGeometry(QtCore.QRect(
             10, 0, 120, 110))
         self.onionswitch_logo_frame_2.setStyleSheet(
             "image: url(:/resources/OnionSwitch_Logo.png);")
-        self.onionswitch_logo_frame_2.setFrameShape(
-            QtWidgets.QFrame.StyledPanel)
         self.onionswitch_logo_frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.onionswitch_logo_frame_2.setObjectName("onionswitch_logo_frame_2")
         self.startTorBrowserButton2 = QtWidgets.QPushButton(self.tab1)
@@ -225,7 +223,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.tab2 = QtWidgets.QWidget()
         self.tab2.setObjectName("tab2")
         self.blacklistAllButton = QtWidgets.QPushButton(self.tab2)
-        self.blacklistAllButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
+        self.blacklistAllButton.setGeometry(QtCore.QRect(256, 241, 121, 28))
         self.blacklistAllButton.setObjectName("blacklistAllButton")
         self.blacklistAllNodesTableView = QtWidgets.QTableWidget(self.tab2)
         self.blacklistAllNodesTableView.setGeometry(QtCore.QRect(
@@ -252,7 +250,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
             QtCore.QRect(10, 0, 120, 110))
         self.onionswitch_logo_frame.setStyleSheet(
             "image: url(:/resources/OnionSwitch_Logo.png);")
-        self.onionswitch_logo_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.onionswitch_logo_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.onionswitch_logo_frame.setObjectName("onionswitch_logo_frame")
         self.startTorBrowserButton = QtWidgets.QPushButton(self.tab2)
@@ -282,7 +279,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.blacklistExitNodesTableView.setItem(
             0, 0, QtWidgets.QTableWidgetItem("Tor not found."))
         self.blacklistExitButton = QtWidgets.QPushButton(self.tab3)
-        self.blacklistExitButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
+        self.blacklistExitButton.setGeometry(QtCore.QRect(256, 241, 121, 28))
         self.blacklistExitButton.setObjectName("blacklistExitButton")
         self.startTorBrowserButton3 = QtWidgets.QPushButton(self.tab3)
         self.startTorBrowserButton3.setGeometry(QtCore.QRect(10, 100, 121, 28))
@@ -292,8 +289,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
             10, 0, 120, 110))
         self.onionswitch_logo_frame3.setStyleSheet(
             "image: url(:/resources/OnionSwitch_Logo.png);")
-        self.onionswitch_logo_frame3.setFrameShape(
-            QtWidgets.QFrame.StyledPanel)
         self.onionswitch_logo_frame3.setFrameShadow(QtWidgets.QFrame.Raised)
         self.onionswitch_logo_frame3.setObjectName("onionswitch_logo_frame")
         self.tabWidget.addTab(self.tab3, "")
@@ -906,7 +901,6 @@ class Ui_AboutDialog(object):
         self.ned84_logo_frame.setGeometry(QtCore.QRect(10, 50, 141, 131))
         self.ned84_logo_frame.setStyleSheet(
             "image: url(:/resources/Ned84_Logo.png);")
-        self.ned84_logo_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.ned84_logo_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.ned84_logo_frame.setObjectName("ned84_logo_frame")
         self.label = QtWidgets.QLabel(AboutDialog)
@@ -1023,7 +1017,6 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
             QtCore.QRect(10, 110, 141, 131))
         self.onionswitch_logo_frame.setStyleSheet(
             "image: url(:/resources/OnionSwitch_Logo.png);")
-        self.onionswitch_logo_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.onionswitch_logo_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.onionswitch_logo_frame.setObjectName("onionswitch_logo_frame")
 
@@ -1093,7 +1086,6 @@ class Ui_UpdateDialog(object):
         self.onionswitch_logo_frame.setGeometry(QtCore.QRect(10, 50, 141, 131))
         self.onionswitch_logo_frame.setStyleSheet(
             "image: url(:/resources/OnionSwitch_Logo.png);")
-        self.onionswitch_logo_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.onionswitch_logo_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.onionswitch_logo_frame.setObjectName("onionswitch_logo_frame")
         self.label = QtWidgets.QLabel(UpdateDialog)
@@ -1175,6 +1167,7 @@ class Ui_UpdateDialog(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
+    app.setStyle('Fusion')
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
