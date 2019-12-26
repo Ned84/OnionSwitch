@@ -23,6 +23,7 @@ from os import path
 import threading
 import webbrowser
 from urllib import request
+import platform
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSlot
@@ -48,38 +49,40 @@ class Ui_MainWindow(QtWidgets.QWidget):
         try:
             super().__init__()
 
+            osf.Functions.paramplatform = platform.system()
             osf.Functions.paramversion = version
 
-            if path.exists(os.getenv(
-                    'LOCALAPPDATA') + '\\OnionSwitch') is False:
-                os.mkdir(os.getenv('LOCALAPPDATA') + '\\OnionSwitch')
+            if osf.Functions.paramplatform == "Windows":
+                osf.Functions.pathtoparam = os.getenv(
+                    'LOCALAPPDATA') + '\\OnionSwitch\\osparam'
+                osf.Functions.pathtolog = os.getenv(
+                    'LOCALAPPDATA') + '\\OnionSwitch\\logfiles'
+                osf.Functions.pathtomain = os.getenv(
+                    'LOCALAPPDATA') + '\\OnionSwitch'
 
-            if path.exists(os.getenv(
-                    'LOCALAPPDATA') + '\\OnionSwitch\\osparam') is False:
-                os.mkdir(os.getenv('LOCALAPPDATA') + '\\OnionSwitch\\osparam')
+            if path.exists(osf.Functions.pathtomain) is False:
+                os.mkdir(osf.Functions.pathtomain)
 
-            if path.exists(os.getenv(
-                    'LOCALAPPDATA') + '\\OnionSwitch\\logfiles') is False:
-                os.mkdir(os.getenv('LOCALAPPDATA') + '\\OnionSwitch\\logfiles')
+            if path.exists(osf.Functions.pathtoparam) is False:
+                os.mkdir(osf.Functions.pathtoparam)
 
-            if path.exists(os.getenv(
-                    'LOCALAPPDATA') + (
-                        '\\OnionSwitch\\osparam\\Param.json')) is False:
-                file = open(os.getenv('LOCALAPPDATA') +
-                            '\\OnionSwitch\\osparam\\Param.json', "w+")
+            if path.exists(osf.Functions.pathtolog) is False:
+                os.mkdir(osf.Functions.pathtolog)
+
+            if path.exists(
+                    osf.Functions.pathtoparam + '\\Param.json') is False:
+                file = open(osf.Functions.pathtoparam + '\\Param.json', "w+")
 
                 data = [{"version": version, "Path_to_Tor": "",
-                         "Update_available": False, "StrictNodes": 1}]
+                        "Update_available": False, "StrictNodes": 1,
+                         "Platform": ""}]
 
                 json.dump(data, file, indent=1, sort_keys=True)
                 file.close()
 
-            if path.exists(
-                    os.getenv('LOCALAPPDATA') +
-                    '\\OnionSwitch\\logfiles\\oslog.txt') is False:
+            if path.exists(osf.Functions.pathtolog + '\\oslog.txt') is False:
 
-                file = open(os.getenv('LOCALAPPDATA') +
-                            '\\OnionSwitch\\logfiles\\oslog.txt', "w+")
+                file = open(osf.Functions.pathtolog + '\\oslog.txt', "w+")
                 file.close()
 
             osf.Functions.GetSettingsFromJson(self)
@@ -416,7 +419,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
                     if found is False:
                         if (Ui_MainWindow.firstrun is False) and (
-                            osf.Functions.settingschanged is False):
+                                osf.Functions.settingschanged is False):
                             connection_count = 0
                             ostc.TorCheck.CheckTor(self, self.lineEdit.text())
                             if ostc.TorCheck.connected is False:

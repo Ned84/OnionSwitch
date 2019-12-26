@@ -33,6 +33,11 @@ class Functions(object):
     parampathtotor = ""
     paramupdateavailable = False
     paramstrictnodes = 0
+    paramplatform = ""
+
+    pathtolog = ""
+    pathtoparam = ""
+    pathtomain = ""
 
     torrcexitnodes = []
     torrcexcludednodes = []
@@ -544,9 +549,7 @@ class Functions(object):
     def GetSettingsFromJson(self):
         # Get Settings from Json file and write parameter variables
         try:
-            file = open(
-                os.getenv(
-                    'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json')
+            file = open(Functions.pathtoparam + '\\Param.json')
             json_array = json.load(file)
             param_list = []
 
@@ -563,12 +566,12 @@ class Functions(object):
             param_details['version'] = Functions.paramversion
             Functions.parampathtotor = param_details['Path_to_Tor']
             Functions.paramupdateavailable = param_details['Update_available']
+            param_details['Platform'] = Functions.paramplatform
 
             Functions.torrcfilepath = Functions.parampathtotor + \
                 "\\Browser\\TorBrowser\\Data\\Tor\\torrc"
 
-            file = open(os.getenv(
-                'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json', "w")
+            file = open(Functions.pathtoparam + '\\Param.json', "w")
             json.dump(param_list, file, indent=1, sort_keys=True)
             file.close()
 
@@ -578,8 +581,7 @@ class Functions(object):
     def WriteSettingsToJson(self):
         # Write Settings to json file
         try:
-            file = open(os.getenv(
-                'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json', "r")
+            file = open(Functions.pathtoparam + '\\Param.json', "r")
             param_list = []
 
             param_details = {}
@@ -587,11 +589,11 @@ class Functions(object):
             param_details['version'] = Functions.paramversion
             param_details['Update_available'] = Functions.paramupdateavailable
             param_details['StrictNodes'] = Functions.paramstrictnodes
+            param_details['Platform'] = Functions.paramplatform
             param_list.append(param_details)
             file.close()
 
-            file = open(os.getenv(
-                'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json', "w")
+            file = open(Functions.pathtoparam + '\\Param.json', "w")
             json.dump(param_list, file, indent=1, sort_keys=True)
             file.close()
 
@@ -870,8 +872,7 @@ class Functions(object):
     def WriteLog(self, exc):
         # Function to write passed in Exceptions into a log file if so chosen
         # in a try/catch block
-        logfile = open(os.getenv(
-            'LOCALAPPDATA') + '\\OnionSwitch\\Logfiles\\oslog.txt', "a")
+        logfile = open(Functions.pathtolog + '\\oslog.txt', "a")
         dt = datetime.datetime.now()
         dtwithoutmill = dt.replace(microsecond=0)
         logfile.write("{0}".format(dtwithoutmill))
