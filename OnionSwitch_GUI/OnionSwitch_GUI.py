@@ -59,6 +59,12 @@ class Ui_MainWindow(QtWidgets.QWidget):
                     'LOCALAPPDATA') + '\\OnionSwitch\\logfiles'
                 osf.Functions.pathtomain = os.getenv(
                     'LOCALAPPDATA') + '\\OnionSwitch'
+                osf.Functions.pathseparator = "\\"
+
+            if osf.Functions.paramplatform == "Linux":
+                osf.Functions.pathtoparam = '/usr/share/OnionSwitch/osparam'
+                osf.Functions.pathtolog = '/usr/share/OnionSwitch/logfiles'
+                osf.Functions.pathtomain = '/usr/share/OnionSwitch'
 
             if path.exists(osf.Functions.pathtomain) is False:
                 os.mkdir(osf.Functions.pathtomain)
@@ -70,9 +76,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 os.mkdir(osf.Functions.pathtolog)
 
             if path.exists(
-                    osf.Functions.pathtoparam + '\\Param.json') is False:
-                with open(osf.Functions.pathtoparam +
-                          '\\Param.json', "w+") as file:
+                    osf.Functions.pathtoparam + osf.Functions.pathseparator + 'Param.json') is False:
+                with open(osf.Functions.pathtoparam + osf.Functions.pathseparator +
+                          'Param.json', "w+") as file:
 
                     data = [{"version": version, "Path_to_Tor": "",
                             "Update_available": False, "StrictNodes": 1,
@@ -80,10 +86,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
                     json.dump(data, file, indent=1, sort_keys=True)
 
-            if path.exists(osf.Functions.pathtolog + '\\oslog.txt') is False:
+            if path.exists(osf.Functions.pathtolog + osf.Functions.pathseparator + 'oslog.txt') is False:
 
-                with open(osf.Functions.pathtolog +
-                          '\\oslog.txt', "w+") as file:
+                with open(osf.Functions.pathtolog + osf.Functions.pathseparator +
+                          'oslog.txt', "w+") as file:
                     pass
 
             osf.Functions.GetSettingsFromJson(self)
@@ -189,7 +195,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.tab1 = QtWidgets.QWidget()
         self.tab1.setObjectName("tab1")
         self.chooseNodeButton = QtWidgets.QPushButton(self.tab1)
-        self.chooseNodeButton.setGeometry(QtCore.QRect(256, 241, 121, 28))
+        self.chooseNodeButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
         self.chooseNodeButton.setObjectName("chooseNodeButton")
         self.onionswitch_logo_frame_2 = QtWidgets.QFrame(self.tab1)
         self.onionswitch_logo_frame_2.setGeometry(QtCore.QRect(
@@ -223,7 +229,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.tab2 = QtWidgets.QWidget()
         self.tab2.setObjectName("tab2")
         self.blacklistAllButton = QtWidgets.QPushButton(self.tab2)
-        self.blacklistAllButton.setGeometry(QtCore.QRect(256, 241, 121, 28))
+        self.blacklistAllButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
         self.blacklistAllButton.setObjectName("blacklistAllButton")
         self.blacklistAllNodesTableView = QtWidgets.QTableWidget(self.tab2)
         self.blacklistAllNodesTableView.setGeometry(QtCore.QRect(
@@ -279,7 +285,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.blacklistExitNodesTableView.setItem(
             0, 0, QtWidgets.QTableWidgetItem("Tor not found."))
         self.blacklistExitButton = QtWidgets.QPushButton(self.tab3)
-        self.blacklistExitButton.setGeometry(QtCore.QRect(256, 241, 121, 28))
+        self.blacklistExitButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
         self.blacklistExitButton.setObjectName("blacklistExitButton")
         self.startTorBrowserButton3 = QtWidgets.QPushButton(self.tab3)
         self.startTorBrowserButton3.setGeometry(QtCore.QRect(10, 100, 121, 28))
@@ -340,7 +346,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.standbyLabel.setObjectName(
             "standbyLabel")
         self.resettorrcButton = QtWidgets.QPushButton(self.centralwidget)
-        self.resettorrcButton.setGeometry(QtCore.QRect(256, 241, 121, 28))
+        self.resettorrcButton.setGeometry(QtCore.QRect(267, 241, 111, 28))
         self.resettorrcButton.hide()
         MainWindow.setCentralWidget(self.centralwidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
@@ -754,6 +760,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.resettorrcButton.hide()
                 self.standbyLabel.show()
                 self.sameNodeInMultiArrayFaultLabel.hide()
+                self.chooseNodeButton.show()
+                self.blacklistAllButton.show()
+                self.blacklistExitButton.show()
             else:
                 self.faultLabel.show()
                 self.standbyLabel.hide()
@@ -761,6 +770,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.startTorBrowserButton2.setEnabled(False)
                 self.startTorBrowserButton3.setEnabled(False)
                 self.resettorrcButton.show()
+                self.chooseNodeButton.hide()
+                self.blacklistAllButton.hide()
+                self.blacklistExitButton.hide()
 
                 i = 0
                 for item in osf.Functions.torrcexitnodes:

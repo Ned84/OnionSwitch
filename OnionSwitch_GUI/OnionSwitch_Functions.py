@@ -38,6 +38,8 @@ class Functions(object):
     pathtoparam = ""
     pathtomain = ""
 
+    pathseparator = ""
+
     torrcexitnodes = []
     torrcexcludednodes = []
     torrcexcludedexitnodes = []
@@ -548,7 +550,7 @@ class Functions(object):
     def GetSettingsFromJson(self):
         # Get Settings from Json file and write parameter variables
         try:
-            with open(Functions.pathtoparam + '\\Param.json') as file:
+            with open(Functions.pathtoparam + Functions.pathseparator + 'Param.json') as file:
                 json_array = json.load(file)
                 param_list = []
 
@@ -570,7 +572,7 @@ class Functions(object):
             Functions.torrcfilepath = Functions.parampathtotor + \
                 "\\Browser\\TorBrowser\\Data\\Tor\\torrc"
 
-            with open(Functions.pathtoparam + '\\Param.json', "w") as file:
+            with open(Functions.pathtoparam + Functions.pathseparator + 'Param.json', "w") as file:
                 json.dump(param_list, file, indent=1, sort_keys=True)
 
         except Exception as exc:
@@ -579,7 +581,7 @@ class Functions(object):
     def WriteSettingsToJson(self):
         # Write Settings to json file
         try:
-            with open(Functions.pathtoparam + '\\Param.json', "r") as file:
+            with open(Functions.pathtoparam + Functions.pathseparator + 'Param.json', "r") as file:
                 param_list = []
 
                 param_details = {}
@@ -591,7 +593,7 @@ class Functions(object):
                 param_details['Platform'] = Functions.paramplatform
                 param_list.append(param_details)
 
-            with open(Functions.pathtoparam + '\\Param.json', "w") as file:
+            with open(Functions.pathtoparam + Functions.pathseparator + 'Param.json', "w") as file:
                 json.dump(param_list, file, indent=1, sort_keys=True)
 
             if path.exists(Functions.torrcfilepath) is False:
@@ -865,7 +867,7 @@ class Functions(object):
     def WriteLog(self, exc):
         # Function to write passed in Exceptions into a log file if so chosen
         # in a try/catch block
-        with open(Functions.pathtolog + '\\oslog.txt', "a") as logfile:
+        with open(Functions.pathtolog + Functions.pathseparator + 'oslog.txt', "a") as logfile:
             dt = datetime.datetime.now()
             dtwithoutmill = dt.replace(microsecond=0)
             logfile.write("{0}".format(dtwithoutmill))
