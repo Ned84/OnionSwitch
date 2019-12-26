@@ -71,19 +71,20 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
             if path.exists(
                     osf.Functions.pathtoparam + '\\Param.json') is False:
-                file = open(osf.Functions.pathtoparam + '\\Param.json', "w+")
+                with open(osf.Functions.pathtoparam +
+                          '\\Param.json', "w+") as file:
 
-                data = [{"version": version, "Path_to_Tor": "",
-                        "Update_available": False, "StrictNodes": 1,
-                         "Platform": ""}]
+                    data = [{"version": version, "Path_to_Tor": "",
+                            "Update_available": False, "StrictNodes": 1,
+                             "Platform": ""}]
 
-                json.dump(data, file, indent=1, sort_keys=True)
-                file.close()
+                    json.dump(data, file, indent=1, sort_keys=True)
 
             if path.exists(osf.Functions.pathtolog + '\\oslog.txt') is False:
 
-                file = open(osf.Functions.pathtolog + '\\oslog.txt', "w+")
-                file.close()
+                with open(osf.Functions.pathtolog +
+                          '\\oslog.txt', "w+") as file:
+                    pass
 
             osf.Functions.GetSettingsFromJson(self)
 

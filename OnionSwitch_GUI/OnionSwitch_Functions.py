@@ -18,7 +18,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import os
 import sys
 import datetime
 import json
@@ -549,18 +548,18 @@ class Functions(object):
     def GetSettingsFromJson(self):
         # Get Settings from Json file and write parameter variables
         try:
-            file = open(Functions.pathtoparam + '\\Param.json')
-            json_array = json.load(file)
-            param_list = []
+            with open(Functions.pathtoparam + '\\Param.json') as file:
+                json_array = json.load(file)
+                param_list = []
 
-            for item in json_array:
-                param_details = {}
-                param_details['Path_to_Tor'] = item['Path_to_Tor']
-                param_details['version'] = item['version']
-                param_details['Update_available'] = item['Update_available']
-                param_details['StrictNodes'] = item['StrictNodes']
-                param_list.append(param_details)
-            file.close()
+                for item in json_array:
+                    param_details = {}
+                    param_details['Path_to_Tor'] = item['Path_to_Tor']
+                    param_details['version'] = item['version']
+                    param_details['Update_available'] = item[
+                        'Update_available']
+                    param_details['StrictNodes'] = item['StrictNodes']
+                    param_list.append(param_details)
 
             Functions.paramstrictnodes = param_details['StrictNodes']
             param_details['version'] = Functions.paramversion
@@ -571,9 +570,8 @@ class Functions(object):
             Functions.torrcfilepath = Functions.parampathtotor + \
                 "\\Browser\\TorBrowser\\Data\\Tor\\torrc"
 
-            file = open(Functions.pathtoparam + '\\Param.json', "w")
-            json.dump(param_list, file, indent=1, sort_keys=True)
-            file.close()
+            with open(Functions.pathtoparam + '\\Param.json', "w") as file:
+                json.dump(param_list, file, indent=1, sort_keys=True)
 
         except Exception as exc:
             Functions.WriteLog(self, exc)
@@ -581,21 +579,20 @@ class Functions(object):
     def WriteSettingsToJson(self):
         # Write Settings to json file
         try:
-            file = open(Functions.pathtoparam + '\\Param.json', "r")
-            param_list = []
+            with open(Functions.pathtoparam + '\\Param.json', "r") as file:
+                param_list = []
 
-            param_details = {}
-            param_details['Path_to_Tor'] = Functions.parampathtotor
-            param_details['version'] = Functions.paramversion
-            param_details['Update_available'] = Functions.paramupdateavailable
-            param_details['StrictNodes'] = Functions.paramstrictnodes
-            param_details['Platform'] = Functions.paramplatform
-            param_list.append(param_details)
-            file.close()
+                param_details = {}
+                param_details['Path_to_Tor'] = Functions.parampathtotor
+                param_details['version'] = Functions.paramversion
+                param_details['Update_available'] = \
+                    Functions.paramupdateavailable
+                param_details['StrictNodes'] = Functions.paramstrictnodes
+                param_details['Platform'] = Functions.paramplatform
+                param_list.append(param_details)
 
-            file = open(Functions.pathtoparam + '\\Param.json', "w")
-            json.dump(param_list, file, indent=1, sort_keys=True)
-            file.close()
+            with open(Functions.pathtoparam + '\\Param.json', "w") as file:
+                json.dump(param_list, file, indent=1, sort_keys=True)
 
             if path.exists(Functions.torrcfilepath) is False:
                 Functions.torrcfound = False
@@ -609,32 +606,29 @@ class Functions(object):
         try:
             # change strictnodes settings in torrc file
             if Functions.torrcfound is True:
-                file = open(Functions.torrcfilepath, "r")
-                torrc_readfile = file.read()
+                with open(Functions.torrcfilepath, "r") as file:
+                    torrc_readfile = file.read()
 
-                index = torrc_readfile.find("StrictNodes")
+                    index = torrc_readfile.find("StrictNodes")
 
-                if index == -1:
-                    torrc_readfile = torrc_readfile + "\nStrictNodes 1"
+                    if index == -1:
+                        torrc_readfile = torrc_readfile + "\nStrictNodes 1"
 
-                if Functions.torrcstrictnodes is False:
-                    index = torrc_readfile.find("StrictNodes 1")
+                    if Functions.torrcstrictnodes is False:
+                        index = torrc_readfile.find("StrictNodes 1")
 
-                    if index != -1:
-                        torrc_readfile = torrc_readfile.replace(
-                            "StrictNodes 1", "StrictNodes 0")
-                else:
-                    index = torrc_readfile.find("StrictNodes 0")
+                        if index != -1:
+                            torrc_readfile = torrc_readfile.replace(
+                                "StrictNodes 1", "StrictNodes 0")
+                    else:
+                        index = torrc_readfile.find("StrictNodes 0")
 
-                    if index != -1:
-                        torrc_readfile = torrc_readfile.replace(
-                            "StrictNodes 0", "StrictNodes 1")
+                        if index != -1:
+                            torrc_readfile = torrc_readfile.replace(
+                                "StrictNodes 0", "StrictNodes 1")
 
-                file.close()
-
-                file = open(Functions.torrcfilepath, "w")
-                file.write(torrc_readfile)
-                file.close()
+                with open(Functions.torrcfilepath, "w") as file:
+                    file.write(torrc_readfile)
 
         except Exception as exc:
             Functions.WriteLog(self, exc)
@@ -649,83 +643,84 @@ class Functions(object):
                 Functions.torrcfound = True
 
             if Functions.torrcfound is True:
-                file = open(Functions.torrcfilepath)
-                torrc_readfile = file.read()
+                with open(Functions.torrcfilepath) as file:
+                    torrc_readfile = file.read()
 
-                #  Get Torrc Exit Node configuration
-                index_1 = torrc_readfile.find("\nExitNodes")
-                if index_1 != -1:
-                    index_2 = torrc_readfile.find("\n", index_1 + 3)
-                    index_1 = index_1 + len("\nExitNodes")
-                    sliceobject = slice(index_1, index_2)
-                    exitnodes = torrc_readfile[sliceobject]
+                    #  Get Torrc Exit Node configuration
+                    index_1 = torrc_readfile.find("\nExitNodes")
+                    if index_1 != -1:
+                        index_2 = torrc_readfile.find("\n", index_1 + 3)
+                        index_1 = index_1 + len("\nExitNodes")
+                        sliceobject = slice(index_1, index_2)
+                        exitnodes = torrc_readfile[sliceobject]
 
-                    exitnodes = re.findall('{+[a-z]+}', exitnodes)
+                        exitnodes = re.findall('{+[a-z]+}', exitnodes)
 
-                    Functions.torrcexitnodes.clear()
+                        Functions.torrcexitnodes.clear()
 
-                    exitnodename = ""
-                    for exitnode in exitnodes:
-                        i = 0
-                        for countrycode in Functions.countrycodes:
-                            if countrycode == exitnode:
-                                exitnodename = Functions.countrynames[i]
-                            i += 1
-                        Functions.torrcexitnodes.append(exitnodename)
-                else:
-                    Functions.torrcexitnodes.clear()
-                    Functions.torrcexitnodes.append("No Country chosen.")
+                        exitnodename = ""
+                        for exitnode in exitnodes:
+                            i = 0
+                            for countrycode in Functions.countrycodes:
+                                if countrycode == exitnode:
+                                    exitnodename = Functions.countrynames[i]
+                                i += 1
+                            Functions.torrcexitnodes.append(exitnodename)
+                    else:
+                        Functions.torrcexitnodes.clear()
+                        Functions.torrcexitnodes.append("No Country chosen.")
 
-                #  Get Torrc Blacklist Exit Nodes configuration
-                index_1 = torrc_readfile.find("ExcludeExitNodes")
-                if index_1 != -1:
-                    index_2 = torrc_readfile.find("\n", index_1)
-                    index_1 = index_1 + len("ExcludeExitNodes")
-                    sliceobject = slice(index_1, index_2)
-                    nodes = torrc_readfile[sliceobject]
+                    #  Get Torrc Blacklist Exit Nodes configuration
+                    index_1 = torrc_readfile.find("ExcludeExitNodes")
+                    if index_1 != -1:
+                        index_2 = torrc_readfile.find("\n", index_1)
+                        index_1 = index_1 + len("ExcludeExitNodes")
+                        sliceobject = slice(index_1, index_2)
+                        nodes = torrc_readfile[sliceobject]
 
-                    nodes = re.findall('{+[a-z]+}', nodes)
+                        nodes = re.findall('{+[a-z]+}', nodes)
 
-                    Functions.torrcexcludedexitnodes.clear()
+                        Functions.torrcexcludedexitnodes.clear()
 
-                    exitnodename = ""
-                    for exitnode in nodes:
-                        i = 0
-                        for countrycode in Functions.countrycodes:
-                            if countrycode == exitnode:
-                                exitnodename = Functions.countrynames[i]
-                            i += 1
-                        Functions.torrcexcludedexitnodes.append(exitnodename)
-                else:
-                    Functions.torrcexcludedexitnodes.clear()
-                    Functions.torrcexcludedexitnodes.append(
-                        "No Country chosen.")
+                        exitnodename = ""
+                        for exitnode in nodes:
+                            i = 0
+                            for countrycode in Functions.countrycodes:
+                                if countrycode == exitnode:
+                                    exitnodename = Functions.countrynames[i]
+                                i += 1
+                            Functions.torrcexcludedexitnodes.append(
+                                exitnodename)
+                    else:
+                        Functions.torrcexcludedexitnodes.clear()
+                        Functions.torrcexcludedexitnodes.append(
+                            "No Country chosen.")
 
-                #  Get Torrc Blacklist All Nodes configuration
-                index_1 = torrc_readfile.find("ExcludeNodes")
-                if index_1 != -1:
-                    index_2 = torrc_readfile.find("\n", index_1)
-                    index_1 = index_1 + len("ExcludeNodes")
-                    sliceobject = slice(index_1, index_2)
-                    nodes = torrc_readfile[sliceobject]
+                    #  Get Torrc Blacklist All Nodes configuration
+                    index_1 = torrc_readfile.find("ExcludeNodes")
+                    if index_1 != -1:
+                        index_2 = torrc_readfile.find("\n", index_1)
+                        index_1 = index_1 + len("ExcludeNodes")
+                        sliceobject = slice(index_1, index_2)
+                        nodes = torrc_readfile[sliceobject]
 
-                    nodes = re.findall('{+[a-z]+}', nodes)
+                        nodes = re.findall('{+[a-z]+}', nodes)
 
-                    Functions.torrcexcludednodes.clear()
+                        Functions.torrcexcludednodes.clear()
 
-                    exitnodename = ""
-                    for exitnode in nodes:
-                        i = 0
-                        for countrycode in Functions.countrycodes:
-                            if countrycode == exitnode:
-                                exitnodename = Functions.countrynames[i]
-                            i += 1
-                        Functions.torrcexcludednodes.append(exitnodename)
-                else:
-                    Functions.torrcexcludednodes.clear()
-                    Functions.torrcexcludednodes.append("No Country chosen.")
+                        exitnodename = ""
+                        for exitnode in nodes:
+                            i = 0
+                            for countrycode in Functions.countrycodes:
+                                if countrycode == exitnode:
+                                    exitnodename = Functions.countrynames[i]
+                                i += 1
+                            Functions.torrcexcludednodes.append(exitnodename)
+                    else:
+                        Functions.torrcexcludednodes.clear()
+                        Functions.torrcexcludednodes.append(
+                            "No Country chosen.")
 
-                file.close()
         except Exception as exc:
             Functions.WriteLog(self, exc)
 
@@ -743,58 +738,56 @@ class Functions(object):
             Array = countrynamearray
 
             if Functions.torrcfound is True:
-                file = open(Functions.torrcfilepath, "r")
-                torrc_readfile = file.read()
+                with open(Functions.torrcfilepath, "r") as file:
+                    torrc_readfile = file.read()
 
-                if Array[0] != "No Country chosen.":
-                    if Array[0] != '':
-                        index = torrc_readfile.find("\n" + NodeStyle)
+                    if Array[0] != "No Country chosen.":
+                        if Array[0] != '':
+                            index = torrc_readfile.find("\n" + NodeStyle)
 
+                            if index != -1:
+                                index_1 = torrc_readfile.find("\n" + NodeStyle)
+                                index_2 = torrc_readfile.find(
+                                    "\n", index_1 + 3)
+                                index_1 = index_1 + len("\n" + NodeStyle)
+                                sliceobject = slice(index_1, index_2)
+                                nodes = torrc_readfile[sliceobject]
+
+                                nodestring = " "
+                                for nodecountry in Array:
+                                    nodestring = nodestring + nodecountry + ","
+
+                                torrc_readfile = torrc_readfile.replace(
+                                        nodes, nodestring)
+                            else:
+                                index = torrc_readfile.find("StrictNodes")
+                                sliceobject = slice(index, index + len(
+                                    "StrictNodes") + 2)
+                                strictnodetype = torrc_readfile[sliceobject]
+                                torrc_readfile = torrc_readfile.replace(
+                                    strictnodetype, NodeStyle + "\n" +
+                                    strictnodetype)
+
+                                nodestring = " "
+                                for nodecountry in Array:
+                                    nodestring = nodestring + nodecountry + " "
+
+                                torrc_readfile = torrc_readfile.replace(
+                                        "\n" + NodeStyle, "\n" + NodeStyle +
+                                        nodestring)
+
+                    else:
+                        index = torrc_readfile.find(NodeStyle)
                         if index != -1:
                             index_1 = torrc_readfile.find("\n" + NodeStyle)
                             index_2 = torrc_readfile.find("\n", index_1 + 3)
-                            index_1 = index_1 + len("\n" + NodeStyle)
                             sliceobject = slice(index_1, index_2)
                             nodes = torrc_readfile[sliceobject]
-
-                            nodestring = " "
-                            for nodecountry in Array:
-                                nodestring = nodestring + nodecountry + ","
-
                             torrc_readfile = torrc_readfile.replace(
-                                    nodes, nodestring)
-                        else:
-                            index = torrc_readfile.find("StrictNodes")
-                            sliceobject = slice(index, index + len(
-                                "StrictNodes") + 2)
-                            strictnodetype = torrc_readfile[sliceobject]
-                            torrc_readfile = torrc_readfile.replace(
-                                strictnodetype, NodeStyle + "\n" +
-                                strictnodetype)
+                                nodes, "")
 
-                            nodestring = " "
-                            for nodecountry in Array:
-                                nodestring = nodestring + nodecountry + " "
-
-                            torrc_readfile = torrc_readfile.replace(
-                                    "\n" + NodeStyle, "\n" + NodeStyle +
-                                    nodestring)
-
-                else:
-                    index = torrc_readfile.find(NodeStyle)
-                    if index != -1:
-                        index_1 = torrc_readfile.find("\n" + NodeStyle)
-                        index_2 = torrc_readfile.find("\n", index_1 + 3)
-                        sliceobject = slice(index_1, index_2)
-                        nodes = torrc_readfile[sliceobject]
-                        torrc_readfile = torrc_readfile.replace(
-                            nodes, "")
-
-                file.close()
-
-                file = open(Functions.torrcfilepath, "w")
-                file.write(torrc_readfile)
-                file.close()
+                with open(Functions.torrcfilepath, "w") as file:
+                    file.write(torrc_readfile)
 
         except Exception as exc:
             Functions.WriteLog(self, exc)
@@ -872,15 +865,15 @@ class Functions(object):
     def WriteLog(self, exc):
         # Function to write passed in Exceptions into a log file if so chosen
         # in a try/catch block
-        logfile = open(Functions.pathtolog + '\\oslog.txt', "a")
-        dt = datetime.datetime.now()
-        dtwithoutmill = dt.replace(microsecond=0)
-        logfile.write("{0}".format(dtwithoutmill))
-        logfile.write(": ")
-        logfile.write("{0}".format(sys.exc_info()[0]))
-        logfile.write(" -----> ")
-        logfile.write("{0}".format(exc))
-        logfile.write("\n\r")
-        logfile.close()
+        with open(Functions.pathtolog + '\\oslog.txt', "a") as logfile:
+            dt = datetime.datetime.now()
+            dtwithoutmill = dt.replace(microsecond=0)
+            logfile.write("{0}".format(dtwithoutmill))
+            logfile.write(": ")
+            logfile.write("{0}".format(sys.exc_info()[0]))
+            logfile.write(" -----> ")
+            logfile.write("{0}".format(exc))
+            logfile.write("\n\r")
+
         print(sys.exc_info()[0])
         print(exc)
