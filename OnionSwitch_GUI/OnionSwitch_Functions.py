@@ -569,8 +569,13 @@ class Functions(object):
             Functions.paramupdateavailable = param_details['Update_available']
             param_details['Platform'] = Functions.paramplatform
 
-            Functions.torrcfilepath = Functions.parampathtotor + \
-                "\\Browser\\TorBrowser\\Data\\Tor\\torrc"
+            if Functions.paramplatform == "Windows":
+                Functions.torrcfilepath = Functions.parampathtotor + \
+                    "\\Browser\\TorBrowser\\Data\\Tor\\torrc"
+
+            if Functions.paramplatform == "Linux":
+                Functions.torrcfilepath = Functions.parampathtotor + \
+                    "/Browser/TorBrowser/Data/Tor/torrc"
 
             with open(Functions.pathtoparam + Functions.pathseparator + 'Param.json', "w") as file:
                 json.dump(param_list, file, indent=1, sort_keys=True)
