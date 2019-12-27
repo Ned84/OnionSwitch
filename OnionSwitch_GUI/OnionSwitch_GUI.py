@@ -674,9 +674,15 @@ class Ui_MainWindow(QtWidgets.QWidget):
         @pyqtSlot()
         def StartTorBrowser():
             try:
-                torbrowserpath = osf.Functions.parampathtotor + \
-                    "\\Start Tor Browser.lnk"
-                os.system('"' + torbrowserpath + '"')
+                if osf.Functions.paramplatform == "Windows":
+                    torbrowserpath = osf.Functions.parampathtotor + \
+                        "\\Start Tor Browser.lnk"
+                    os.system('"' + torbrowserpath + '"')
+
+                if osf.Functions.paramplatform == "Linux":
+                    torbrowserpath = """sh -c '""" + '"' + osf.Functions.parampathtotor + """/Browser/start-tor-browser" --detach || ([ ! -x """ + '"' + osf.Functions.parampathtotor + """/Broswer/start-tor-browser" ] && "$(dirname "$*")"/Broswer/start-tor-browser --detach)' dummy %k"""
+                    os.system(torbrowserpath)
+
 
             except Exception as exc:
                 osf.Functions.WriteLog(self, exc)
