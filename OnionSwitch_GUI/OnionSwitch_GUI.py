@@ -424,7 +424,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         if (Ui_MainWindow.firstrun is False) and (
                                 osf.Functions.settingschanged is False):
                             connection_count = 0
-                            ostc.TorCheck.CheckTor(self, self.lineEdit.text())
+                            ostc.TorCheck.CheckTor(self, self.lineEdit.text(), osf.Functions.paramplatform)
                             if ostc.TorCheck.connected is False:
                                 connection_count = 0
                             else:
