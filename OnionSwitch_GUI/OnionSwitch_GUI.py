@@ -62,8 +62,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 osf.Functions.pathseparator = "\\"
 
             if osf.Functions.paramplatform == "Linux":
-                osf.Functions.pathtoparam = os.path.dirname(os.path.abspath(__file__)) + '/osparam'
-                osf.Functions.pathtolog = os.path.dirname(os.path.abspath(__file__)) + '/logfiles'
+                osf.Functions.pathtoparam = os.path.dirname(os.path.abspath(__file__)) + '/OnionSwitch/osparam'
+                osf.Functions.pathtolog = os.path.dirname(os.path.abspath(__file__)) + '/OnionSwitch/logfiles'
                 osf.Functions.pathtomain = os.path.dirname(os.path.abspath(__file__)) + '/OnionSwitch'
                 osf.Functions.pathseparator = "/"
 
