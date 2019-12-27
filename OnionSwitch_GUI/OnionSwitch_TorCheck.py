@@ -89,8 +89,11 @@ class TorCheck(object):
                                     os.system("taskkill /f /im tor.exe")
 
                     if platform == "Linux":
-                        pid = check_output(["pidof", "tor"])
-                        os.kill(int(pid), signal.SIGKILL)
+                        try:
+                            pid = check_output(["pidof", "tor"])
+                            os.kill(int(pid), signal.SIGKILL)
+                        except Exception:
+                            pass
 
                     torcheck_thread = threading.Thread(
                         target=TorCheck.CheckNode, args=(
@@ -111,8 +114,11 @@ class TorCheck(object):
                                         os.system("taskkill /f /im tor.exe")
 
                         if platform == "Linux":
-                            pid = check_output(["pidof", "tor"])
-                            os.kill(int(pid), signal.SIGKILL)
+                            try:
+                                pid = check_output(["pidof", "tor"])
+                                os.kill(int(pid), signal.SIGKILL)
+                            except Exception:
+                                pass
                 else:
                     TorCheck.connected = True
         except Exception as exc:

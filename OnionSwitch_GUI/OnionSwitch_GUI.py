@@ -1074,8 +1074,15 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         def okButtonPress():
             osf.Functions.parampathtotor = self.lineEdit.text()
             osf.Functions.WriteSettingsToJson(self)
-            osf.Functions.torrcfilepath = osf.Functions.parampathtotor +\
-                "\\Browser\\TorBrowser\\Data\\Tor\\torrc"
+
+            if osf.Functions.paramplatform == "Windows":
+                osf.Functions.torrcfilepath = osf.Functions.parampathtotor +\
+                    "\\Browser\\TorBrowser\\Data\\Tor\\torrc"
+
+            if osf.Functions.paramplatform == "Linux":
+                osf.Functions.torrcfilepath = osf.Functions.parampathtotor + \
+                    "/Browser/TorBrowser/Data/Tor/torrc"
+
             osf.Functions.settingschanged = True
             if path.exists(osf.Functions.torrcfilepath) is False:
                 osf.Functions.torrcfound = False
