@@ -44,29 +44,47 @@ class TorCheck(object):
             if line.find("100%") != -1:
                 TorCheck.connected = True
 
-    def CheckNode(self, countrycode):
+    def CheckNode(self, countrycode, platform, pathtotor):
         try:
             # Start tor_process and check if Node is available
             if len(countrycode) > 0:
                 print(term.format("Starting Tor:\n", term.Attr.BOLD))
 
-                tor_process = stem.process.launch_tor_with_config(
-                    config={
-                        'SocksPort': str(SOCKS_PORT),
-                        'ExitNodes': countrycode,
-                    },
-                    init_msg_handler=TorCheck.Print_Bootstrap_Lines,
-                )
+                if platform == "Windows":
+                    tor_process = stem.process.launch_tor_with_config(
+                        config={
+                            'SocksPort': str(SOCKS_PORT),
+                            'ExitNodes': countrycode,
+                        },
+                        tor_cmd=pathtotor + "\\Browser\\TorBrowser\\Tor\\tor.exe",
+                        init_msg_handler=TorCheck.Print_Bootstrap_Lines,
+                    )
 
-                tor_process.kill()  # stops tor
+                    tor_process.kill()  # stops tor
 
-                TorCheck.ended_successfull = True
-                return TorCheck.connected
+                    TorCheck.ended_successfull = True
+                    return TorCheck.connected
+
+                if platform == "Linux":
+                    tor_process = stem.process.launch_tor_with_config(
+                        config={
+                            'SocksPort': str(SOCKS_PORT),
+                            'ExitNodes': countrycode,
+                        },
+                        tor_cmd=pathtotor + "\\Browser\\TorBrowser\\Tor\\tor",
+                        init_msg_handler=TorCheck.Print_Bootstrap_Lines,
+                    )
+
+                    tor_process.kill()  # stops tor
+
+                    TorCheck.ended_successfull = True
+                    return TorCheck.connected
+
 
         except Exception:
             TorCheck.ended_successfull = False
 
-    def CheckTor(self, countrycode, platform, stemcheck):
+    def CheckTor(self, countrycode, platform, stemcheck, pathtotor):
 
         try:
             # If tor.exe is already started, quit it and start a new thread to
@@ -97,7 +115,7 @@ class TorCheck(object):
 
                     torcheck_thread = threading.Thread(
                         target=TorCheck.CheckNode, args=(
-                            self, countrycode), daemon=True)
+                            self, countrycode, platform), daemon=True)
 
                     torcheck_thread.start()
 
