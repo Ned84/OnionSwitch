@@ -53,7 +53,7 @@ class TorCheck(object):
                 if platform == "Windows":
                     tor_process = stem.process.launch_tor_with_config(
                         config={
-                            #'SocksPort': str(SOCKS_PORT),
+                            'SocksPort': str(SOCKS_PORT),
                             'ExitNodes': countrycode,
                         },
                         tor_cmd=pathtotor + "\\Browser\\TorBrowser\\Tor\\tor.exe",
@@ -71,7 +71,7 @@ class TorCheck(object):
                             'SocksPort': str(SOCKS_PORT),
                             'ExitNodes': countrycode,
                         },
-                        tor_cmd=pathtotor + "/Browser/TorBrowser/Tor/tor",
+                        #tor_cmd=pathtotor + "/Browser/TorBrowser/Tor/tor",
                         init_msg_handler=TorCheck.Print_Bootstrap_Lines,
                     )
 
