@@ -66,7 +66,7 @@ class TorCheck(object):
         except Exception:
             TorCheck.ended_successfull = False
 
-    def CheckTor(self, countrycode, platform):
+    def CheckTor(self, countrycode, platform, stemcheck):
 
         try:
             # If tor.exe is already started, quit it and start a new thread to
@@ -78,28 +78,7 @@ class TorCheck(object):
             if countrycode != "":
                 TorCheck.connected = False
 
-                if platform == "Windows":
-                    tasks = os.popen('tasklist').readlines()
-
-                    for task in tasks:
-                        tor_index = task.find("tor.exe")
-                        if tor_index != -1:
-                            if tor_index == 0:
-                                os.system("taskkill /f /im tor.exe")
-
-                if platform == "Linux":
-                    pid = check_output(["pidof", "tor"])
-                    os.kill(int(pid), signal.SIGKILL)
-
-                torcheck_thread = threading.Thread(
-                    target=TorCheck.CheckNode, args=(
-                        self, countrycode), daemon=True)
-
-                torcheck_thread.start()
-
-                torcheck_thread.join(timeout=10)
-
-                if TorCheck.ended_successfull is False:
+                if stemcheck is True:
                     if platform == "Windows":
                         tasks = os.popen('tasklist').readlines()
 
@@ -112,5 +91,29 @@ class TorCheck(object):
                     if platform == "Linux":
                         pid = check_output(["pidof", "tor"])
                         os.kill(int(pid), signal.SIGKILL)
+
+                    torcheck_thread = threading.Thread(
+                        target=TorCheck.CheckNode, args=(
+                            self, countrycode), daemon=True)
+
+                    torcheck_thread.start()
+
+                    torcheck_thread.join(timeout=10)
+
+                    if TorCheck.ended_successfull is False:
+                        if platform == "Windows":
+                            tasks = os.popen('tasklist').readlines()
+
+                            for task in tasks:
+                                tor_index = task.find("tor.exe")
+                                if tor_index != -1:
+                                    if tor_index == 0:
+                                        os.system("taskkill /f /im tor.exe")
+
+                        if platform == "Linux":
+                            pid = check_output(["pidof", "tor"])
+                            os.kill(int(pid), signal.SIGKILL)
+                else:
+                    TorCheck.connected = True
         except Exception as exc:
             print(exc)

@@ -33,6 +33,7 @@ class Functions(object):
     paramupdateavailable = False
     paramstrictnodes = 0
     paramplatform = ""
+    paramstemcheck = ""
 
     pathtolog = ""
     pathtoparam = ""
@@ -561,6 +562,7 @@ class Functions(object):
                     param_details['Update_available'] = item[
                         'Update_available']
                     param_details['StrictNodes'] = item['StrictNodes']
+                    param_details['StemCheck'] = item['StemCheck']
                     param_list.append(param_details)
 
             Functions.paramstrictnodes = param_details['StrictNodes']
@@ -568,6 +570,7 @@ class Functions(object):
             Functions.parampathtotor = param_details['Path_to_Tor']
             Functions.paramupdateavailable = param_details['Update_available']
             param_details['Platform'] = Functions.paramplatform
+            Functions.paramstemcheck = param_details['StemCheck']
 
             if Functions.paramplatform == "Windows":
                 Functions.torrcfilepath = Functions.parampathtotor + \
@@ -596,6 +599,7 @@ class Functions(object):
                     Functions.paramupdateavailable
                 param_details['StrictNodes'] = Functions.paramstrictnodes
                 param_details['Platform'] = Functions.paramplatform
+                param_details['StemCheck'] = Functions.paramstemcheck
                 param_list.append(param_details)
 
             with open(Functions.pathtoparam + Functions.pathseparator + 'Param.json', "w") as file:

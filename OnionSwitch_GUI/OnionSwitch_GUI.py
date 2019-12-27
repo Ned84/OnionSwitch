@@ -83,7 +83,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
                     data = [{"version": version, "Path_to_Tor": "",
                             "Update_available": False, "StrictNodes": 1,
-                             "Platform": ""}]
+                             "Platform": "", "StemCheck": False}]
 
                     json.dump(data, file, indent=1, sort_keys=True)
 
@@ -424,7 +424,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         if (Ui_MainWindow.firstrun is False) and (
                                 osf.Functions.settingschanged is False):
                             connection_count = 0
-                            ostc.TorCheck.CheckTor(self, self.lineEdit.text(), osf.Functions.paramplatform)
+                            ostc.TorCheck.CheckTor(self, self.lineEdit.text(), osf.Functions.paramplatform, osf.Functions.paramstemcheck)
                             if ostc.TorCheck.connected is False:
                                 connection_count = 0
                             else:
@@ -1013,6 +1013,14 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         self.lineEdit.setGeometry(QtCore.QRect(20, 50, 361, 22))
         self.lineEdit.setReadOnly(True)
         self.lineEdit.setObjectName("lineEdit")
+        self.stemcheckCheckBox = QtWidgets.QCheckBox(SettingsDialog)
+        self.stemcheckCheckBox.setGeometry(QtCore.QRect(20, 80, 150, 21))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(8)
+        font.setBold(True)
+        font.setWeight(75)
+        self.stemcheckCheckBox.setFont(font)
         self.label = QtWidgets.QLabel(SettingsDialog)
         self.label.setGeometry(QtCore.QRect(20, 20, 171, 21))
         font = QtGui.QFont()
@@ -1036,6 +1044,11 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         self.retranslateUi(SettingsDialog)
         QtCore.QMetaObject.connectSlotsByName(SettingsDialog)
 
+        if osf.Functions.paramstemcheck is True:
+            self.stemcheckCheckBox.setChecked(True)
+        else:
+            self.stemcheckCheckBox.setChecked(False)
+
         self.lineEdit.setText(osf.Functions.parampathtotor)
 
         def OpenFilePicker():
@@ -1047,6 +1060,15 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
 
             except Exception as exc:
                 osf.Functions.WriteLog(self, exc)
+
+        @pyqtSlot()
+        def ChangeSettingsStemCheck():
+            if self.stemcheckCheckBox.isChecked() is True:
+                osf.Functions.paramstemcheck = True
+            else:
+                osf.Functions.paramstemcheck = False
+
+            osf.Functions.WriteSettingsToJson(self)
 
         @pyqtSlot()
         def okButtonPress():
@@ -1065,6 +1087,8 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
 
         self.openButton.clicked.connect(OpenFilePicker)
 
+        self.stemcheckCheckBox.clicked.connect(ChangeSettingsStemCheck)
+
         self.okButton.clicked.connect(okButtonPress)
         self.okButton.clicked.connect(SettingsDialog.close)
 
@@ -1075,6 +1099,7 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         self.cancelButton.setText(_translate("SettingsDialog", "Cancel"))
         self.label.setText(_translate(
             "SettingsDialog", "Path to Tor-Browser:"))
+        self.stemcheckCheckBox.setText(_translate("SettingsDialog", "Stem Node Check"))
         self.openButton.setText(_translate("SettingsDialog", "Open"))
 
 
