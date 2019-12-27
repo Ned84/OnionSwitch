@@ -566,6 +566,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                     self, self.lineEdit.text())
                 self.sameNodeInMultiArrayFaultLabel.hide()
                 self.standbyLabel.show()
+                self.cantConnectToNodeFaultLabel.hide()
                 for code in osf.Functions.torrcexcludednodes:
                     if code == countrycode:
                         self.sameNodeInMultiArrayFaultLabel.show()
@@ -603,6 +604,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                     self, self.lineEdit.text())
                 self.sameNodeInMultiArrayFaultLabel.hide()
                 self.standbyLabel.show()
+                self.cantConnectToNodeFaultLabel.hide()
                 for code in osf.Functions.torrcexitnodes:
                     if code == countrycode:
                         self.sameNodeInMultiArrayFaultLabel.show()
@@ -635,6 +637,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                     self, self.lineEdit.text())
                 self.sameNodeInMultiArrayFaultLabel.hide()
                 self.standbyLabel.show()
+                self.cantConnectToNodeFaultLabel.hide()
                 for code in osf.Functions.torrcexitnodes:
                     if code == countrycode:
                         self.sameNodeInMultiArrayFaultLabel.show()
