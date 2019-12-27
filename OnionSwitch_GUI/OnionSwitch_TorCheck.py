@@ -115,7 +115,7 @@ class TorCheck(object):
 
                     torcheck_thread = threading.Thread(
                         target=TorCheck.CheckNode, args=(
-                            self, countrycode, platform), daemon=True)
+                            self, countrycode, platform, pathtotor), daemon=True)
 
                     torcheck_thread.start()
 
