@@ -8,6 +8,7 @@
   * [StrictNodes](#strictnodes)
   * [Tor Metrics](#tor-metrics)
   * [Linux Versions](#linux-versions)
+* [Download](#download)
 * [Dependencies](#dependencies)
   * [Windows](#windows)
   * [Linux](#linux)
@@ -66,6 +67,10 @@ If you want to search for specific or overall available Exit nodes, click on "To
 ### Linux Versions
 
 OnionSwitch is tested in **Ubuntu**.
+
+## Download
+
+Download the newest release [here](https://github.com/Ned84/OnionSwitch/releases).
 
 ## Dependencies
 
