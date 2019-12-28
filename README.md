@@ -16,9 +16,12 @@
 * [Install](#install)
   * [Windows](#windows)
     * [Build executable GUI Version from .py](#build-executable-gui-version-from-py)
-  * [Linux](#Linux)
+  * [Linux](#linux)
     * [Build .app GUI Version from .py](#build-app-gui-version-from-py)
 * [Support](#support)
+* [Verify Signatures](#verify-signatures)
+  * [Windows](#windows)
+  * [Linux](#linux)
 * [Get my Public Key](#get-my-public-key)
 
 ## Description
@@ -153,6 +156,54 @@ Use Pyinstaller from within the OnionSwitch_GUI folder.
 ## Support
 
 If you require help or if you have suggestions please refer to the [Issue section](https://github.com/Ned84/OnionSwitch/issues).
+
+## Verify Signatures
+
+### Windows
+
+Download the sha256sum.txt and the .asc for your OnionSwitch version.
+
+#### Basic checksum verification
+
+In Powershell:
+
+```(Get-FileHash .\OnionSwitch*.*_setup.exe).Hash -eq (Get-Content .\sha256sum.txt).split(" ")[0].ToUpper()```
+
+should show:
+
+```True```
+
+#### Signature verification
+
+The programm is sign with my signature which windows checks when you run OnionSwitch setup.
+
+It should state **"Open Source Developer, Rene Mario Baumgartner"** as Verified Publisher.
+
+### Linux
+
+Download the sha256sum.txt and the .asc for your OnionSwitch version.
+
+#### Basic checksum verification:
+
+```shasum -a 256 -c sha256sum.txt```
+
+should show:
+
+```OnionSwitch_V*.*.tar.xz: OK``` 
+
+#### GPG verification
+
+```curl https://keybase.io/ned84/pgp_keys.asc | gpg --import```
+
+and verify with:
+
+```gpg --verify OnionSwitch_V*.*.tar.xz.asc```
+
+should show:
+
+```Good signature from "Ned84 <ned84@protonmail.com>"```
+
+
 
 ## Get my Public Key
 
