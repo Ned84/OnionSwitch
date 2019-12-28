@@ -56,7 +56,8 @@ class TorCheck(object):
                             'SocksPort': str(SOCKS_PORT),
                             'ExitNodes': countrycode,
                         },
-                        tor_cmd=pathtotor + "\\Browser\\TorBrowser\\Tor\\tor.exe",
+                        tor_cmd=pathtotor +
+                        "\\Browser\\TorBrowser\\Tor\\tor.exe",
                         init_msg_handler=TorCheck.Print_Bootstrap_Lines,
                     )
 
@@ -71,7 +72,7 @@ class TorCheck(object):
                             'SocksPort': str(SOCKS_PORT),
                             'ExitNodes': countrycode,
                         },
-                        #tor_cmd=pathtotor + "/Browser/TorBrowser/Tor/tor",
+                        # tor_cmd=pathtotor + "/Browser/TorBrowser/Tor/tor",
                         init_msg_handler=TorCheck.Print_Bootstrap_Lines,
                     )
 
@@ -79,7 +80,6 @@ class TorCheck(object):
 
                     TorCheck.ended_successfull = True
                     return TorCheck.connected
-
 
         except Exception:
             TorCheck.ended_successfull = False
@@ -117,7 +117,8 @@ class TorCheck(object):
 
                     torcheck_thread = threading.Thread(
                         target=TorCheck.CheckNode, args=(
-                            self, countrycode, platform, pathtotor), daemon=True)
+                            self, countrycode,
+                            platform, pathtotor), daemon=True)
 
                     torcheck_thread.start()
 

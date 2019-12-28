@@ -28,6 +28,7 @@ import platform
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QFileDialog
+from PyQt5.Qt import QApplication
 
 import OnionSwitch_Functions as osf
 import OnionSwitch_TorCheck as ostc
@@ -62,9 +63,12 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 osf.Functions.pathseparator = "\\"
 
             if osf.Functions.paramplatform == "Linux":
-                osf.Functions.pathtoparam = os.path.dirname(os.path.abspath(__file__)) + '/OnionSwitch/osparam'
-                osf.Functions.pathtolog = os.path.dirname(os.path.abspath(__file__)) + '/OnionSwitch/logfiles'
-                osf.Functions.pathtomain = os.path.dirname(os.path.abspath(__file__)) + '/OnionSwitch'
+                osf.Functions.pathtoparam = os.path.dirname(
+                    os.path.abspath(__file__)) + '/OnionSwitch/osparam'
+                osf.Functions.pathtolog = os.path.dirname(
+                    os.path.abspath(__file__)) + '/OnionSwitch/logfiles'
+                osf.Functions.pathtomain = os.path.dirname(
+                    os.path.abspath(__file__)) + '/OnionSwitch'
                 osf.Functions.pathseparator = "/"
 
             if path.exists(osf.Functions.pathtomain) is False:
@@ -77,9 +81,12 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 os.mkdir(osf.Functions.pathtolog)
 
             if path.exists(
-                    osf.Functions.pathtoparam + osf.Functions.pathseparator + 'Param.json') is False:
-                with open(osf.Functions.pathtoparam + osf.Functions.pathseparator +
-                          'Param.json', "w+") as file:
+                    osf.Functions.pathtoparam + osf.Functions.pathseparator +
+                    'Param.json') is False:
+
+                with open(
+                    osf.Functions.pathtoparam + osf.Functions.pathseparator +
+                        'Param.json', "w+") as file:
 
                     data = [{"version": version, "Path_to_Tor": "",
                             "Update_available": False, "StrictNodes": 1,
@@ -87,10 +94,13 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
                     json.dump(data, file, indent=1, sort_keys=True)
 
-            if path.exists(osf.Functions.pathtolog + osf.Functions.pathseparator + 'oslog.txt') is False:
+            if path.exists(
+                osf.Functions.pathtolog + osf.Functions.pathseparator +
+                    'oslog.txt') is False:
 
-                with open(osf.Functions.pathtolog + osf.Functions.pathseparator +
-                          'oslog.txt', "w+") as file:
+                with open(
+                    osf.Functions.pathtolog + osf.Functions.pathseparator +
+                        'oslog.txt', "w+") as file:
                     pass
 
             osf.Functions.GetSettingsFromJson(self)
@@ -424,7 +434,13 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         if (Ui_MainWindow.firstrun is False) and (
                                 osf.Functions.settingschanged is False):
                             connection_count = 0
-                            ostc.TorCheck.CheckTor(self, self.lineEdit.text(), osf.Functions.paramplatform, osf.Functions.paramstemcheck, osf.Functions.parampathtotor)
+
+                            ostc.TorCheck.CheckTor(
+                                self, self.lineEdit.text(),
+                                osf.Functions.paramplatform,
+                                osf.Functions.paramstemcheck,
+                                osf.Functions.parampathtotor)
+
                             if ostc.TorCheck.connected is False:
                                 connection_count = 0
                             else:
@@ -680,9 +696,15 @@ class Ui_MainWindow(QtWidgets.QWidget):
                     os.system('"' + torbrowserpath + '"')
 
                 if osf.Functions.paramplatform == "Linux":
-                    torbrowserpath = """sh -c '""" + '"' + osf.Functions.parampathtotor + """/Browser/start-tor-browser" --detach || ([ ! -x """ + '"' + osf.Functions.parampathtotor + """/Broswer/start-tor-browser" ] && "$(dirname "$*")"/Broswer/start-tor-browser --detach)' dummy %k"""
-                    os.system(torbrowserpath)
 
+                    torbrowserpath = """sh -c '""" + '"' +\
+                        osf.Functions.parampathtotor +\
+                        """/Browser/start-tor-browser" --detach || ([ ! -x """\
+                        + '"' + osf.Functions.parampathtotor +\
+                        """/Broswer/start-tor-browser" ] && "$(dirname "$*")"/Broswer/"
+                        "start-tor-browser --detach)' dummy %k"""
+
+                    os.system(torbrowserpath)
 
             except Exception as exc:
                 osf.Functions.WriteLog(self, exc)
@@ -690,10 +712,12 @@ class Ui_MainWindow(QtWidgets.QWidget):
         @pyqtSlot()
         def StartTorMetrics():
             try:
-                os.system('echo ' + "https://metrics."
-                                    "torproject.org/rs.html"
-                                    "#search/flag:exit%20country:at%20" +
-                                    '| clip')
+                clip = QApplication.clipboard()
+                clip.clear(mode=clip.Clipboard)
+                clip.setText("https://metrics."
+                             "torproject.org/rs.html"
+                             "#search/flag:exit%20"
+                             "country:at%20", mode=clip.Clipboard)
 
             except Exception as exc:
                 osf.Functions.WriteLog(self, exc)
@@ -1115,7 +1139,8 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         self.cancelButton.setText(_translate("SettingsDialog", "Cancel"))
         self.label.setText(_translate(
             "SettingsDialog", "Path to Tor-Browser:"))
-        self.stemcheckCheckBox.setText(_translate("SettingsDialog", "Stem Node Check"))
+        self.stemcheckCheckBox.setText(_translate(
+            "SettingsDialog", "Stem Node Check"))
         self.openButton.setText(_translate("SettingsDialog", "Open"))
 
 
