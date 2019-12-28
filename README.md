@@ -8,6 +8,7 @@
 * [Description](#description)
   * [StrictNodes](#strictnodes)
   * [Tor Metrics](#tor-metrics)
+  * [Linux Versions](#linux-versions)
 * [Dependencies](#dependencies)
   * [Windows](#windows)
   * [Linux](#linux)
@@ -62,6 +63,10 @@ Please refer to the Tor manual [here](https://2019.www.torproject.org/docs/tor-m
 
 In the menubar under "Help" you will find the option "Tor Metrics".
 If you want to search for specific or overall available Exit nodes, click on "Tor Metrics" and it will copy the URL to tor-metrics into your clipboard, so you can open it in the browser of your choice without being forced to connect to the torproject with your normal browser if you dont want to.
+
+### Linux Versions
+
+OnionSwitch is tested in **Ubuntu**.
 
 ## Dependencies
 
