@@ -13,6 +13,7 @@ GUI
 Output
 build
 *.spec
+Linux
 
 # Ignore till finished
 OnionSwitch_Console
