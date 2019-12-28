@@ -701,7 +701,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         osf.Functions.parampathtotor +\
                         """/Browser/start-tor-browser" --detach || ([ ! -x """\
                         + '"' + osf.Functions.parampathtotor +\
-                        """/Broswer/start-tor-browser" ] && "$(dirname "$*")"/Broswer/"
+                        """/Browser/start-tor-browser" ] && "$(dirname "$*")"/Browser/"
                         "start-tor-browser --detach)' dummy %k"""
 
                     os.system(torbrowserpath)
