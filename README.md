@@ -9,11 +9,15 @@
   * [StrictNodes](#strictnodes)
   * [Tor Metrics](#tor-metrics)
 * [Dependencies](#dependencies)
+  * [Windows](#windows)
+  * [Linux](#linux)
   * [Tor Browser](#tor-browser)
 * [License](#license)
 * [Install](#install)
-  * [Build executable GUI Version from .py](#build-executable-gui-version-from-py)
-  * [Build executable Console Version from .py](#build-executable-console-version-from-py)
+  * [Windows](#windows)
+    * [Build executable GUI Version from .py](#build-executable-gui-version-from-py)
+  * [Linux](#Linux)
+    * [Build .app GUI Version from .py](#build-app-gui-version-from-py)
 * [Support](#support)
 * [Get my Public Key](#get-my-public-key)
 
@@ -26,9 +30,10 @@ Please close the Tor-Browser (if opened) before starting and using OnionSwitch
 
 ![OnionSwitch GUI](https://github.com/Ned84/OnionSwitch/blob/master/Screenshots/OnionSwitch_GUI.png)
 
-Choose the path to your Tor-Browser (the very first folder in the Tor-Browser structure) as shown below (in Edit -> Settings)
+Choose the path to your Tor-Browser in the Settings (the very first folder in the Tor-Browser structure) as shown below (in Edit -> Settings).
+In the Settings its possible to turn off the Stem Node Check which connects to an exit when choosing a country to check if the exit country is available or not. If you experience problems with Stem you can turn it off here.
 
-![OnionSwitch TorPath](https://github.com/Ned84/OnionSwitch/blob/master/Screenshots/Choose_Tor_Path.png)
+![OnionSwitch TorPath](https://github.com/Ned84/OnionSwitch/blob/master/Screenshots/Settings.png)
 
 Node-Country can be chosen in the dropbox or it is possible to write the country code directly into the countrycode-box underneath the dropbox.
 Only valid countrycodes work, otherwise the line will get deleted.
@@ -57,6 +62,8 @@ If you want to search for specific or overall available Exit nodes, click on "To
 
 ## Dependencies
 
+### Windows
+
 Newest Python from [here](https://www.python.org/downloads/).
 
 ```pip install PyQt5```
@@ -70,6 +77,30 @@ Stem information are [here](https://stem.torproject.org/).
 ```pip install pyinstaller```
 
 Optional Pyinstaller. Infos are [here](https://www.pyinstaller.org/downloads.html).
+
+```pip install tor```
+
+Tor PyPi information from [here](https://pypi.org/project/tor/).
+
+### Linux
+
+Newest Python from [here](https://www.python.org/downloads/).
+
+```pip3 install PyQt5```
+
+PYQT5 information at [this link](https://pypi.org/project/PyQt5/).
+
+```pip3 install Stem```
+
+Stem information are [here](https://stem.torproject.org/).
+
+```pip3 install pyinstaller```
+
+Optional Pyinstaller. Infos are [here](https://www.pyinstaller.org/downloads.html).
+
+```pip3 install tor```
+
+Tor PyPi information from [here](https://pypi.org/project/tor/).
 
 ### Tor Browser
 
@@ -91,7 +122,9 @@ Get the Tor Browser from the Tor Project site [here](https://www.torproject.org/
 
 ## Install
 
-### Build executable GUI Version from .py
+### Windows
+
+#### Build executable GUI Version from .py
 
 ```pip install pyinstaller```
 
@@ -101,11 +134,21 @@ Get the Tor Browser from the Tor Project site [here](https://www.torproject.org/
 
 Use Pyinstaller from within the OnionSwitch_GUI folder.
 
-```pyinstaller --windowed --icon=Icon/onionswitch_icon.ico --clean --name OnionSwitch.py OnionSwitch_GUI.py```
+```pyinstaller --windowed --icon=Icon/onionswitch_icon.ico --clean --name OnionSwitch OnionSwitch_GUI.py```
 
-### Build executable Console Version from .py
+### Linux
 
-Unfortunatelly the console version is not ready yet.
+#### Build .app GUI Version from .py
+
+```pip3 install pyinstaller```
+
+```pip3 install PyQt5```
+
+```pip3 install Stem```
+
+```pip3 install tor```
+
+```pyinstaller --windowed --icon=Icon/onionswitch_icon.ico --clean --name OnionSwitch OnionSwitch_GUI.py```
 
 ## Support
 
