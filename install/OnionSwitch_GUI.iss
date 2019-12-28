@@ -1,4 +1,4 @@
-#define MyAppVersion "1.0"
+#define MyAppVersion "1.1"
 #define MyName "Baumgartner Rene Mario"
 
 [Setup]

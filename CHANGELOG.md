@@ -1,5 +1,12 @@
 # OnionSwitch Changelog
 
+## V1.1
+
+Changed Dialogtitles.
+Added Linux support.
+Changed Tor check.
+Added Settings Stem check enable/disable.
+
 ## V1.0
 
 Changed Repo from Private to Public.

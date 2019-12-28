@@ -34,7 +34,7 @@ import OnionSwitch_Functions as osf
 import OnionSwitch_TorCheck as ostc
 import OnionSwitchResources_rc
 
-version = "1.0"
+version = "1.1"
 
 
 class Ui_MainWindow(QtWidgets.QWidget):
