@@ -683,7 +683,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         @pyqtSlot()
         def OpenDialogFault():
             self.window = QtWidgets.QDialog()
-            self.ui = Ui_FaultDialog()
+            self.ui = Ui_Tor_Metrics_Dialog()
             self.ui.setupUi(self.window)
             self.window.show()
 
@@ -987,21 +987,21 @@ class Ui_AboutDialog(object):
             "ned84@protonmail.com"))
 
 
-class Ui_FaultDialog(object):
-    def setupUi(self, FaultDialog):
-        FaultDialog.setObjectName("FaultDialog")
-        FaultDialog.resize(400, 150)
-        FaultDialog.setMinimumSize(QtCore.QSize(400, 150))
-        FaultDialog.setMaximumSize(QtCore.QSize(400, 150))
+class Ui_Tor_Metrics_Dialog(object):
+    def setupUi(self, Tor_Metrics_Dialog):
+        Tor_Metrics_Dialog.setObjectName("Tor_Metrics_Dialog")
+        Tor_Metrics_Dialog.resize(400, 150)
+        Tor_Metrics_Dialog.setMinimumSize(QtCore.QSize(400, 150))
+        Tor_Metrics_Dialog.setMaximumSize(QtCore.QSize(400, 150))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(
             ":/resources/OnionSwitch_Logo.png"),
             QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        FaultDialog.setWindowIcon(icon)
-        self.okButton = QtWidgets.QPushButton(FaultDialog)
+        Tor_Metrics_Dialog.setWindowIcon(icon)
+        self.okButton = QtWidgets.QPushButton(Tor_Metrics_Dialog)
         self.okButton.setGeometry(QtCore.QRect(290, 110, 93, 28))
         self.okButton.setObjectName("okButton")
-        self.label = QtWidgets.QLabel(FaultDialog)
+        self.label = QtWidgets.QLabel(Tor_Metrics_Dialog)
         self.label.setGeometry(QtCore.QRect(20, 20, 381, 71))
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -1011,17 +1011,19 @@ class Ui_FaultDialog(object):
         self.label.setFont(font)
         self.label.setObjectName("label")
 
-        self.retranslateUi(FaultDialog)
-        QtCore.QMetaObject.connectSlotsByName(FaultDialog)
+        self.retranslateUi(Tor_Metrics_Dialog)
+        QtCore.QMetaObject.connectSlotsByName(Tor_Metrics_Dialog)
 
-        self.okButton.clicked.connect(FaultDialog.close)
+        self.okButton.clicked.connect(Tor_Metrics_Dialog.close)
 
-    def retranslateUi(self, FaultDialog):
+    def retranslateUi(self, Tor_Metrics_Dialog):
         _translate = QtCore.QCoreApplication.translate
-        FaultDialog.setWindowTitle(_translate("FaultDialog", "Information"))
-        self.okButton.setText(_translate("FaultDialog", "OK"))
+        Tor_Metrics_Dialog.setWindowTitle(_translate(
+            "Tor_Metrics_Dialog", "Information"))
+        self.okButton.setText(_translate("Tor_Metrics_Dialog", "OK"))
         self.label.setText(_translate(
-            "FaultDialog", "URL to Tor Metrics is copied to the Clipboard.\n"
+            "Tor_Metrics_Dialog", "URL to Tor Metrics is "
+            "copied to the Clipboard.\n"
             "Please open it in the Browser of your choice."))
 
 
@@ -1095,16 +1097,12 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
                 osf.Functions.WriteLog(self, exc)
 
         @pyqtSlot()
-        def ChangeSettingsStemCheck():
+        def okButtonPress():
             if self.stemcheckCheckBox.isChecked() is True:
                 osf.Functions.paramstemcheck = True
             else:
                 osf.Functions.paramstemcheck = False
 
-            osf.Functions.WriteSettingsToJson(self)
-
-        @pyqtSlot()
-        def okButtonPress():
             osf.Functions.parampathtotor = self.lineEdit.text()
             osf.Functions.WriteSettingsToJson(self)
 
@@ -1126,8 +1124,6 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         self.cancelButton.clicked.connect(SettingsDialog.close)
 
         self.openButton.clicked.connect(OpenFilePicker)
-
-        self.stemcheckCheckBox.clicked.connect(ChangeSettingsStemCheck)
 
         self.okButton.clicked.connect(okButtonPress)
         self.okButton.clicked.connect(SettingsDialog.close)
