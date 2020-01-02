@@ -816,6 +816,7 @@ class Functions(object):
             for countryname in Functions.countrynames:
                 if countryname == Name:
                     code = Functions.countrycodes[i]
+                    i += 1
                 else:
                     i += 1
 
@@ -832,6 +833,7 @@ class Functions(object):
             for countrycode in Functions.countrycodes:
                 if countrycode == Code:
                     name = Functions.countrynames[i]
+                    i += 1
                 else:
                     i += 1
 
