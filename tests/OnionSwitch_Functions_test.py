@@ -24,6 +24,7 @@ import datetime
 import json
 import re
 from os import path
+import platform
 
 
 class TestFunctions(object):
@@ -32,6 +33,12 @@ class TestFunctions(object):
     parampathtotor = ""
     paramupdateavailable = False
     paramstrictnodes = 0
+    paramplatform = ""
+    paramstemcheck = ""
+
+    pathtolog = ""
+    pathtoparam = ""
+    pathtomain = ""
 
     torrcexitnodes = []
     torrcexcludednodes = []
@@ -537,7 +544,7 @@ class TestFunctions(object):
                     "{zm}",
                     "{zw}"]
 
-    version = ""
+    version = "1.1"
 
     if path.exists(os.getenv(
             'LOCALAPPDATA') + '\\OnionSwitch') is False:
@@ -558,7 +565,8 @@ class TestFunctions(object):
                     '\\OnionSwitch\\osparam\\Param.json', "w+")
 
         data = [{"version": version, "Path_to_Tor": "",
-                "Update_available": False}]
+                "Update_available": False, "StrictNodes": 1,
+                 "Platform": "", "StemCheck": False}]
 
         json.dump(data, file, indent=1, sort_keys=True)
         file.close()
@@ -570,6 +578,8 @@ class TestFunctions(object):
         file = open(os.getenv('LOCALAPPDATA') +
                     '\\OnionSwitch\\logfiles\\oslog.txt', "w+")
         file.close()
+
+    paramplatform = platform.system()
 
     def test_GetSettingsFromJson(self):
 
@@ -583,7 +593,10 @@ class TestFunctions(object):
             param_details = {}
             param_details['Path_to_Tor'] = item['Path_to_Tor']
             param_details['version'] = item['version']
-            param_details['Update_available'] = item['Update_available']
+            param_details['Update_available'] = item[
+                'Update_available']
+            param_details['StrictNodes'] = item['StrictNodes']
+            param_details['StemCheck'] = item['StemCheck']
             param_list.append(param_details)
         file.close()
 
@@ -603,9 +616,11 @@ class TestFunctions(object):
         param_details = {}
         param_details['Path_to_Tor'] = TestFunctions.parampathtotor
         param_details['version'] = TestFunctions.paramversion
-        param_details['Update_available'] =\
+        param_details['Update_available'] = \
             TestFunctions.paramupdateavailable
         param_details['StrictNodes'] = TestFunctions.paramstrictnodes
+        param_details['Platform'] = TestFunctions.paramplatform
+        param_details['StemCheck'] = TestFunctions.paramstemcheck
         param_list.append(param_details)
         file.close()
 
