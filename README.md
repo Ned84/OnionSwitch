@@ -5,6 +5,7 @@
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2F%2FNed84%2FOnionSwitch%2Fbadge&style=plastic)](https://actions-badge.atrox.dev//Ned84/OnionSwitch/goto)
 
 * [Description](#description)
+* [Manual](#manual)
   * [StrictNodes](#strictnodes)
   * [Tor Metrics](#tor-metrics)
   * [Linux Versions](#linux-versions)
@@ -29,6 +30,8 @@
 
 Interface to easily switch the Tor-Exit-Node Destination Country in your Tor-Browser.
 It is possible to force exit nodes to a specific country, exlude exit node countries and/or exclude countries for every Relay not only the exit relay.
+
+## Manual
 
 Please close the Tor-Browser (if opened) before starting and using OnionSwitch
 
