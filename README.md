@@ -201,7 +201,7 @@ Download the sha256sum.txt and the .asc for your OnionSwitch version.
 
 should show:
 
-```OnionSwitch_V*.*.tar.xz: OK``` 
+```OnionSwitch_V*.*.tar.xz: OK```
 
 #### GPG verification
 
@@ -214,8 +214,6 @@ and verify with:
 should show:
 
 ```Good signature from "Ned84 <ned84@protonmail.com>"```
-
-
 
 ## Get my Public Key
 

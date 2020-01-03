@@ -24,6 +24,7 @@ import threading
 import webbrowser
 from urllib import request
 import platform
+from shutil import copyfile
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import pyqtSlot
@@ -376,7 +377,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.actionSettings.setObjectName("actionSettings")
         self.actionMetrics = QtWidgets.QAction(MainWindow)
         self.actionMetrics.setObjectName("actionMetrics")
+        self.actionResetTorrc = QtWidgets.QAction(MainWindow)
+        self.actionResetTorrc.setObjectName("actionResetTorrc")
         self.menuHelp.addAction(self.actionMetrics)
+        self.menuHelp.addAction(self.actionResetTorrc)
         self.menuHelp.addAction(self.actionUpdate)
         self.menuHelp.addAction(self.actionAbout)
         self.menuEdit.addAction(self.actionSettings)
@@ -389,6 +393,37 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
         self.tabWidget.setCurrentWidget(self.tabWidget.findChild(
             QtWidgets.QWidget, "tab1"))
+
+        @pyqtSlot()
+        def ResetTorrc():
+            try:
+                if osf.Functions.torrcfound is True:
+
+                    self.lineEdit.setText("")
+
+                    if osf.Functions.paramplatform == "Windows":
+                        if path.exists(osf.Functions.pathtoparam + '\\rccy')\
+                             is True:
+                            os.remove(osf.Functions.torrcfilepath)
+
+                            copyfile(osf.Functions.pathtoparam + '\\rccy',
+                                     osf.Functions.torrcfilepath)
+
+                    if osf.Functions.paramplatform == "Linux":
+                        if path.exists(osf.Functions.pathtoparam + '/rccy')\
+                             is True:
+                            os.remove(osf.Functions.torrcfilepath)
+
+                            copyfile(osf.Functions.pathtoparam + '/rccy',
+                                     osf.Functions.torrcfilepath)
+
+                    osf.Functions.GetTorrcFromFile(self)
+                    AddNodeToChosenNodeTableView()
+                    AddNodeToBlackListAllTableView()
+                    AddNodeToBlackListExitTableView()
+
+            except Exception as exc:
+                osf.Functions.WriteLog(self, exc)
 
         @pyqtSlot()
         def ChangeStrictNodes():
@@ -874,6 +909,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.actionMetrics.triggered.connect(StartTorMetrics)
         self.actionMetrics.triggered.connect(OpenDialogFault)
 
+        self.actionResetTorrc.triggered.connect(ResetTorrc)
+
         self.startTorBrowserButton.clicked.connect(StartTorBrowser)
         self.startTorBrowserButton2.clicked.connect(StartTorBrowser)
         self.startTorBrowserButton3.clicked.connect(StartTorBrowser)
@@ -903,6 +940,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
             self.tab3), _translate("MainWindow", "Blacklist Exit Nodes"))
         self.menuHelp.setTitle(_translate("MainWindow", "Help"))
         self.menuEdit.setTitle(_translate("MainWindow", "Edit"))
+        self.actionResetTorrc.setText(_translate("MainWindow", "Reset Tor"))
         self.actionAbout.setText(_translate("MainWindow", "About"))
         self.actionUpdate.setText(_translate("MainWindow", "Update"))
         self.actionSettings.setText(_translate("MainWindow", "Settings"))
@@ -1098,21 +1136,44 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
 
         @pyqtSlot()
         def okButtonPress():
-            if self.stemcheckCheckBox.isChecked() is True:
-                osf.Functions.paramstemcheck = True
-            else:
-                osf.Functions.paramstemcheck = False
+            try:
+                if self.stemcheckCheckBox.isChecked() is True:
+                    osf.Functions.paramstemcheck = True
+                else:
+                    osf.Functions.paramstemcheck = False
 
-            osf.Functions.parampathtotor = self.lineEdit.text()
-            osf.Functions.WriteSettingsToJson(self)
+                osf.Functions.parampathtotor = self.lineEdit.text()
 
-            if osf.Functions.paramplatform == "Windows":
-                osf.Functions.torrcfilepath = osf.Functions.parampathtotor +\
-                    "\\Browser\\TorBrowser\\Data\\Tor\\torrc"
+                osf.Functions.WriteSettingsToJson(self)
 
-            if osf.Functions.paramplatform == "Linux":
-                osf.Functions.torrcfilepath = osf.Functions.parampathtotor + \
-                    "/Browser/TorBrowser/Data/Tor/torrc"
+                if osf.Functions.paramplatform == "Windows":
+                    osf.Functions.torrcfilepath =\
+                        osf.Functions.parampathtotor +\
+                        "\\Browser\\TorBrowser\\Data\\Tor\\torrc"
+
+                    if osf.Functions.parampathtotor != "":
+                        if path. exists(osf.Functions.torrcfilepath) is True:
+                            if path.exists(
+                                 osf.Functions.pathtoparam + '\\rccy')\
+                                     is False:
+                                copyfile(
+                                    osf.Functions.torrcfilepath,
+                                    osf.Functions.pathtoparam + '\\rccy')
+
+                if osf.Functions.paramplatform == "Linux":
+                    osf.Functions.torrcfilepath = \
+                        osf.Functions.parampathtotor + \
+                        "/Browser/TorBrowser/Data/Tor/torrc"
+
+                    if osf.Functions.parampathtotor != "":
+                        if path. exists(osf.Functions.torrcfilepath) is True:
+                            if path.exists(
+                                 osf.Functions.pathtoparam + '/rccy') is False:
+                                copyfile(osf.Functions.torrcfilepath,
+                                         osf.Functions.pathtoparam + '/rccy')
+
+            except Exception as exc:
+                osf.Functions.WriteLog(self, exc)
 
             osf.Functions.settingschanged = True
             if path.exists(osf.Functions.torrcfilepath) is False:
