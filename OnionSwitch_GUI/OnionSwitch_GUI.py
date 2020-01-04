@@ -843,6 +843,14 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.blacklistAllButton.hide()
                 self.blacklistExitButton.hide()
 
+            if osf.Functions.paramstemcheck is False:
+                self.standbyLabel.setText("")
+            else:
+                self.standbyLabel.setText(
+                    "Adding node can take.\n"
+                    "up to 10 seconds.\n"
+                    "Please stand by.")
+
                 i = 0
                 for item in osf.Functions.torrcexitnodes:
                     self.chosenNodesTableView.setItem(
