@@ -880,6 +880,18 @@ class Functions(object):
         except Exception as exc:
             Functions.WriteLog(self, exc)
 
+    def TorMetrics_to_Clipboard(self, QApplication):
+        try:
+            clip = QApplication.clipboard()
+            clip.clear(mode=clip.Clipboard)
+            clip.setText("https://metrics."
+                         "torproject.org/rs.html"
+                         "#search/flag:exit%20"
+                         "country:at%20", mode=clip.Clipboard)
+
+        except Exception as exc:
+            Functions.WriteLog(self, exc)
+
     def WriteLog(self, exc):
         # Function to write passed in Exceptions into a log file if so chosen
         # in a try/catch block

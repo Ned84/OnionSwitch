@@ -746,16 +746,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
         @pyqtSlot()
         def StartTorMetrics():
-            try:
-                clip = QApplication.clipboard()
-                clip.clear(mode=clip.Clipboard)
-                clip.setText("https://metrics."
-                             "torproject.org/rs.html"
-                             "#search/flag:exit%20"
-                             "country:at%20", mode=clip.Clipboard)
-
-            except Exception as exc:
-                osf.Functions.WriteLog(self, exc)
+            osf.Functions.TorMetrics_to_Clipboard(self, QApplication)
 
         @pyqtSlot()
         def WriteBracetsInLineEdit():
@@ -842,7 +833,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.chooseNodeButton.hide()
                 self.blacklistAllButton.hide()
                 self.blacklistExitButton.hide()
-                
+
                 i = 0
                 for item in osf.Functions.torrcexitnodes:
                     self.chosenNodesTableView.setItem(
