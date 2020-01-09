@@ -421,6 +421,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                     AddNodeToChosenNodeTableView()
                     AddNodeToBlackListAllTableView()
                     AddNodeToBlackListExitTableView()
+                    ChangeStrictNodes()
 
             except Exception as exc:
                 osf.Functions.WriteLog(self, exc)
@@ -724,25 +725,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
         @pyqtSlot()
         def StartTorBrowser():
-            try:
-                if osf.Functions.paramplatform == "Windows":
-                    torbrowserpath = osf.Functions.parampathtotor + \
-                        "\\Start Tor Browser.lnk"
-                    os.system('"' + torbrowserpath + '"')
-
-                if osf.Functions.paramplatform == "Linux":
-
-                    torbrowserpath = """sh -c '""" + '"' +\
-                        osf.Functions.parampathtotor +\
-                        """/Browser/start-tor-browser" --detach || ([ ! -x """\
-                        + '"' + osf.Functions.parampathtotor +\
-                        """/Browser/start-tor-browser" ] && "$(dirname "$*")"/Browser/"
-                        "start-tor-browser --detach)' dummy %k"""
-
-                    os.system(torbrowserpath)
-
-            except Exception as exc:
-                osf.Functions.WriteLog(self, exc)
+            osf.Functions.StartTorBrowser(self)
 
         @pyqtSlot()
         def StartTorMetrics():
@@ -1143,6 +1126,21 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
                 osf.Functions.WriteLog(self, exc)
 
         @pyqtSlot()
+        def fiveeyes_changed():
+                self.nineEyesCheckBox.setChecked(False)
+                self.fourteenEyesCheckBox.setChecked(False)
+
+        @pyqtSlot()
+        def nineeyes_changed():
+                self.fiveEyesCheckBox.setChecked(False)
+                self.fourteenEyesCheckBox.setChecked(False)
+
+        @pyqtSlot()
+        def fourteeneyes_changed():
+                self.fiveEyesCheckBox.setChecked(False)
+                self.nineEyesCheckBox.setChecked(False)
+
+        @pyqtSlot()
         def okButtonPress():
             try:
                 if self.stemcheckCheckBox.isChecked() is True:
@@ -1151,6 +1149,30 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
                     osf.Functions.paramstemcheck = False
 
                 osf.Functions.parampathtotor = self.lineEdit.text()
+
+                if self.fiveEyesCheckBox.isChecked() is True:
+                    osf.Functions.Add_Eyes_ToArray(
+                        self, osf.Functions.five_eye_countries)
+
+                if self.nineEyesCheckBox.isChecked() is True:
+                    osf.Functions.Add_Eyes_ToArray(
+                        self, osf.Functions.five_eye_countries)
+
+                    osf.Functions.Add_Eyes_ToArray(
+                        self, osf.Functions.nine_eye_countries)
+                        
+                    osf.Functions.Add_Eyes_ToArray(
+                        self, osf.Functions.nine_eye_countries)
+
+                if self.fourteenEyesCheckBox.isChecked() is True:
+                    osf.Functions.Add_Eyes_ToArray(
+                        self, osf.Functions.five_eye_countries)
+
+                    osf.Functions.Add_Eyes_ToArray(
+                        self, osf.Functions.nine_eye_countries)
+
+                    osf.Functions.Add_Eyes_ToArray(
+                        self, osf.Functions.fourteen_eye_countries)
 
                 osf.Functions.WriteSettingsToJson(self)
 
@@ -1193,6 +1215,12 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         self.cancelButton.clicked.connect(SettingsDialog.close)
 
         self.openButton.clicked.connect(OpenFilePicker)
+
+        self.fiveEyesCheckBox.clicked.connect(fiveeyes_changed)
+
+        self.nineEyesCheckBox.clicked.connect(nineeyes_changed)
+
+        self.fourteenEyesCheckBox.clicked.connect(fourteeneyes_changed)
 
         self.okButton.clicked.connect(okButtonPress)
         self.okButton.clicked.connect(SettingsDialog.close)

@@ -24,6 +24,7 @@ import json
 import re
 
 from os import path
+import os
 
 
 class Functions(object):
@@ -34,6 +35,10 @@ class Functions(object):
     paramstrictnodes = 0
     paramplatform = ""
     paramstemcheck = ""
+
+    five_eyes = False
+    nine_eyes = False
+    fourteen_eyes = False
 
     pathtolog = ""
     pathtoparam = ""
@@ -544,6 +549,24 @@ class Functions(object):
                     "{ye}",
                     "{zm}",
                     "{zw}"]
+    five_eye_countries = ["",
+                          "{au}",
+                          "{ca}",
+                          "{nz}",
+                          "{uk}",
+                          "{gb}",
+                          "{us}"]
+    nine_eye_countries = ["",
+                          "{dk}",
+                          "{fr}",
+                          "{nl}",
+                          "{no}"]
+    fourteen_eye_countries = ["",
+                              "{be}",
+                              "{de}",
+                              "{it}",
+                              "{es}",
+                              "{se}"]
 
     def __init__(self):
         pass
@@ -786,7 +809,7 @@ class Functions(object):
 
                                 nodestring = " "
                                 for nodecountry in Array:
-                                    nodestring = nodestring + nodecountry + " "
+                                    nodestring = nodestring + nodecountry + ","
 
                                 torrc_readfile = torrc_readfile.replace(
                                         "\n" + NodeStyle, "\n" + NodeStyle +
@@ -891,6 +914,44 @@ class Functions(object):
 
         except Exception as exc:
             Functions.WriteLog(self, exc)
+
+    def StartTorBrowser(self):
+        try:
+            if Functions.paramplatform == "Windows":
+                torbrowserpath = Functions.parampathtotor + \
+                    "\\Start Tor Browser.lnk"
+                os.system('"' + torbrowserpath + '"')
+
+            if Functions.paramplatform == "Linux":
+
+                torbrowserpath = """sh -c '""" + '"' +\
+                    Functions.parampathtotor +\
+                    """/Browser/start-tor-browser" --detach || ([ ! -x """\
+                    + '"' + Functions.parampathtotor +\
+                    """/Browser/start-tor-browser" ] && "$(dirname "$*")"/Browser/"
+                    "start-tor-browser --detach)' dummy %k"""
+
+                os.system(torbrowserpath)
+
+        except Exception as exc:
+            Functions.WriteLog(self, exc)
+
+    def Add_Eyes_ToArray(self, eye_countries):
+        found = False
+        for country_eyes in eye_countries:
+            found = False
+
+            for country in Functions.torrcexitnodes:
+                if country_eyes == country:
+                    found = True
+
+            if found is False:
+                Functions.AddCountryToArray(
+                    self, Functions.ChangeCountrycodeToCountryname(
+                        self, country_eyes), Functions.torrcexcludednodes)
+
+        Functions.WriteNodesToTorrc(
+            self, "ExcludeNodes", Functions.torrcexcludednodes)
 
     def WriteLog(self, exc):
         # Function to write passed in Exceptions into a log file if so chosen
