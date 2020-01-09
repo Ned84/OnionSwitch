@@ -1102,6 +1102,15 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         font.setBold(True)
         font.setWeight(75)
         self.stemcheckCheckBox.setFont(font)
+        self.fiveEyesCheckBox = QtWidgets.QCheckBox(SettingsDialog)
+        self.fiveEyesCheckBox.setGeometry(QtCore.QRect(180, 115, 190, 21))
+        self.fiveEyesCheckBox.setFont(font)
+        self.nineEyesCheckBox = QtWidgets.QCheckBox(SettingsDialog)
+        self.nineEyesCheckBox.setGeometry(QtCore.QRect(180, 145, 190, 21))
+        self.nineEyesCheckBox.setFont(font)
+        self.fourteenEyesCheckBox = QtWidgets.QCheckBox(SettingsDialog)
+        self.fourteenEyesCheckBox.setGeometry(QtCore.QRect(180, 175, 190, 21))
+        self.fourteenEyesCheckBox.setFont(font)
         self.label = QtWidgets.QLabel(SettingsDialog)
         self.label.setGeometry(QtCore.QRect(20, 20, 171, 21))
         font = QtGui.QFont()
@@ -1207,6 +1216,12 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         self.stemcheckCheckBox.setText(_translate(
             "SettingsDialog", "Stem Node Check"))
         self.openButton.setText(_translate("SettingsDialog", "Open"))
+        self.fiveEyesCheckBox.setText(_translate(
+            "SettingsDialog", "Block '5-Eyes' Countries"))
+        self.nineEyesCheckBox.setText(_translate(
+            "SettingsDialog", "Block '9-Eyes' Countries"))
+        self.fourteenEyesCheckBox.setText(_translate(
+            "SettingsDialog", "Block '14-Eyes' Countries"))
 
 
 class Ui_UpdateDialog(object):
