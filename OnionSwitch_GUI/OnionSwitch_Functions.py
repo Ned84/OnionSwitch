@@ -40,9 +40,7 @@ class Functions(object):
     window_about_open = False
     window_update_open = False
 
-    five_eyes = False
-    nine_eyes = False
-    fourteen_eyes = False
+    settings_closed = False
 
     pathtolog = ""
     pathtoparam = ""
@@ -945,7 +943,7 @@ class Functions(object):
         for country_eyes in eye_countries:
             found = False
 
-            for country in Functions.torrcexitnodes:
+            for country in Functions.torrcexcludednodes:
                 if country_eyes == country:
                     found = True
 

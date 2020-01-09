@@ -421,7 +421,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
                     AddNodeToChosenNodeTableView()
                     AddNodeToBlackListAllTableView()
                     AddNodeToBlackListExitTableView()
+                    InitializeTableViews()
                     ChangeStrictNodes()
+                    self.cantConnectToNodeFaultLabel.hide()
 
             except Exception as exc:
                 osf.Functions.WriteLog(self, exc)
@@ -699,24 +701,43 @@ class Ui_MainWindow(QtWidgets.QWidget):
         def OpenDialogAbout():
             if osf.Functions.window_about_open is False:
                 self.window = QtWidgets.QDialog()
+                self.window.setWindowFlags(QtCore.Qt.WindowTitleHint)
                 self.ui = Ui_AboutDialog()
                 self.ui.setupUi(self.window)
                 self.window.show()
                 osf.Functions.window_about_open = True
 
+        def CheckSettings():
+            # Check if Settings change to write eye countries into tableview.
+
+            while True:
+                if osf.Functions.settings_closed is True:
+                    break
+
+            InitializeTableViews()
+            osf.Functions.settings_closed = False
+            self.blacklistAllNodesTableView.resizeRowsToContents()
+
+
+
         @pyqtSlot()
         def OpenDialogSettings():
             if osf.Functions.window_settings_open is False:
-                self.window = QtWidgets.QDialog()
+                self.window_settings = QtWidgets.QDialog()
+                self.window_settings.setWindowFlags(QtCore.Qt.WindowTitleHint)
                 self.ui = Ui_SettingsDialog()
-                self.ui.setupUi(self.window)
-                self.window.show()
+                self.ui.setupUi(self.window_settings)
+                self.window_settings.show()
                 osf.Functions.window_settings_open = True
+
+                checkthread = threading.Thread(target=CheckSettings, daemon=True)
+                checkthread.start()
 
         @pyqtSlot()
         def OpenDialogUpdate():
             if osf.Functions.window_update_open is False:
                 self.window = QtWidgets.QDialog()
+                self.window.setWindowFlags(QtCore.Qt.WindowTitleHint)
                 self.ui = Ui_UpdateDialog()
                 self.ui.setupUi(self.window)
                 self.window.show()
@@ -725,6 +746,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         @pyqtSlot()
         def OpenDialogFault():
             self.window = QtWidgets.QDialog()
+            self.window.setWindowFlags(QtCore.Qt.WindowTitleHint)
             self.ui = Ui_Tor_Metrics_Dialog()
             self.ui.setupUi(self.window)
             self.window.show()
@@ -1140,16 +1162,19 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         def fiveeyes_changed():
             self.nineEyesCheckBox.setChecked(False)
             self.fourteenEyesCheckBox.setChecked(False)
+            osf.Functions.eyes_changed = True
 
         @pyqtSlot()
         def nineeyes_changed():
             self.fiveEyesCheckBox.setChecked(False)
             self.fourteenEyesCheckBox.setChecked(False)
+            osf.Functions.eyes_changed = True
 
         @pyqtSlot()
         def fourteeneyes_changed():
             self.fiveEyesCheckBox.setChecked(False)
             self.nineEyesCheckBox.setChecked(False)
+            osf.Functions.eyes_changed = True
 
         @pyqtSlot()
         def okButtonPress():
@@ -1223,11 +1248,14 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
                 osf.Functions.torrcfound = False
             else:
                 osf.Functions.torrcfound = True
+
+            osf.Functions.settings_closed = True
             SettingsDialog.close
 
         @pyqtSlot()
         def Close_Settings():
             osf.Functions.window_settings_open = False
+            osf.Functions.settings_closed = True
             SettingsDialog.close()
 
         self.cancelButton.clicked.connect(Close_Settings)
