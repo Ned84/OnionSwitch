@@ -697,24 +697,30 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
         @pyqtSlot()
         def OpenDialogAbout():
-            self.window = QtWidgets.QDialog()
-            self.ui = Ui_AboutDialog()
-            self.ui.setupUi(self.window)
-            self.window.show()
+            if osf.Functions.window_about_open is False:
+                self.window = QtWidgets.QDialog()
+                self.ui = Ui_AboutDialog()
+                self.ui.setupUi(self.window)
+                self.window.show()
+                osf.Functions.window_about_open = True
 
         @pyqtSlot()
         def OpenDialogSettings():
-            self.window = QtWidgets.QDialog()
-            self.ui = Ui_SettingsDialog()
-            self.ui.setupUi(self.window)
-            self.window.show()
+            if osf.Functions.window_settings_open is False:
+                self.window = QtWidgets.QDialog()
+                self.ui = Ui_SettingsDialog()
+                self.ui.setupUi(self.window)
+                self.window.show()
+                osf.Functions.window_settings_open = True
 
         @pyqtSlot()
         def OpenDialogUpdate():
-            self.window = QtWidgets.QDialog()
-            self.ui = Ui_UpdateDialog()
-            self.ui.setupUi(self.window)
-            self.window.show()
+            if osf.Functions.window_update_open is False:
+                self.window = QtWidgets.QDialog()
+                self.ui = Ui_UpdateDialog()
+                self.ui.setupUi(self.window)
+                self.window.show()
+                osf.Functions.window_update_open = True
 
         @pyqtSlot()
         def OpenDialogFault():
@@ -989,7 +995,12 @@ class Ui_AboutDialog(object):
         self.retranslateUi(AboutDialog)
         QtCore.QMetaObject.connectSlotsByName(AboutDialog)
 
-        self.closeButton.clicked.connect(AboutDialog.close)
+        @pyqtSlot()
+        def Close_About():
+            osf.Functions.window_about_open = False
+            AboutDialog.close()
+
+        self.closeButton.clicked.connect(Close_About)
 
     def retranslateUi(self, AboutDialog):
         _translate = QtCore.QCoreApplication.translate
@@ -1127,18 +1138,18 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
 
         @pyqtSlot()
         def fiveeyes_changed():
-                self.nineEyesCheckBox.setChecked(False)
-                self.fourteenEyesCheckBox.setChecked(False)
+            self.nineEyesCheckBox.setChecked(False)
+            self.fourteenEyesCheckBox.setChecked(False)
 
         @pyqtSlot()
         def nineeyes_changed():
-                self.fiveEyesCheckBox.setChecked(False)
-                self.fourteenEyesCheckBox.setChecked(False)
+            self.fiveEyesCheckBox.setChecked(False)
+            self.fourteenEyesCheckBox.setChecked(False)
 
         @pyqtSlot()
         def fourteeneyes_changed():
-                self.fiveEyesCheckBox.setChecked(False)
-                self.nineEyesCheckBox.setChecked(False)
+            self.fiveEyesCheckBox.setChecked(False)
+            self.nineEyesCheckBox.setChecked(False)
 
         @pyqtSlot()
         def okButtonPress():
@@ -1160,7 +1171,7 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
 
                     osf.Functions.Add_Eyes_ToArray(
                         self, osf.Functions.nine_eye_countries)
-                        
+
                     osf.Functions.Add_Eyes_ToArray(
                         self, osf.Functions.nine_eye_countries)
 
@@ -1202,6 +1213,8 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
                                 copyfile(osf.Functions.torrcfilepath,
                                          osf.Functions.pathtoparam + '/rccy')
 
+                osf.Functions.window_settings_open = False
+
             except Exception as exc:
                 osf.Functions.WriteLog(self, exc)
 
@@ -1212,7 +1225,12 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
                 osf.Functions.torrcfound = True
             SettingsDialog.close
 
-        self.cancelButton.clicked.connect(SettingsDialog.close)
+        @pyqtSlot()
+        def Close_Settings():
+            osf.Functions.window_settings_open = False
+            SettingsDialog.close()
+
+        self.cancelButton.clicked.connect(Close_Settings)
 
         self.openButton.clicked.connect(OpenFilePicker)
 
@@ -1291,7 +1309,12 @@ class Ui_UpdateDialog(object):
             osf.Functions.WriteSettingsToJson(self)
             webbrowser.open('https://github.com/Ned84/OnionSwitch/releases')
 
-        self.cancelButton.clicked.connect(UpdateDialog.close)
+        @pyqtSlot()
+        def Close_Update():
+            osf.Functions.window_update_open = False
+            UpdateDialog.close()
+
+        self.cancelButton.clicked.connect(Close_Update)
 
         self.updateButton.clicked.connect(StartUpdateProc)
 

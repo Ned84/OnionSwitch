@@ -36,6 +36,10 @@ class Functions(object):
     paramplatform = ""
     paramstemcheck = ""
 
+    window_settings_open = False
+    window_about_open = False
+    window_update_open = False
+
     five_eyes = False
     nine_eyes = False
     fourteen_eyes = False
