@@ -717,6 +717,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
             InitializeTableViews()
             osf.Functions.settings_closed = False
             self.blacklistAllNodesTableView.resizeRowsToContents()
+            InitializeGUI()
 
         @pyqtSlot()
         def OpenDialogSettings():
@@ -788,6 +789,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
         @pyqtSlot()
         def InitializeTableViews():
             # Initialize TableViews on Startup
+
+            osf.Functions.GetTorrcFromFile(self)
             osf.Functions.ChangeTorrcStrictNodes(self)
             if osf.Functions.paramstrictnodes == 0:
                 self.strictnodesCheckBox.setChecked(False)
@@ -1269,6 +1272,18 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
 
         self.okButton.clicked.connect(okButtonPress)
         self.okButton.clicked.connect(SettingsDialog.close)
+
+        if osf.Functions.torrcfound is True:
+            self.fiveEyesCheckBox.show()
+            self.nineEyesCheckBox.show()
+            self.fourteenEyesCheckBox.show()
+            self.stemcheckCheckBox.show()
+        else:
+            self.fiveEyesCheckBox.hide()
+            self.nineEyesCheckBox.hide()
+            self.fourteenEyesCheckBox.hide()
+            self.stemcheckCheckBox.hide()
+
 
     def retranslateUi(self, SettingsDialog):
         _translate = QtCore.QCoreApplication.translate
