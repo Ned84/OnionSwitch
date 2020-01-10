@@ -722,6 +722,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         @pyqtSlot()
         def OpenDialogSettings():
             if osf.Functions.window_settings_open is False:
+                self.lineEdit.setText("")
                 self.window_settings = QtWidgets.QDialog()
                 self.window_settings.setWindowFlags(QtCore.Qt.WindowTitleHint)
                 self.ui = Ui_SettingsDialog()
