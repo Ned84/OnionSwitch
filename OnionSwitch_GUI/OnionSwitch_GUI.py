@@ -718,8 +718,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
             osf.Functions.settings_closed = False
             self.blacklistAllNodesTableView.resizeRowsToContents()
 
-
-
         @pyqtSlot()
         def OpenDialogSettings():
             if osf.Functions.window_settings_open is False:
@@ -730,7 +728,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.window_settings.show()
                 osf.Functions.window_settings_open = True
 
-                checkthread = threading.Thread(target=CheckSettings, daemon=True)
+                checkthread = threading.Thread(
+                    target=CheckSettings, daemon=True)
                 checkthread.start()
 
         @pyqtSlot()

@@ -44,5 +44,3 @@ FilePicker added, Start Tor via settings path.
 
 Basic GUI functionality.
 
-reactivate LINK for update check before going public (up and down)
-Change TORRC FIle path!!!!! (VARIABLE!!!!!!)
