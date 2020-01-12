@@ -8,6 +8,10 @@
 * [Manual](#manual)
   * [StrictNodes](#strictnodes)
   * [Tor Metrics](#tor-metrics)
+  * [5 - 9 - 14 Eyes Presettings](#5---9---14-eyes-presettings)
+    * [5 - Eyes](#5---eyes)
+    * [9 - Eyes](#9---eyes)
+    * [14 - Eyes](#14---eyes)
   * [Linux Versions](#linux-versions)
 * [Download](#download)
 * [Dependencies](#dependencies)
@@ -66,6 +70,38 @@ Please refer to the Tor manual [here](https://2019.www.torproject.org/docs/tor-m
 
 In the menubar under "Help" you will find the option "Tor Metrics".
 If you want to search for specific or overall available Exit nodes, click on "Tor Metrics" and it will copy the URL to tor-metrics into your clipboard, so you can open it in the browser of your choice without being forced to connect to the torproject with your normal browser if you dont want to.
+
+### 5 - 9 - 14 Eyes Presettings
+
+It is now possible to block 5 - 9 or 14 Eye Countries via the settings.
+Choose the countries you would like to block and simply press ok.
+It will add the countries to your "Blacklist all Nodes" list.
+
+![OnionSwitch TorPath](https://github.com/Ned84/OnionSwitch/blob/master/Screenshots/Settings.png)
+
+#### 5 - Eyes
+
+Australia
+Canada
+New Zealand
+United Kingdom
+United States of America
+
+#### 9 - Eyes
+
+Denmark
+France
+Netherlands
+Norway
+
+#### 14 - Eyes
+
+Belgium
+Germany
+Italy
+Spain
+Sweden
+
 
 ### Linux Versions
 
