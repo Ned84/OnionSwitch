@@ -1172,6 +1172,13 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         else:
             self.stemcheckCheckBox.setChecked(False)
 
+        if self.stemcheckCheckBox.isChecked():
+            self.stemchecktime_lineedit.setEnabled(True)
+            self.stemchecktime_label.setEnabled(True)
+        else:
+            self.stemchecktime_lineedit.setEnabled(False)
+            self.stemchecktime_label.setEnabled(False)
+
         self.lineEdit.setText(osf.Functions.parampathtotor)
 
         self.stemchecktime_lineedit.setText(
@@ -1298,6 +1305,15 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
             SettingsDialog.close
 
         @pyqtSlot()
+        def StemCheckTime_Label_Visibility():
+            if self.stemcheckCheckBox.isChecked():
+                self.stemchecktime_lineedit.setEnabled(True)
+                self.stemchecktime_label.setEnabled(True)
+            else:
+                self.stemchecktime_lineedit.setEnabled(False)
+                self.stemchecktime_label.setEnabled(False)
+
+        @pyqtSlot()
         def Close_Settings():
             osf.Functions.window_settings_open = False
             osf.Functions.settings_closed = True
@@ -1318,6 +1334,8 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
 
         self.stemchecktime_lineedit.editingFinished.connect(
             Change_StemCheckTime)
+
+        self.stemcheckCheckBox.clicked.connect(StemCheckTime_Label_Visibility)
 
         if osf.Functions.torrcfound is True:
             self.fiveEyesCheckBox.show()
