@@ -64,20 +64,24 @@ class TestTorCheck(object):
 
         countrycode = ""
         tasks = os.popen('tasklist').readlines()
+        stemcheck_time = 5
 
-        for task in tasks:
-            tor_index = task.find("tor.exe")
-            if tor_index != -1:
-                if tor_index == 0:
-                    os.system("taskkill /f /im tor.exe")
-        urlthread = threading.Thread(target=TestTorCheck.test_CheckNode, args=(
-            self, countrycode), daemon=True)
-        urlthread.start()
-        urlthread.join(timeout=10)
-        if TestTorCheck.ended_successfull is False:
-            tasks = os.popen('tasklist').readlines()
-
+        for stemcheck_time in range(5, 60):
             for task in tasks:
                 tor_index = task.find("tor.exe")
                 if tor_index != -1:
-                    os.system("taskkill /f /im tor.exe")
+                    if tor_index == 0:
+                        os.system("taskkill /f /im tor.exe")
+            torcheck_thread = threading.Thread(target=TestTorCheck.test_CheckNode, args=(
+                self, countrycode), daemon=True)
+            torcheck_thread.start()
+            torcheck_thread.join(timeout=stemcheck_time)
+            if TestTorCheck.ended_successfull is False:
+                tasks = os.popen('tasklist').readlines()
+
+                for task in tasks:
+                    tor_index = task.find("tor.exe")
+                    if tor_index != -1:
+                        os.system("taskkill /f /im tor.exe")
+
+            stemcheck_time += 1
