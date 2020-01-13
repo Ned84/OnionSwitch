@@ -84,7 +84,8 @@ class TorCheck(object):
         except Exception:
             TorCheck.ended_successfull = False
 
-    def CheckTor(self, countrycode, platform, stemcheck, pathtotor, stemcheck_time):
+    def CheckTor(
+         self, countrycode, platform, stemcheck, pathtotor, stemcheck_time):
 
         try:
             # If tor.exe is already started, quit it and start a new thread to

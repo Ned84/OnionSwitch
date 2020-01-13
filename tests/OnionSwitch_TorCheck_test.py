@@ -72,8 +72,9 @@ class TestTorCheck(object):
                 if tor_index != -1:
                     if tor_index == 0:
                         os.system("taskkill /f /im tor.exe")
-            torcheck_thread = threading.Thread(target=TestTorCheck.test_CheckNode, args=(
-                self, countrycode), daemon=True)
+            torcheck_thread = threading.Thread(
+                target=TestTorCheck.test_CheckNode, args=(
+                    self, countrycode), daemon=True)
             torcheck_thread.start()
             torcheck_thread.join(timeout=stemcheck_time)
             if TestTorCheck.ended_successfull is False:

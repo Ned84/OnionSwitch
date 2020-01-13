@@ -737,7 +737,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
                     target=CheckSettings, daemon=True)
                 checkthread.start()
 
-
         @pyqtSlot()
         def OpenDialogUpdate():
             if osf.Functions.window_update_open is False:
@@ -1197,7 +1196,8 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
                 if (int)(self.stemchecktime_lineedit.text()) <= 5:
                     self.stemchecktime_lineedit.setText("5")
             else:
-                self.stemchecktime_lineedit.setText("{0}".format(osf.Functions.paramstemchecktime))
+                self.stemchecktime_lineedit.setText(
+                    "{0}".format(osf.Functions.paramstemchecktime))
 
         @pyqtSlot()
         def fiveeyes_changed():
@@ -1315,7 +1315,8 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         self.okButton.clicked.connect(okButtonPress)
         self.okButton.clicked.connect(SettingsDialog.close)
 
-        self.stemchecktime_lineedit.editingFinished.connect(Change_StemCheckTime)
+        self.stemchecktime_lineedit.editingFinished.connect(
+            Change_StemCheckTime)
 
         if osf.Functions.torrcfound is True:
             self.fiveEyesCheckBox.show()
@@ -1327,7 +1328,6 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
             self.nineEyesCheckBox.hide()
             self.fourteenEyesCheckBox.hide()
             self.stemcheckCheckBox.hide()
-
 
     def retranslateUi(self, SettingsDialog):
         _translate = QtCore.QCoreApplication.translate
@@ -1345,7 +1345,8 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
             "SettingsDialog", "Block '9-Eyes' Countries"))
         self.fourteenEyesCheckBox.setText(_translate(
             "SettingsDialog", "Block '14-Eyes' Countries"))
-        self.stemchecktime_label.setText(_translate("SettingsDialog", "Stem Check max. Time"))
+        self.stemchecktime_label.setText(_translate(
+            "SettingsDialog", "Stem Check max. Time"))
 
 
 class Ui_UpdateDialog(object):

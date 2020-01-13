@@ -35,6 +35,7 @@ class TestFunctions(object):
     paramstrictnodes = 0
     paramplatform = ""
     paramstemcheck = ""
+    paramstemchecktime = 0
 
     pathtolog = ""
     pathtoparam = ""
@@ -565,8 +566,9 @@ class TestFunctions(object):
                     '\\OnionSwitch\\osparam\\Param.json', "w+")
 
         data = [{"version": version, "Path_to_Tor": "",
-                "Update_available": False, "StrictNodes": 1,
-                 "Platform": "", "StemCheck": False}]
+                 "Update_available": False, "StrictNodes": 1,
+                 "Platform": "", "StemCheck": False,
+                 "StemCheck_Time": 10}]
 
         json.dump(data, file, indent=1, sort_keys=True)
         file.close()
@@ -597,16 +599,19 @@ class TestFunctions(object):
                 'Update_available']
             param_details['StrictNodes'] = item['StrictNodes']
             param_details['StemCheck'] = item['StemCheck']
+            param_details['StemCheck_Time'] = item['StemCheck_Time']
             param_list.append(param_details)
         file.close()
 
         TestFunctions.parampathtotor = param_details['Path_to_Tor']
         TestFunctions.paramupdateavailable = \
             param_details['Update_available']
+        TestFunctions.paramstemchecktime = param_details['StemCheck_Time']
         assert type(TestFunctions.parampathtotor) == str
         assert type(TestFunctions.paramstrictnodes) == int
         assert type(TestFunctions.paramversion) == str
         assert type(TestFunctions.paramupdateavailable) == bool
+        assert type(TestFunctions.paramstemchecktime) == int
 
     def test_WriteSettingsToJson(self):
         file = open(os.getenv(
@@ -621,6 +626,7 @@ class TestFunctions(object):
         param_details['StrictNodes'] = TestFunctions.paramstrictnodes
         param_details['Platform'] = TestFunctions.paramplatform
         param_details['StemCheck'] = TestFunctions.paramstemcheck
+        param_details['StemCheck_Time'] = TestFunctions.paramstemchecktime
         param_list.append(param_details)
         file.close()
 
@@ -628,6 +634,7 @@ class TestFunctions(object):
         assert type(param_details['StrictNodes']) == int
         assert type(param_details['version']) == str
         assert type(param_details['Update_available']) == bool
+        assert type(param_details['StemCheck_Time']) == int
 
         file = open(os.getenv(
             'LOCALAPPDATA') + '\\OnionSwitch\\osparam\\Param.json', "w")
