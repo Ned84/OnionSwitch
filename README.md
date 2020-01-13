@@ -81,26 +81,26 @@ It will add the countries to your "Blacklist all Nodes" list.
 
 #### 5 - Eyes
 
-Australia
-Canada
-New Zealand
-United Kingdom
-United States of America
+* Australia
+* Canada
+* New Zealand
+* United Kingdom
+* United States of America
 
 #### 9 - Eyes
 
-Denmark
-France
-Netherlands
-Norway
+* Denmark
+* France
+* Netherlands
+* Norway
 
 #### 14 - Eyes
 
-Belgium
-Germany
-Italy
-Spain
-Sweden
+* Belgium
+* Germany
+* Italy
+* Spain
+* Sweden
 
 
 ### Linux Versions
