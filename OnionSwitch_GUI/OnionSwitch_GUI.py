@@ -190,8 +190,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(113, 80, 113, 22))
+        self.lineEdit.setGeometry(QtCore.QRect(113, 80, 80, 22))
         self.lineEdit.setObjectName("lineEdit")
+        self.lineEdit.setAlignment(QtCore.Qt.AlignCenter)
         self.tabWidget = QtWidgets.QTabWidget(self.centralwidget)
         self.tabWidget.setGeometry(QtCore.QRect(0, 110, 525, 171))
         self.tabWidget.setTabPosition(QtWidgets.QTabWidget.North)
@@ -1323,11 +1324,15 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
             self.nineEyesCheckBox.show()
             self.fourteenEyesCheckBox.show()
             self.stemcheckCheckBox.show()
+            self.stemchecktime_lineedit.show()
+            self.stemchecktime_label.show()
         else:
             self.fiveEyesCheckBox.hide()
             self.nineEyesCheckBox.hide()
             self.fourteenEyesCheckBox.hide()
             self.stemcheckCheckBox.hide()
+            self.stemchecktime_lineedit.hide()
+            self.stemchecktime_label.hide()
 
     def retranslateUi(self, SettingsDialog):
         _translate = QtCore.QCoreApplication.translate
