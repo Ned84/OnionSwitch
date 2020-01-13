@@ -91,7 +91,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
                     data = [{"version": version, "Path_to_Tor": "",
                             "Update_available": False, "StrictNodes": 1,
-                             "Platform": "", "StemCheck": False}]
+                             "Platform": "", "StemCheck": False,
+                             "StemCheck_Time": 10}]
 
                     json.dump(data, file, indent=1, sort_keys=True)
 
@@ -477,7 +478,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
                                 self, self.lineEdit.text(),
                                 osf.Functions.paramplatform,
                                 osf.Functions.paramstemcheck,
-                                osf.Functions.parampathtotor)
+                                osf.Functions.parampathtotor,
+                                osf.Functions.paramstemchecktime)
 
                             if ostc.TorCheck.connected is False:
                                 connection_count = 0
@@ -725,6 +727,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.lineEdit.setText("")
                 self.window_settings = QtWidgets.QDialog()
                 self.window_settings.setWindowFlags(QtCore.Qt.WindowTitleHint)
+                self.window_settings.installEventFilter(self)
                 self.ui = Ui_SettingsDialog()
                 self.ui.setupUi(self.window_settings)
                 self.window_settings.show()
@@ -733,6 +736,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 checkthread = threading.Thread(
                     target=CheckSettings, daemon=True)
                 checkthread.start()
+
 
         @pyqtSlot()
         def OpenDialogUpdate():
@@ -880,7 +884,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
             else:
                 self.standbyLabel.setText(
                     "Adding node can take.\n"
-                    "up to 10 seconds.\n"
+                    "up to "
+                    "{0}".format(
+                        osf.Functions.paramstemchecktime) +
+                    " seconds.\n"
                     "Please stand by.")
 
         InitializeGUI()
@@ -976,7 +983,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.standbyLabel.setText(_translate(
                                         "MainWindow",
                                         "Adding node can take.\n"
-                                        "up to 10 seconds.\n"
+                                        "up to "
+                                        "{0}".format(
+                                            osf.Functions.paramstemchecktime) +
+                                        "seconds.\n"
                                         "Please stand by."))
 
 
@@ -1086,19 +1096,19 @@ class Ui_Tor_Metrics_Dialog(object):
 class Ui_SettingsDialog(QtWidgets.QWidget):
     def setupUi(self, SettingsDialog):
         SettingsDialog.setObjectName("SettingsDialog")
-        SettingsDialog.resize(400, 250)
-        SettingsDialog.setMinimumSize(QtCore.QSize(400, 250))
-        SettingsDialog.setMaximumSize(QtCore.QSize(400, 250))
+        SettingsDialog.resize(400, 300)
+        SettingsDialog.setMinimumSize(QtCore.QSize(400, 300))
+        SettingsDialog.setMaximumSize(QtCore.QSize(400, 300))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(
             ":/resources/OnionSwitch_Logo.png"),
             QtGui.QIcon.Normal, QtGui.QIcon.Off)
         SettingsDialog.setWindowIcon(icon)
         self.okButton = QtWidgets.QPushButton(SettingsDialog)
-        self.okButton.setGeometry(QtCore.QRect(180, 210, 93, 28))
+        self.okButton.setGeometry(QtCore.QRect(180, 260, 93, 28))
         self.okButton.setObjectName("okButton")
         self.cancelButton = QtWidgets.QPushButton(SettingsDialog)
-        self.cancelButton.setGeometry(QtCore.QRect(290, 210, 93, 28))
+        self.cancelButton.setGeometry(QtCore.QRect(290, 260, 93, 28))
         self.cancelButton.setObjectName("cancelButton")
         self.lineEdit = QtWidgets.QLineEdit(SettingsDialog)
         self.lineEdit.setGeometry(QtCore.QRect(20, 50, 361, 22))
@@ -1112,14 +1122,27 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         font.setBold(True)
         font.setWeight(75)
         self.stemcheckCheckBox.setFont(font)
+
+        self.stemchecktime_lineedit = QtWidgets.QLineEdit(SettingsDialog)
+        self.stemchecktime_lineedit.setGeometry(QtCore.QRect(15, 105, 25, 22))
+        self.stemchecktime_lineedit.setObjectName("stemchecktime_lineedit")
+        self.stemchecktime_lineedit.setAlignment(QtCore.Qt.AlignCenter)
+        self.stemchecktime_lineedit.setFont(font)
+        self.stemchecktime_lineedit.setMaxLength(2)
+
+        self.stemchecktime_label = QtWidgets.QLabel(SettingsDialog)
+        self.stemchecktime_label.setGeometry(QtCore.QRect(43, 105, 150, 22))
+        self.stemchecktime_label.setObjectName("stemchecktime_label")
+        self.stemchecktime_label.setFont(font)
+
         self.fiveEyesCheckBox = QtWidgets.QCheckBox(SettingsDialog)
-        self.fiveEyesCheckBox.setGeometry(QtCore.QRect(180, 115, 190, 21))
+        self.fiveEyesCheckBox.setGeometry(QtCore.QRect(180, 145, 190, 21))
         self.fiveEyesCheckBox.setFont(font)
         self.nineEyesCheckBox = QtWidgets.QCheckBox(SettingsDialog)
-        self.nineEyesCheckBox.setGeometry(QtCore.QRect(180, 145, 190, 21))
+        self.nineEyesCheckBox.setGeometry(QtCore.QRect(180, 175, 190, 21))
         self.nineEyesCheckBox.setFont(font)
         self.fourteenEyesCheckBox = QtWidgets.QCheckBox(SettingsDialog)
-        self.fourteenEyesCheckBox.setGeometry(QtCore.QRect(180, 175, 190, 21))
+        self.fourteenEyesCheckBox.setGeometry(QtCore.QRect(180, 205, 190, 21))
         self.fourteenEyesCheckBox.setFont(font)
         self.label = QtWidgets.QLabel(SettingsDialog)
         self.label.setGeometry(QtCore.QRect(20, 20, 171, 21))
@@ -1135,7 +1158,7 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         self.openButton.setObjectName("openButton")
         self.onionswitch_logo_frame = QtWidgets.QFrame(SettingsDialog)
         self.onionswitch_logo_frame.setGeometry(
-            QtCore.QRect(10, 110, 141, 131))
+            QtCore.QRect(10, 160, 141, 131))
         self.onionswitch_logo_frame.setStyleSheet(
             "image: url(:/resources/OnionSwitch_Logo.png);")
         self.onionswitch_logo_frame.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -1151,6 +1174,9 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
 
         self.lineEdit.setText(osf.Functions.parampathtotor)
 
+        self.stemchecktime_lineedit.setText(
+            "{0}".format(osf.Functions.paramstemchecktime))
+
         def OpenFilePicker():
             try:
                 folderName = QFileDialog.getExistingDirectory(
@@ -1160,6 +1186,18 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
 
             except Exception as exc:
                 osf.Functions.WriteLog(self, exc)
+
+        @pyqtSlot()
+        def Change_StemCheckTime():
+
+            if self.stemchecktime_lineedit.text().isdigit():
+                if (int)(self.stemchecktime_lineedit.text()) > 60:
+                    self.stemchecktime_lineedit.setText("60")
+
+                if (int)(self.stemchecktime_lineedit.text()) <= 5:
+                    self.stemchecktime_lineedit.setText("5")
+            else:
+                self.stemchecktime_lineedit.setText("{0}".format(osf.Functions.paramstemchecktime))
 
         @pyqtSlot()
         def fiveeyes_changed():
@@ -1188,6 +1226,9 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
                     osf.Functions.paramstemcheck = False
 
                 osf.Functions.parampathtotor = self.lineEdit.text()
+
+                osf.Functions.paramstemchecktime = (int)(
+                    self.stemchecktime_lineedit.text())
 
                 if self.fiveEyesCheckBox.isChecked() is True:
                     osf.Functions.Add_Eyes_ToArray(
@@ -1274,6 +1315,8 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         self.okButton.clicked.connect(okButtonPress)
         self.okButton.clicked.connect(SettingsDialog.close)
 
+        self.stemchecktime_lineedit.editingFinished.connect(Change_StemCheckTime)
+
         if osf.Functions.torrcfound is True:
             self.fiveEyesCheckBox.show()
             self.nineEyesCheckBox.show()
@@ -1302,6 +1345,7 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
             "SettingsDialog", "Block '9-Eyes' Countries"))
         self.fourteenEyesCheckBox.setText(_translate(
             "SettingsDialog", "Block '14-Eyes' Countries"))
+        self.stemchecktime_label.setText(_translate("SettingsDialog", "Stem Check max. Time"))
 
 
 class Ui_UpdateDialog(object):
