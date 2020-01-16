@@ -43,6 +43,8 @@ Please close the Tor-Browser (if opened) before starting and using OnionSwitch
 
 Choose the path to your Tor-Browser in the Settings (the very first folder in the Tor-Browser structure) as shown below (in Edit -> Settings).
 In the Settings its possible to turn off the Stem Node Check which connects to an exit when choosing a country to check if the exit country is available or not. If you experience problems with Stem you can turn it off here.
+Its possible to change the timeout presetting for the stem node check between 5 and 60 seconds.
+Use a higher presetting if you experience timeouts on exit-nodes that should be available.
 
 ![OnionSwitch TorPath](https://github.com/Ned84/OnionSwitch/blob/master/Screenshots/Settings.png)
 
