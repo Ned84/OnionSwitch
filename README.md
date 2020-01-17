@@ -12,6 +12,7 @@
     * [5 - Eyes](#5---eyes)
     * [9 - Eyes](#9---eyes)
     * [14 - Eyes](#14---eyes)
+  * [Reset Tor](#reset-tor)
   * [Linux Versions](#linux-versions)
 * [Download](#download)
 * [Dependencies](#dependencies)
