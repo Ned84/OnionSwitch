@@ -201,7 +201,7 @@ Use Pyinstaller from within the OnionSwitch_GUI folder.
 
 ```pip3 install tor```
 
-```pyinstaller --windowed --icon=Icon/onionswitch_icon.ico --clean --name OnionSwitch OnionSwitch_GUI.py```
+```pyinstaller --windowed --icon=Icon/onionswitch_icon.ico --clean --name OnionSwitch.app OnionSwitch_GUI.py```
 
 ## Support
 

@@ -12,8 +12,10 @@ Console
 GUI
 Output
 build
+dist
 *.spec
 Linux
+OnionSwitch
 
 # Ignore till finished
 OnionSwitch_Console
