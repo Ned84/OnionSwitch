@@ -107,7 +107,7 @@ It will add the countries to your "Blacklist all Nodes" list.
 
 ### Reset Tor
 
-In the help menu is the "Reset Tor" Menu. If you experience problems with the Tor Browser (not connecting to relais anymore, timeouts etc) you can reset it here back to the state when you first launched the OnionSwitch.
+In the help menu is the "Reset Tor" Menu. If you experience problems with the Tor Browser (not connecting to relais anymore, timeouts etc) you can reset it here back to the state when you first launched the OnionSwitch. Please restart OnionSwitch after reseting.
 
 
 ### Linux Versions
