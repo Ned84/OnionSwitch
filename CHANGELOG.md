@@ -1,5 +1,13 @@
 # OnionSwitch Changelog
 
+## V1.2
+
+Minor Bugfixes
+Added Tor Reset in the Help menu
+Added 5-9-14 eyes to settings
+Changed settings handling
+Added stem check max time
+
 ## V1.1
 
 Changed Dialogtitles.

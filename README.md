@@ -112,7 +112,7 @@ In the help menu is the "Reset Tor" Menu. If you experience problems with the To
 
 ### Linux Versions
 
-OnionSwitch is tested in **Ubuntu**.
+OnionSwitch is tested in **Ubuntu, Debian and Fedora**.
 
 ## Download
 
