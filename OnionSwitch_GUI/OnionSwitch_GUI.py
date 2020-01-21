@@ -1116,25 +1116,29 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         self.lineEdit.setObjectName("lineEdit")
         self.stemcheckCheckBox = QtWidgets.QCheckBox(SettingsDialog)
         self.stemcheckCheckBox.setGeometry(QtCore.QRect(20, 80, 150, 21))
+
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(8)
-        font.setBold(True)
-        font.setWeight(75)
-        self.stemcheckCheckBox.setFont(font)
+        if osf.Functions.paramplatform == "Windows":
+            font.setPointSize(8)
+            font.setBold(True)
+            font.setWeight(75)
+        else:
+            font.setPointSize(10)
+            font.setBold(True)
+            font.setWeight(75)
 
+        self.stemcheckCheckBox.setFont(font)
         self.stemchecktime_lineedit = QtWidgets.QLineEdit(SettingsDialog)
         self.stemchecktime_lineedit.setGeometry(QtCore.QRect(15, 105, 25, 22))
         self.stemchecktime_lineedit.setObjectName("stemchecktime_lineedit")
         self.stemchecktime_lineedit.setAlignment(QtCore.Qt.AlignCenter)
         self.stemchecktime_lineedit.setFont(font)
         self.stemchecktime_lineedit.setMaxLength(2)
-
         self.stemchecktime_label = QtWidgets.QLabel(SettingsDialog)
         self.stemchecktime_label.setGeometry(QtCore.QRect(43, 105, 150, 22))
         self.stemchecktime_label.setObjectName("stemchecktime_label")
         self.stemchecktime_label.setFont(font)
-
         self.fiveEyesCheckBox = QtWidgets.QCheckBox(SettingsDialog)
         self.fiveEyesCheckBox.setGeometry(QtCore.QRect(180, 145, 190, 21))
         self.fiveEyesCheckBox.setFont(font)
