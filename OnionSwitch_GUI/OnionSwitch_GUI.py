@@ -166,9 +166,18 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.strictnodesCheckBox.setGeometry(QtCore.QRect(250, 81, 311, 21))
         font = QtGui.QFont()
         font.setFamily("Arial")
-        font.setPointSize(8)
-        font.setBold(True)
-        font.setWeight(75)
+
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        if osf.Functions.paramplatform == "Windows":
+            font.setPointSize(8)
+            font.setBold(True)
+            font.setWeight(75)
+        else:
+            font.setPointSize(10)
+            font.setBold(True)
+            font.setWeight(75)
+
         self.strictnodesCheckBox.setFont(font)
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 20, 311, 21))
