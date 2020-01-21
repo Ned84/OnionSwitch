@@ -713,7 +713,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
         def OpenDialogAbout():
             if osf.Functions.window_about_open is False:
                 self.window = QtWidgets.QDialog()
-                self.window.setWindowFlags(QtCore.Qt.WindowTitleHint)
+                self.window.setWindowFlags(self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
+                self.window.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
                 self.ui = Ui_AboutDialog()
                 self.ui.setupUi(self.window)
                 self.window.show()
@@ -736,7 +737,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
             if osf.Functions.window_settings_open is False:
                 self.lineEdit.setText("")
                 self.window_settings = QtWidgets.QDialog()
-                self.window_settings.setWindowFlags(QtCore.Qt.WindowTitleHint)
+                self.window_settings.setWindowFlags(self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
+                self.window_settings.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
                 self.window_settings.installEventFilter(self)
                 self.ui = Ui_SettingsDialog()
                 self.ui.setupUi(self.window_settings)
@@ -751,7 +753,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
         def OpenDialogUpdate():
             if osf.Functions.window_update_open is False:
                 self.window = QtWidgets.QDialog()
-                self.window.setWindowFlags(QtCore.Qt.WindowTitleHint)
+                self.window.setWindowFlags(self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
+                self.window.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
                 self.ui = Ui_UpdateDialog()
                 self.ui.setupUi(self.window)
                 self.window.show()
@@ -760,7 +763,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
         @pyqtSlot()
         def OpenDialogFault():
             self.window = QtWidgets.QDialog()
-            self.window.setWindowFlags(QtCore.Qt.WindowTitleHint)
+            self.window.setWindowFlags(self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
+            self.window.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
             self.ui = Ui_Tor_Metrics_Dialog()
             self.ui.setupUi(self.window)
             self.window.show()
