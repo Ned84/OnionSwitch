@@ -40,8 +40,11 @@ class Functions(object):
     window_settings_open = False
     window_about_open = False
     window_update_open = False
+    window_torrc_reset_open = False
 
     settings_closed = False
+    torrc_reset_dialog_closed = False
+    reset_torrc_ok = False
 
     pathtolog = ""
     pathtoparam = ""

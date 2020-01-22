@@ -405,36 +405,67 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.tabWidget.setCurrentWidget(self.tabWidget.findChild(
             QtWidgets.QWidget, "tab1"))
 
+        def ResetTorrc_thread():
+            try:
+                while True:
+                    if osf.Functions.torrc_reset_dialog_closed is True:
+                        break
+                if osf.Functions.reset_torrc_ok is True:
+                    if osf.Functions.torrcfound is True:
+
+                        self.lineEdit.setText("")
+
+                        if osf.Functions.paramplatform == "Windows":
+                            if path.exists(osf.Functions.pathtoparam + '\\rccy')\
+                                is True:
+                                os.remove(osf.Functions.torrcfilepath)
+
+                                copyfile(osf.Functions.pathtoparam + '\\rccy',
+                                        osf.Functions.torrcfilepath)
+
+                        if osf.Functions.paramplatform == "Linux":
+                            if path.exists(osf.Functions.pathtoparam + '/rccy')\
+                                is True:
+                                os.remove(osf.Functions.torrcfilepath)
+
+                                copyfile(osf.Functions.pathtoparam + '/rccy',
+                                        osf.Functions.torrcfilepath)
+
+                        osf.Functions.reset_torrc_ok = False
+
+                        osf.Functions.GetTorrcFromFile(self)
+                        AddNodeToChosenNodeTableView()
+                        AddNodeToBlackListAllTableView()
+                        AddNodeToBlackListExitTableView()
+                        InitializeTableViews()
+                        ChangeStrictNodes()
+                        self.cantConnectToNodeFaultLabel.hide()
+
+                    osf.Functions.window_torrc_reset_open = False
+
+            except Exception as exc:
+                osf.Functions.WriteLog(self, exc)
+
         @pyqtSlot()
         def ResetTorrc():
             try:
-                if osf.Functions.torrcfound is True:
+                
 
-                    self.lineEdit.setText("")
+                if osf.Functions.window_torrc_reset_open is False:
+                    self.window = QtWidgets.QDialog()
+                    self.window.setWindowFlags(
+                        self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
+                    self.window.setWindowFlags(
+                        self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
+                    self.ui = Ui_Tor_Reset_Dialog()
+                    self.ui.setupUi(self.window)
+                    self.window.show()
+                    osf.Functions.window_torrc_reset_open = True
+                    osf.Functions.torrc_reset_dialog_closed = False
 
-                    if osf.Functions.paramplatform == "Windows":
-                        if path.exists(osf.Functions.pathtoparam + '\\rccy')\
-                             is True:
-                            os.remove(osf.Functions.torrcfilepath)
-
-                            copyfile(osf.Functions.pathtoparam + '\\rccy',
-                                     osf.Functions.torrcfilepath)
-
-                    if osf.Functions.paramplatform == "Linux":
-                        if path.exists(osf.Functions.pathtoparam + '/rccy')\
-                             is True:
-                            os.remove(osf.Functions.torrcfilepath)
-
-                            copyfile(osf.Functions.pathtoparam + '/rccy',
-                                     osf.Functions.torrcfilepath)
-
-                    osf.Functions.GetTorrcFromFile(self)
-                    AddNodeToChosenNodeTableView()
-                    AddNodeToBlackListAllTableView()
-                    AddNodeToBlackListExitTableView()
-                    InitializeTableViews()
-                    ChangeStrictNodes()
-                    self.cantConnectToNodeFaultLabel.hide()
+                    checkthread = threading.Thread(
+                        target=ResetTorrc_thread, daemon=True)
+                    checkthread.start()
 
             except Exception as exc:
                 osf.Functions.WriteLog(self, exc)
@@ -713,8 +744,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
         def OpenDialogAbout():
             if osf.Functions.window_about_open is False:
                 self.window = QtWidgets.QDialog()
-                self.window.setWindowFlags(self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
-                self.window.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
+                self.window.setWindowFlags(
+                    self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
+                self.window.setWindowFlags(
+                    self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
                 self.ui = Ui_AboutDialog()
                 self.ui.setupUi(self.window)
                 self.window.show()
@@ -737,8 +770,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
             if osf.Functions.window_settings_open is False:
                 self.lineEdit.setText("")
                 self.window_settings = QtWidgets.QDialog()
-                self.window_settings.setWindowFlags(self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
-                self.window_settings.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
+                self.window_settings.setWindowFlags(
+                    self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
+                self.window_settings.setWindowFlags(
+                    self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
                 self.window_settings.installEventFilter(self)
                 self.ui = Ui_SettingsDialog()
                 self.ui.setupUi(self.window_settings)
@@ -753,8 +788,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
         def OpenDialogUpdate():
             if osf.Functions.window_update_open is False:
                 self.window = QtWidgets.QDialog()
-                self.window.setWindowFlags(self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
-                self.window.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
+                self.window.setWindowFlags(
+                    self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
+                self.window.setWindowFlags(
+                    self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
                 self.ui = Ui_UpdateDialog()
                 self.ui.setupUi(self.window)
                 self.window.show()
@@ -763,8 +800,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
         @pyqtSlot()
         def OpenDialogFault():
             self.window = QtWidgets.QDialog()
-            self.window.setWindowFlags(self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
-            self.window.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
+            self.window.setWindowFlags(
+                self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
+            self.window.setWindowFlags(
+                self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
             self.ui = Ui_Tor_Metrics_Dialog()
             self.ui.setupUi(self.window)
             self.window.show()
@@ -1491,6 +1530,71 @@ class Ui_UpdateDialog(object):
                 self.label2.hide()
                 self.label4.show()
                 self.label3.hide()
+
+
+class Ui_Tor_Reset_Dialog(object):
+    def setupUi(self, Tor_Reset_Dialog):
+        Tor_Reset_Dialog.setObjectName("Tor_Reset_Dialog")
+        Tor_Reset_Dialog.resize(400, 150)
+        Tor_Reset_Dialog.setMinimumSize(QtCore.QSize(400, 150))
+        Tor_Reset_Dialog.setMaximumSize(QtCore.QSize(400, 150))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(
+            ":/resources/OnionSwitch_Logo.png"),
+            QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        Tor_Reset_Dialog.setWindowIcon(icon)
+        self.yesButton = QtWidgets.QPushButton(Tor_Reset_Dialog)
+        self.yesButton.setGeometry(QtCore.QRect(180, 110, 93, 28))
+        self.yesButton.setObjectName("yesButton")
+        self.noButton = QtWidgets.QPushButton(Tor_Reset_Dialog)
+        self.noButton.setGeometry(QtCore.QRect(290, 110, 93, 28))
+        self.noButton.setObjectName("noButton")
+        self.label = QtWidgets.QLabel(Tor_Reset_Dialog)
+        self.label.setGeometry(QtCore.QRect(20, 20, 381, 71))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(10)
+        font.setBold(True)
+        font.setWeight(75)
+        self.label.setFont(font)
+        self.label.setObjectName("label")
+
+        self.retranslateUi(Tor_Reset_Dialog)
+        QtCore.QMetaObject.connectSlotsByName(Tor_Reset_Dialog)
+
+        osf.Functions.window_torrc_reset_open = True
+        
+
+        @pyqtSlot()
+        def Close_Dialog_Yes():
+            osf.Functions.window_torrc_reset_open = False
+            osf.Functions.torrc_reset_dialog_closed = True
+            osf.Functions.reset_torrc_ok = True
+            Tor_Reset_Dialog.close()
+
+        @pyqtSlot()
+        def Close_Dialog_No():
+            osf.Functions.window_torrc_reset_open = False
+            osf.Functions.torrc_reset_dialog_closed = True
+            Tor_Reset_Dialog.close()
+
+
+
+
+
+        self.yesButton.clicked.connect(Close_Dialog_Yes)
+        self.noButton.clicked.connect(Close_Dialog_No)
+
+    def retranslateUi(self, Tor_Reset_Dialog):
+        _translate = QtCore.QCoreApplication.translate
+        Tor_Reset_Dialog.setWindowTitle(_translate(
+            "Tor_Reset_Dialog", "Information"))
+        self.yesButton.setText(_translate("Tor_Reset_Dialog", "Yes"))
+        self.noButton.setText(_translate("Tor_Reset_Dialog", "No"))
+        self.label.setText(_translate(
+            "Tor_Reset_Dialog", "This will reset your torrc.\n"
+            "After reset please restart the OnionSwitch.\n"
+            "Do you want to reset?."))
 
 
 if __name__ == "__main__":
