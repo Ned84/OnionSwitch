@@ -1,7 +1,5 @@
 # OnionSwitch Changelog
 
-test
-
 ## V1.2
 
 Minor Bugfixes
