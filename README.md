@@ -34,7 +34,7 @@
 ## Description
 
 Interface to easily switch the Tor-Exit-Node Destination Country in your Tor-Browser.
-It is possible to force exit nodes to a specific country, exlude exit node countries and/or exclude countries for every Relay not only the exit relay.
+It is possible to force exit nodes to a specific country, exclude exit node countries and/or exclude countries for every Relay not only the exit relay.
 
 ## Manual
 
