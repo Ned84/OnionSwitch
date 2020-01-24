@@ -416,20 +416,22 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         self.lineEdit.setText("")
 
                         if osf.Functions.paramplatform == "Windows":
-                            if path.exists(osf.Functions.pathtoparam + '\\rccy')\
-                                is True:
+                            if path.exists(
+                                osf.Functions.pathtoparam + '\\rccy')\
+                                 is True:
                                 os.remove(osf.Functions.torrcfilepath)
 
                                 copyfile(osf.Functions.pathtoparam + '\\rccy',
-                                        osf.Functions.torrcfilepath)
+                                         osf.Functions.torrcfilepath)
 
                         if osf.Functions.paramplatform == "Linux":
-                            if path.exists(osf.Functions.pathtoparam + '/rccy')\
-                                is True:
+                            if path.exists(
+                                osf.Functions.pathtoparam + '/rccy')\
+                                 is True:
                                 os.remove(osf.Functions.torrcfilepath)
 
                                 copyfile(osf.Functions.pathtoparam + '/rccy',
-                                        osf.Functions.torrcfilepath)
+                                         osf.Functions.torrcfilepath)
 
                         osf.Functions.reset_torrc_ok = False
 
@@ -449,8 +451,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         @pyqtSlot()
         def ResetTorrc():
             try:
-                
-
                 if osf.Functions.window_torrc_reset_open is False:
                     self.window = QtWidgets.QDialog()
                     self.window.setWindowFlags(
@@ -1563,7 +1563,6 @@ class Ui_Tor_Reset_Dialog(object):
         QtCore.QMetaObject.connectSlotsByName(Tor_Reset_Dialog)
 
         osf.Functions.window_torrc_reset_open = True
-        
 
         @pyqtSlot()
         def Close_Dialog_Yes():
@@ -1577,10 +1576,6 @@ class Ui_Tor_Reset_Dialog(object):
             osf.Functions.window_torrc_reset_open = False
             osf.Functions.torrc_reset_dialog_closed = True
             Tor_Reset_Dialog.close()
-
-
-
-
 
         self.yesButton.clicked.connect(Close_Dialog_Yes)
         self.noButton.clicked.connect(Close_Dialog_No)
