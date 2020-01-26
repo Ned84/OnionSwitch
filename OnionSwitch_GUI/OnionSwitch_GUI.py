@@ -526,6 +526,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
                                 connection_count = 0
                             else:
                                 connection_count += 1
+
+                            if osf.Functions.resettorrc_changed is True:
+                                connection_count += 1
+                                osf.Functions.resettorrc_changed = False
                         else:
                             connection_count = 1
                             Ui_MainWindow.firstrun = False
@@ -1569,6 +1573,7 @@ class Ui_Tor_Reset_Dialog(object):
             osf.Functions.window_torrc_reset_open = False
             osf.Functions.torrc_reset_dialog_closed = True
             osf.Functions.reset_torrc_ok = True
+            osf.Functions.resettorrc_changed = True
             Tor_Reset_Dialog.close()
 
         @pyqtSlot()

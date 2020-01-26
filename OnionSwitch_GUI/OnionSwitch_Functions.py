@@ -60,6 +60,7 @@ class Functions(object):
     torrcstrictnodes = False
 
     settingschanged = False
+    resettorrc_changed = False
 
     countrynames = ["",
                     "ASCENSION ISLAND",
