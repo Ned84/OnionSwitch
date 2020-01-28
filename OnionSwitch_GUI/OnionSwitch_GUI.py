@@ -1444,14 +1444,30 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             QtGui.QIcon.Normal, QtGui.QIcon.Off)
         SettingsNewDialog.setWindowIcon(icon)
 
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        if osf.Functions.paramplatform == "Windows":
+            font.setPointSize(10)
+        else:
+            font.setPointSize(12)
+
         self.cancel_Button = QtWidgets.QPushButton(SettingsNewDialog)
         self.cancel_Button.setGeometry(QtCore.QRect(290, 260, 93, 28))
         self.cancel_Button.setObjectName("cancel_Button")
-
         self.ok_Button = QtWidgets.QPushButton(SettingsNewDialog)
         self.ok_Button.setGeometry(QtCore.QRect(200, 260, 93, 28))
         self.ok_Button.setObjectName("ok_Button")
 
+        self.main_listview = QtWidgets.QListWidget(SettingsNewDialog)
+        self.main_listview.setGeometry(QtCore.QRect(0, 0, 150, 300))
+        self.main_listview.setObjectName("main_listview")
+        self.main_listview.setFont(font)
+        self.main_listview.addItem("General")
+        self.main_listview.addItem("Nodes")
+        self.main_listview.addItem("Eyes - Countries")
+
+        self.retranslateUi(SettingsNewDialog)
+        QtCore.QMetaObject.connectSlotsByName(SettingsNewDialog)
 
 
         @pyqtSlot()
