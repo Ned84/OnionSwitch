@@ -1452,20 +1452,38 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             font.setPointSize(12)
 
         self.cancel_Button = QtWidgets.QPushButton(SettingsNewDialog)
-        self.cancel_Button.setGeometry(QtCore.QRect(290, 260, 93, 28))
+        self.cancel_Button.setGeometry(QtCore.QRect(300, 260, 90, 28))
         self.cancel_Button.setObjectName("cancel_Button")
         self.ok_Button = QtWidgets.QPushButton(SettingsNewDialog)
-        self.ok_Button.setGeometry(QtCore.QRect(200, 260, 93, 28))
+        self.ok_Button.setGeometry(QtCore.QRect(200, 260, 90, 28))
         self.ok_Button.setObjectName("ok_Button")
+        self.main_listWidget = QtWidgets.QListWidget(SettingsNewDialog)
+        self.main_listWidget.setGeometry(QtCore.QRect(0, 0, 150, 300))
+        self.main_listWidget.setObjectName("main_listview")
+        self.main_listWidget.setFont(font)
+        self.main_listWidget.addItem("General")
+        self.main_listWidget.addItem("Nodes")
+        self.main_listWidget.addItem("Eyes - Countries")
+        
+        self.general_groupbox = QtWidgets.QGroupBox(SettingsNewDialog)
+        self.general_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 250))
+        self.lineEdit = QtWidgets.QLineEdit(self.general_groupbox)
+        self.lineEdit.setGeometry(QtCore.QRect(10, 40, 230, 22))
+        self.lineEdit.setReadOnly(True)
+        self.lineEdit.setObjectName("lineEdit")
+        self.openButton = QtWidgets.QPushButton(self.general_groupbox)
+        self.openButton.setGeometry(QtCore.QRect(147, 70, 93, 28))
+        self.openButton.setObjectName("openButton")
+        self.pathtotorLabel = QtWidgets.QLabel(self.general_groupbox)
+        self.pathtotorLabel.setGeometry(QtCore.QRect(10, 10, 171, 21))
+        self.pathtotorLabel.setFont(font)
+        self.pathtotorLabel.setObjectName("pathtotorLabel")
 
-        self.main_listview = QtWidgets.QListWidget(SettingsNewDialog)
-        self.main_listview.setGeometry(QtCore.QRect(0, 0, 150, 300))
-        self.main_listview.setObjectName("main_listview")
-        self.main_listview.setFont(font)
-        self.main_listview.addItem("General")
-        self.main_listview.addItem("Nodes")
-        self.main_listview.addItem("Eyes - Countries")
+        
 
+        
+        
+        
         self.retranslateUi(SettingsNewDialog)
         QtCore.QMetaObject.connectSlotsByName(SettingsNewDialog)
 
@@ -1476,8 +1494,35 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             osf.Functions.settings_closed = True
             SettingsNewDialog.close()
 
+        @pyqtSlot()
+        def OpenFilePicker():
+            try:
+                folderName = QFileDialog.getExistingDirectory(
+                    self, "Select Tor Directory")
+                if folderName:
+                    self.lineEdit.setText(folderName)
+
+            except Exception as exc:
+                osf.Functions.WriteLog(self, exc)
+
+        @pyqtSlot()
+        def Main_SelectionChanged():
+            if self.main_listWidget.currentItem().text() == "General":
+                self.general_groupbox.show()
+
+            if self.main_listWidget.currentItem().text() == "Nodes":
+                self.general_groupbox.hide()
+
+
+            if self.main_listWidget.currentItem().text() == "Eyes - Countries":
+                self.general_groupbox.hide()
+
 
         self.cancel_Button.clicked.connect(Cancel_Clicked)
+
+        self.openButton.clicked.connect(OpenFilePicker)
+
+        self.main_listWidget.currentItemChanged.connect(Main_SelectionChanged)
 
 
     def retranslateUi(self, SettingsNewDialog):
@@ -1486,6 +1531,9 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             "SettingsNewDialog", "Settings"))
         self.ok_Button.setText(_translate("SettingsNewDialog", "OK"))
         self.cancel_Button.setText(_translate("SettingsNewDialog", "Cancel"))
+        self.openButton.setText(_translate("SettingsNewDialog", "Open"))
+        self.pathtotorLabel.setText(_translate(
+            "SettingsNewDialog", "Path to Tor Browser:"))
 
 
 class Ui_UpdateDialog(object):
@@ -1656,6 +1704,7 @@ class Ui_Tor_Reset_Dialog(object):
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
+    styles = QtWidgets.QStyleFactory.keys()
     app.setStyle('Fusion')
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
