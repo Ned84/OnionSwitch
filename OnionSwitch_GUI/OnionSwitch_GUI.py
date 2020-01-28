@@ -779,7 +779,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.window_settings.setWindowFlags(
                     self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
                 self.window_settings.installEventFilter(self)
-                self.ui = Ui_SettingsDialog()
+                # self.ui = Ui_SettingsDialog()
+                self.ui = Ui_SettingsNewDialog()
                 self.ui.setupUi(self.window_settings)
                 self.window_settings.show()
                 osf.Functions.window_settings_open = True
@@ -1430,6 +1431,45 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
             "SettingsDialog", "Block '14-Eyes' Countries"))
         self.stemchecktime_label.setText(_translate(
             "SettingsDialog", "Stem Check max. Time"))
+
+class Ui_SettingsNewDialog(QtWidgets.QWidget):
+    def setupUi(self, SettingsNewDialog):
+        SettingsNewDialog.setObjectName("SettingsNewDialog")
+        SettingsNewDialog.resize(400, 300)
+        SettingsNewDialog.setMinimumSize(QtCore.QSize(400, 300))
+        SettingsNewDialog.setMaximumSize(QtCore.QSize(400, 300))
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap(
+            ":/resources/OnionSwitch_Logo.png"),
+            QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        SettingsNewDialog.setWindowIcon(icon)
+
+        self.cancel_Button = QtWidgets.QPushButton(SettingsNewDialog)
+        self.cancel_Button.setGeometry(QtCore.QRect(290, 260, 93, 28))
+        self.cancel_Button.setObjectName("cancel_Button")
+
+        self.ok_Button = QtWidgets.QPushButton(SettingsNewDialog)
+        self.ok_Button.setGeometry(QtCore.QRect(200, 260, 93, 28))
+        self.ok_Button.setObjectName("ok_Button")
+
+
+
+        @pyqtSlot()
+        def Cancel_Clicked():
+            osf.Functions.window_settings_open = False
+            osf.Functions.settings_closed = True
+            SettingsNewDialog.close()
+
+
+        self.cancel_Button.clicked.connect(Cancel_Clicked)
+
+
+    def retranslateUi(self, SettingsNewDialog):
+        _translate = QtCore.QCoreApplication.translate
+        SettingsNewDialog.setWindowTitle(_translate(
+            "SettingsNewDialog", "Settings"))
+        self.ok_Button.setText(_translate("SettingsNewDialog", "OK"))
+        self.cancel_Button.setText(_translate("SettingsNewDialog", "Cancel"))
 
 
 class Ui_UpdateDialog(object):
