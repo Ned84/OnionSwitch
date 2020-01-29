@@ -1479,9 +1479,53 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.pathtotorLabel.setFont(font)
         self.pathtotorLabel.setObjectName("pathtotorLabel")
 
-        
+        self.nodes_groupbox = QtWidgets.QGroupBox(SettingsNewDialog)
+        self.nodes_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 250))
+        self.stemcheck_groupbox = QtWidgets.QGroupBox(self.nodes_groupbox)
+        self.stemcheck_groupbox.setGeometry(0, 0, 250, 70)
+        self.strictnodes_groupbox = QtWidgets.QGroupBox(self.nodes_groupbox)
+        self.strictnodes_groupbox.setGeometry(0, 65, 250, 70)
+        self.stemcheckCheckBox = QtWidgets.QCheckBox(self.stemcheck_groupbox)
+        self.stemcheckCheckBox.setGeometry(QtCore.QRect(12, 10, 150, 21))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        if osf.Functions.paramplatform == "Windows":
+            font.setPointSize(8)
+            font.setBold(True)
+            font.setWeight(75)
+        else:
+            font.setPointSize(10)
+            font.setBold(True)
+            font.setWeight(75)
+        self.stemcheckCheckBox.setFont(font)
+        self.stemchecktime_lineedit = QtWidgets.QLineEdit(self.stemcheck_groupbox)
+        self.stemchecktime_lineedit.setGeometry(QtCore.QRect(5, 32, 25, 22))
+        self.stemchecktime_lineedit.setObjectName("stemchecktime_lineedit")
+        self.stemchecktime_lineedit.setAlignment(QtCore.Qt.AlignCenter)
+        self.stemchecktime_lineedit.setFont(font)
+        self.stemchecktime_lineedit.setMaxLength(2)
+        self.stemchecktime_label = QtWidgets.QLabel(self.nodes_groupbox)
+        self.stemchecktime_label.setGeometry(QtCore.QRect(35, 31, 150, 22))
+        self.stemchecktime_label.setObjectName("stemchecktime_label")
+        self.stemchecktime_label.setFont(font)
+        self.strictnodesCheckBox = QtWidgets.QCheckBox(self.strictnodes_groupbox)
+        self.strictnodesCheckBox.setGeometry(QtCore.QRect(12, 10, 311, 21))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        if osf.Functions.paramplatform == "Windows":
+            font.setPointSize(8)
+            font.setBold(True)
+            font.setWeight(75)
+        else:
+            font.setPointSize(10)
+            font.setBold(True)
+            font.setWeight(75)
+        self.strictnodesCheckBox.setFont(font)
+        self.nodes_groupbox.hide()
 
-        
+       
         
         
         self.retranslateUi(SettingsNewDialog)
@@ -1508,14 +1552,17 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         @pyqtSlot()
         def Main_SelectionChanged():
             if self.main_listWidget.currentItem().text() == "General":
+                self.nodes_groupbox.hide()
                 self.general_groupbox.show()
 
             if self.main_listWidget.currentItem().text() == "Nodes":
                 self.general_groupbox.hide()
+                self.nodes_groupbox.show()
 
 
             if self.main_listWidget.currentItem().text() == "Eyes - Countries":
                 self.general_groupbox.hide()
+                self.nodes_groupbox.hide()
 
 
         self.cancel_Button.clicked.connect(Cancel_Clicked)
@@ -1534,6 +1581,12 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.openButton.setText(_translate("SettingsNewDialog", "Open"))
         self.pathtotorLabel.setText(_translate(
             "SettingsNewDialog", "Path to Tor Browser:"))
+        self.stemcheckCheckBox.setText(_translate(
+            "SettingsNewDialog", "Stem Node Check"))
+        self.stemchecktime_label.setText(_translate(
+            "SettingsNewDialog", "Stem Check max. Time"))
+        self.strictnodesCheckBox.setText(_translate(
+            "SettingsNewDialog", "StrictNodes 0/1"))
 
 
 class Ui_UpdateDialog(object):
