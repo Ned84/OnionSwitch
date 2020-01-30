@@ -1432,6 +1432,7 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         self.stemchecktime_label.setText(_translate(
             "SettingsDialog", "Stem Check max. Time"))
 
+
 class Ui_SettingsNewDialog(QtWidgets.QWidget):
     def setupUi(self, SettingsNewDialog):
         SettingsNewDialog.setObjectName("SettingsNewDialog")
@@ -1464,9 +1465,10 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.main_listWidget.addItem("General")
         self.main_listWidget.addItem("Nodes")
         self.main_listWidget.addItem("Eyes - Countries")
-        
+
         self.general_groupbox = QtWidgets.QGroupBox(SettingsNewDialog)
         self.general_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 250))
+        self.setObjectName("general_groupbox")
         self.lineEdit = QtWidgets.QLineEdit(self.general_groupbox)
         self.lineEdit.setGeometry(QtCore.QRect(10, 40, 230, 22))
         self.lineEdit.setReadOnly(True)
@@ -1481,6 +1483,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
 
         self.nodes_groupbox = QtWidgets.QGroupBox(SettingsNewDialog)
         self.nodes_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 250))
+        self.nodes_groupbox.setObjectName("nodes_groupbox")
         self.stemcheck_groupbox = QtWidgets.QGroupBox(self.nodes_groupbox)
         self.stemcheck_groupbox.setGeometry(0, 0, 250, 70)
         self.strictnodes_groupbox = QtWidgets.QGroupBox(self.nodes_groupbox)
@@ -1498,7 +1501,8 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             font.setBold(True)
             font.setWeight(75)
         self.stemcheckCheckBox.setFont(font)
-        self.stemchecktime_lineedit = QtWidgets.QLineEdit(self.stemcheck_groupbox)
+        self.stemchecktime_lineedit = QtWidgets.QLineEdit(
+            self.stemcheck_groupbox)
         self.stemchecktime_lineedit.setGeometry(QtCore.QRect(5, 32, 25, 22))
         self.stemchecktime_lineedit.setObjectName("stemchecktime_lineedit")
         self.stemchecktime_lineedit.setAlignment(QtCore.Qt.AlignCenter)
@@ -1508,7 +1512,8 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.stemchecktime_label.setGeometry(QtCore.QRect(35, 31, 150, 22))
         self.stemchecktime_label.setObjectName("stemchecktime_label")
         self.stemchecktime_label.setFont(font)
-        self.strictnodesCheckBox = QtWidgets.QCheckBox(self.strictnodes_groupbox)
+        self.strictnodesCheckBox = QtWidgets.QCheckBox(
+            self.strictnodes_groupbox)
         self.strictnodesCheckBox.setGeometry(QtCore.QRect(12, 10, 311, 21))
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -1525,12 +1530,24 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.strictnodesCheckBox.setFont(font)
         self.nodes_groupbox.hide()
 
-       
-        
-        
+        self.eyes_groupbox = QtWidgets.QGroupBox(SettingsNewDialog)
+        self.eyes_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 250))
+        self.eyes_groupbox.setObjectName("eyes_groupbox")
+        self.fiveEyesCheckBox = QtWidgets.QCheckBox(self.eyes_groupbox)
+        self.fiveEyesCheckBox.setGeometry(QtCore.QRect(12, 10, 150, 21))
+        self.fiveEyesCheckBox.setFont(font)
+        self.nineEyesCheckBox = QtWidgets.QCheckBox(self.eyes_groupbox)
+        self.nineEyesCheckBox.setGeometry(QtCore.QRect(12, 40, 150, 21))
+        self.nineEyesCheckBox.setFont(font)
+        self.fourteenEyesCheckBox = QtWidgets.QCheckBox(self.eyes_groupbox)
+        self.fourteenEyesCheckBox.setGeometry(QtCore.QRect(12, 70, 190, 21))
+        self.fourteenEyesCheckBox.setFont(font)
+        self.eyes_groupbox.hide()
+
+
+
         self.retranslateUi(SettingsNewDialog)
         QtCore.QMetaObject.connectSlotsByName(SettingsNewDialog)
-
 
         @pyqtSlot()
         def Cancel_Clicked():
@@ -1552,25 +1569,25 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         @pyqtSlot()
         def Main_SelectionChanged():
             if self.main_listWidget.currentItem().text() == "General":
+                self.eyes_groupbox.hide()
                 self.nodes_groupbox.hide()
                 self.general_groupbox.show()
 
             if self.main_listWidget.currentItem().text() == "Nodes":
+                self.eyes_groupbox.hide()
                 self.general_groupbox.hide()
                 self.nodes_groupbox.show()
-
 
             if self.main_listWidget.currentItem().text() == "Eyes - Countries":
                 self.general_groupbox.hide()
                 self.nodes_groupbox.hide()
-
+                self.eyes_groupbox.show()
 
         self.cancel_Button.clicked.connect(Cancel_Clicked)
 
         self.openButton.clicked.connect(OpenFilePicker)
 
         self.main_listWidget.currentItemChanged.connect(Main_SelectionChanged)
-
 
     def retranslateUi(self, SettingsNewDialog):
         _translate = QtCore.QCoreApplication.translate
@@ -1587,6 +1604,12 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             "SettingsNewDialog", "Stem Check max. Time"))
         self.strictnodesCheckBox.setText(_translate(
             "SettingsNewDialog", "StrictNodes 0/1"))
+        self.fiveEyesCheckBox.setText(_translate(
+            "SettingsDialog", "Block '5-Eyes' Countries"))
+        self.nineEyesCheckBox.setText(_translate(
+            "SettingsDialog", "Block '9-Eyes' Countries"))
+        self.fourteenEyesCheckBox.setText(_translate(
+            "SettingsDialog", "Block '14-Eyes' Countries"))
 
 
 class Ui_UpdateDialog(object):
