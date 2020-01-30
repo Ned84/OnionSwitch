@@ -162,8 +162,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         font.setPointSize(10)
         self.chooseCountryBox.setFont(font)
         self.chooseCountryBox.setObjectName("chooseCountryBox")
-        self.strictnodesCheckBox = QtWidgets.QCheckBox(self.centralwidget)
-        self.strictnodesCheckBox.setGeometry(QtCore.QRect(250, 81, 311, 21))
         font = QtGui.QFont()
         font.setFamily("Arial")
 
@@ -178,7 +176,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
             font.setBold(True)
             font.setWeight(75)
 
-        self.strictnodesCheckBox.setFont(font)
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 20, 311, 21))
         self.updatelabel = QtWidgets.QLabel(self.centralwidget)
@@ -440,7 +437,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
                         AddNodeToBlackListAllTableView()
                         AddNodeToBlackListExitTableView()
                         InitializeTableViews()
-                        ChangeStrictNodes()
                         self.cantConnectToNodeFaultLabel.hide()
 
                     osf.Functions.window_torrc_reset_open = False
@@ -469,19 +465,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
             except Exception as exc:
                 osf.Functions.WriteLog(self, exc)
-
-        @pyqtSlot()
-        def ChangeStrictNodes():
-            # Change the strictnodes in the torrc file
-            # depending on the checkbox
-            if self.strictnodesCheckBox.isChecked() is True:
-                osf.Functions.torrcstrictnodes = True
-                osf.Functions.paramstrictnodes = 1
-            else:
-                osf.Functions.torrcstrictnodes = False
-                osf.Functions.paramstrictnodes = 0
-            osf.Functions.ChangeTorrcStrictNodes(self)
-            osf.Functions.WriteSettingsToJson(self)
 
         @pyqtSlot()
         def ChangeCountry():
@@ -855,10 +838,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
             osf.Functions.GetTorrcFromFile(self)
             osf.Functions.ChangeTorrcStrictNodes(self)
             if osf.Functions.paramstrictnodes == 0:
-                self.strictnodesCheckBox.setChecked(False)
                 osf.Functions.torrcstrictnodes = False
             else:
-                self.strictnodesCheckBox.setChecked(True)
                 osf.Functions.torrcstrictnodes = True
 
             osf.Functions.ChangeTorrcStrictNodes(self)
@@ -977,8 +958,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.blacklistAllButton.clicked.connect(InitializeGUI)
         self.blacklistAllButton.clicked.connect(AddNodeToBlackListAllTableView)
 
-        self.strictnodesCheckBox.clicked.connect(ChangeStrictNodes)
-
         self.actionAbout.triggered.connect(OpenDialogAbout)
         self.actionSettings.triggered.connect(OpenDialogSettings)
         self.actionUpdate.triggered.connect(OpenDialogUpdate)
@@ -1006,8 +985,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.blacklistAllButton.setText(_translate("MainWindow", "Blacklist"))
         self.startTorBrowserButton.setText(_translate(
             "MainWindow", "Start Tor-Browser"))
-        self.strictnodesCheckBox.setText(_translate(
-            "MainWindow", "StrictNodes 0/1"))
         self.resettorrcButton.setText(_translate("MainWindow", "Reset Torrc"))
         self.startTorBrowserButton3.setText(_translate(
             "MainWindow", "Start Tor-Browser"))
@@ -1566,19 +1543,23 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.stemchecktime_lineedit.setText(
             "{0}".format(osf.Functions.paramstemchecktime))
 
-        @pyqtSlot()
-        def ChangeStrictNodes():
-            # Change the strictnodes in the torrc file
-            # depending on the checkbox
-            if self.strictnodesCheckBox.isChecked() is True:
-                osf.Functions.torrcstrictnodes = True
-                osf.Functions.paramstrictnodes = 1
-            else:
-                osf.Functions.torrcstrictnodes = False
-                osf.Functions.paramstrictnodes = 0
-            
+        if osf.Functions.torrcstrictnodes is True:
+            self.strictnodesCheckBox.setChecked(True)
+        else:
+            self.strictnodesCheckBox.setChecked(False)
 
-        
+        @pyqtSlot()
+        def Change_StemCheckTime():
+
+            if self.stemchecktime_lineedit.text().isdigit():
+                if (int)(self.stemchecktime_lineedit.text()) > 60:
+                    self.stemchecktime_lineedit.setText("60")
+
+                if (int)(self.stemchecktime_lineedit.text()) <= 5:
+                    self.stemchecktime_lineedit.setText("5")
+            else:
+                self.stemchecktime_lineedit.setText(
+                    "{0}".format(osf.Functions.paramstemchecktime))
 
         @pyqtSlot()
         def fiveeyes_changed():
@@ -1641,6 +1622,13 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
                     osf.Functions.Add_Eyes_ToArray(
                         self, osf.Functions.fourteen_eye_countries)
 
+                if self.strictnodesCheckBox.isChecked() is True:
+                    osf.Functions.torrcstrictnodes = True
+                    osf.Functions.paramstrictnodes = 1
+                else:
+                    osf.Functions.torrcstrictnodes = False
+                    osf.Functions.paramstrictnodes = 0
+
                 osf.Functions.ChangeTorrcStrictNodes(self)
                 osf.Functions.WriteSettingsToJson(self)
 
@@ -1685,7 +1673,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             
 
             osf.Functions.settings_closed = True
-            SettingsDialog.close
+            SettingsNewDialog.close()
 
         @pyqtSlot()
         def StemCheckTime_Label_Visibility():
@@ -1709,6 +1697,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
 
         @pyqtSlot()
         def Main_SelectionChanged():
+            
             if self.main_listWidget.currentItem().text() == "General":
                 self.eyes_groupbox.hide()
                 self.nodes_groupbox.hide()
@@ -1733,20 +1722,44 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
 
         self.stemcheckCheckBox.clicked.connect(StemCheckTime_Label_Visibility)
 
-        if osf.Functions.torrcfound is True:
-            self.fiveEyesCheckBox.show()
-            self.nineEyesCheckBox.show()
-            self.fourteenEyesCheckBox.show()
-            self.stemcheckCheckBox.show()
-            self.stemchecktime_lineedit.show()
-            self.stemchecktime_label.show()
-        else:
-            self.fiveEyesCheckBox.hide()
-            self.nineEyesCheckBox.hide()
-            self.fourteenEyesCheckBox.hide()
-            self.stemcheckCheckBox.hide()
-            self.stemchecktime_lineedit.hide()
-            self.stemchecktime_label.hide()
+        self.stemchecktime_lineedit.editingFinished.connect(
+            Change_StemCheckTime)
+
+        self.fiveEyesCheckBox.clicked.connect(fiveeyes_changed)
+
+        self.nineEyesCheckBox.clicked.connect(nineeyes_changed)
+
+        self.fourteenEyesCheckBox.clicked.connect(fourteeneyes_changed)
+
+        if osf.Functions.torrcfound is False:
+            self.main_listWidget.takeItem(2)
+            self.main_listWidget.takeItem(1)
+
+
+
+
+
+        # if osf.Functions.torrcfound is True:
+        #     # self.fiveEyesCheckBox.show()
+        #     # self.nineEyesCheckBox.show()
+        #     # self.fourteenEyesCheckBox.show()
+        #     # self.stemcheckCheckBox.show()
+        #     # self.stemchecktime_lineedit.show()
+        #     # self.stemchecktime_label.show()
+        #     # self.strictnodesCheckBox.show()
+        #     self.nodes_groupbox.show()
+        #     self.eyes_groupbox.show()
+        # else:
+        #     # self.fiveEyesCheckBox.hide()
+        #     # self.nineEyesCheckBox.hide()
+        #     # self.fourteenEyesCheckBox.hide()
+        #     # self.stemcheckCheckBox.hide()
+        #     # self.stemchecktime_lineedit.hide()
+        #     # self.stemchecktime_label.hide()
+        #     # self.strictnodesCheckBox.hide()
+        #     self.nodes_groupbox.hide()
+        #     self.eyes_groupbox.hide()
+            
 
     def retranslateUi(self, SettingsNewDialog):
         _translate = QtCore.QCoreApplication.translate
