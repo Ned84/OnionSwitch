@@ -1549,11 +1549,152 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.retranslateUi(SettingsNewDialog)
         QtCore.QMetaObject.connectSlotsByName(SettingsNewDialog)
 
+        if osf.Functions.paramstemcheck is True:
+            self.stemcheckCheckBox.setChecked(True)
+        else:
+            self.stemcheckCheckBox.setChecked(False)
+
+        if self.stemcheckCheckBox.isChecked():
+            self.stemchecktime_lineedit.setEnabled(True)
+            self.stemchecktime_label.setEnabled(True)
+        else:
+            self.stemchecktime_lineedit.setEnabled(False)
+            self.stemchecktime_label.setEnabled(False)
+
+        self.lineEdit.setText(osf.Functions.parampathtotor)
+
+        self.stemchecktime_lineedit.setText(
+            "{0}".format(osf.Functions.paramstemchecktime))
+
+        @pyqtSlot()
+        def ChangeStrictNodes():
+            # Change the strictnodes in the torrc file
+            # depending on the checkbox
+            if self.strictnodesCheckBox.isChecked() is True:
+                osf.Functions.torrcstrictnodes = True
+                osf.Functions.paramstrictnodes = 1
+            else:
+                osf.Functions.torrcstrictnodes = False
+                osf.Functions.paramstrictnodes = 0
+            
+
+        
+
+        @pyqtSlot()
+        def fiveeyes_changed():
+            self.nineEyesCheckBox.setChecked(False)
+            self.fourteenEyesCheckBox.setChecked(False)
+            osf.Functions.eyes_changed = True
+
+        @pyqtSlot()
+        def nineeyes_changed():
+            self.fiveEyesCheckBox.setChecked(False)
+            self.fourteenEyesCheckBox.setChecked(False)
+            osf.Functions.eyes_changed = True
+
+        @pyqtSlot()
+        def fourteeneyes_changed():
+            self.fiveEyesCheckBox.setChecked(False)
+            self.nineEyesCheckBox.setChecked(False)
+            osf.Functions.eyes_changed = True
+
         @pyqtSlot()
         def Cancel_Clicked():
             osf.Functions.window_settings_open = False
             osf.Functions.settings_closed = True
             SettingsNewDialog.close()
+
+        @pyqtSlot()
+        def okButtonPress():
+            try:
+                if self.stemcheckCheckBox.isChecked() is True:
+                    osf.Functions.paramstemcheck = True
+                else:
+                    osf.Functions.paramstemcheck = False
+
+                osf.Functions.parampathtotor = self.lineEdit.text()
+
+                osf.Functions.paramstemchecktime = (int)(
+                    self.stemchecktime_lineedit.text())
+
+                if self.fiveEyesCheckBox.isChecked() is True:
+                    osf.Functions.Add_Eyes_ToArray(
+                        self, osf.Functions.five_eye_countries)
+
+                if self.nineEyesCheckBox.isChecked() is True:
+                    osf.Functions.Add_Eyes_ToArray(
+                        self, osf.Functions.five_eye_countries)
+
+                    osf.Functions.Add_Eyes_ToArray(
+                        self, osf.Functions.nine_eye_countries)
+
+                    osf.Functions.Add_Eyes_ToArray(
+                        self, osf.Functions.nine_eye_countries)
+
+                if self.fourteenEyesCheckBox.isChecked() is True:
+                    osf.Functions.Add_Eyes_ToArray(
+                        self, osf.Functions.five_eye_countries)
+
+                    osf.Functions.Add_Eyes_ToArray(
+                        self, osf.Functions.nine_eye_countries)
+
+                    osf.Functions.Add_Eyes_ToArray(
+                        self, osf.Functions.fourteen_eye_countries)
+
+                osf.Functions.ChangeTorrcStrictNodes(self)
+                osf.Functions.WriteSettingsToJson(self)
+
+                if osf.Functions.paramplatform == "Windows":
+                    osf.Functions.torrcfilepath =\
+                        osf.Functions.parampathtotor +\
+                        "\\Browser\\TorBrowser\\Data\\Tor\\torrc"
+
+                    if osf.Functions.parampathtotor != "":
+                        if path. exists(osf.Functions.torrcfilepath) is True:
+                            if path.exists(
+                                 osf.Functions.pathtoparam + '\\rccy')\
+                                     is False:
+                                copyfile(
+                                    osf.Functions.torrcfilepath,
+                                    osf.Functions.pathtoparam + '\\rccy')
+
+                if osf.Functions.paramplatform == "Linux":
+                    osf.Functions.torrcfilepath = \
+                        osf.Functions.parampathtotor + \
+                        "/Browser/TorBrowser/Data/Tor/torrc"
+
+                    if osf.Functions.parampathtotor != "":
+                        if path. exists(osf.Functions.torrcfilepath) is True:
+                            if path.exists(
+                                 osf.Functions.pathtoparam + '/rccy') is False:
+                                copyfile(osf.Functions.torrcfilepath,
+                                         osf.Functions.pathtoparam + '/rccy')
+
+                osf.Functions.window_settings_open = False
+
+            except Exception as exc:
+                osf.Functions.WriteLog(self, exc)
+
+            osf.Functions.settingschanged = True
+            if path.exists(osf.Functions.torrcfilepath) is False:
+                osf.Functions.torrcfound = False
+            else:
+                osf.Functions.torrcfound = True
+            
+            
+            
+
+            osf.Functions.settings_closed = True
+            SettingsDialog.close
+
+        @pyqtSlot()
+        def StemCheckTime_Label_Visibility():
+            if self.stemcheckCheckBox.isChecked():
+                self.stemchecktime_lineedit.setEnabled(True)
+                self.stemchecktime_label.setEnabled(True)
+            else:
+                self.stemchecktime_lineedit.setEnabled(False)
+                self.stemchecktime_label.setEnabled(False)
 
         @pyqtSlot()
         def OpenFilePicker():
@@ -1584,10 +1725,28 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
                 self.eyes_groupbox.show()
 
         self.cancel_Button.clicked.connect(Cancel_Clicked)
+        self.ok_Button.clicked.connect(okButtonPress)
 
         self.openButton.clicked.connect(OpenFilePicker)
 
         self.main_listWidget.currentItemChanged.connect(Main_SelectionChanged)
+
+        self.stemcheckCheckBox.clicked.connect(StemCheckTime_Label_Visibility)
+
+        if osf.Functions.torrcfound is True:
+            self.fiveEyesCheckBox.show()
+            self.nineEyesCheckBox.show()
+            self.fourteenEyesCheckBox.show()
+            self.stemcheckCheckBox.show()
+            self.stemchecktime_lineedit.show()
+            self.stemchecktime_label.show()
+        else:
+            self.fiveEyesCheckBox.hide()
+            self.nineEyesCheckBox.hide()
+            self.fourteenEyesCheckBox.hide()
+            self.stemcheckCheckBox.hide()
+            self.stemchecktime_lineedit.hide()
+            self.stemchecktime_label.hide()
 
     def retranslateUi(self, SettingsNewDialog):
         _translate = QtCore.QCoreApplication.translate
