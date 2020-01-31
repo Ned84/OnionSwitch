@@ -802,7 +802,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
         @pyqtSlot()
         def StartTorMetrics():
-            osf.Functions.TorMetrics_to_Clipboard(self, QApplication)
+            osf.Functions.TorMetrics_to_Clipboard(
+                self, QApplication, self.lineEdit.text())
 
         @pyqtSlot()
         def WriteBracetsInLineEdit():
@@ -1106,8 +1107,6 @@ class Ui_Tor_Metrics_Dialog(object):
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
         self.label.setFont(font)
         self.label.setObjectName("label")
 
@@ -1910,8 +1909,6 @@ class Ui_Tor_Reset_Dialog(object):
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
         self.label.setFont(font)
         self.label.setObjectName("label")
 

@@ -913,14 +913,23 @@ class Functions(object):
         except Exception as exc:
             Functions.WriteLog(self, exc)
 
-    def TorMetrics_to_Clipboard(self, QApplication):
+    def TorMetrics_to_Clipboard(self, QApplication, country):
         try:
+            country_letters = ""
+            if country:
+                for char in country:
+                    if char != "{" and char != "}":
+                        country_letters += char
+            else:
+                country_letters = "at"
+
             clip = QApplication.clipboard()
             clip.clear(mode=clip.Clipboard)
             clip.setText("https://metrics."
                          "torproject.org/rs.html"
                          "#search/flag:exit%20"
-                         "country:at%20", mode=clip.Clipboard)
+                         "country:" + country_letters +
+                         "%20", mode=clip.Clipboard)
 
         except Exception as exc:
             Functions.WriteLog(self, exc)
