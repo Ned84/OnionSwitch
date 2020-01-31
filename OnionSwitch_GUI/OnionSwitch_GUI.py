@@ -44,7 +44,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
     versionnew = ""
     versioncheckdone = False
     firstrun = True
-
+    
     OnionSwitchResources_rc.qInitResources()
 
     def __init__(self, *args, **kwargs):
@@ -473,6 +473,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
             self.lineEdit.setText("{0}".format(
                 osf.Functions.ChangeCountrynameToCountrycode(
                     self, self.chooseCountryBox.currentText())))
+            
 
         @pyqtSlot()
         def AddNodeToChosenNodeTableView():
@@ -743,12 +744,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         def CheckSettings():
             # Check if Settings change to write eye countries into tableview.
 
-            while True:
-                if osf.Functions.settings_closed is True:
-                    break
-
             InitializeTableViews()
-            osf.Functions.settings_closed = False
             self.blacklistAllNodesTableView.resizeRowsToContents()
             InitializeGUI()
 
@@ -765,12 +761,9 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 # self.ui = Ui_SettingsDialog()
                 self.ui = Ui_SettingsNewDialog()
                 self.ui.setupUi(self.window_settings)
+                self.window_settings.finished.connect(CheckSettings)
                 self.window_settings.show()
                 osf.Functions.window_settings_open = True
-
-                checkthread = threading.Thread(
-                    target=CheckSettings, daemon=True)
-                checkthread.start()
 
         @pyqtSlot()
         def OpenDialogUpdate():
@@ -961,6 +954,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
         self.actionAbout.triggered.connect(OpenDialogAbout)
         self.actionSettings.triggered.connect(OpenDialogSettings)
+        
         self.actionUpdate.triggered.connect(OpenDialogUpdate)
 
         self.actionMetrics.triggered.connect(StartTorMetrics)
@@ -971,6 +965,12 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.startTorBrowserButton.clicked.connect(StartTorBrowser)
         self.startTorBrowserButton2.clicked.connect(StartTorBrowser)
         self.startTorBrowserButton3.clicked.connect(StartTorBrowser)
+
+
+        
+                
+
+        
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -1434,6 +1434,13 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.ok_Button = QtWidgets.QPushButton(SettingsNewDialog)
         self.ok_Button.setGeometry(QtCore.QRect(200, 260, 90, 28))
         self.ok_Button.setObjectName("ok_Button")
+
+
+            
+        
+
+        
+
         self.main_listWidget = QtWidgets.QListWidget(SettingsNewDialog)
         self.main_listWidget.setGeometry(QtCore.QRect(0, 0, 150, 300))
         self.main_listWidget.setObjectName("main_listview")
@@ -1441,9 +1448,26 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.main_listWidget.addItem("General")
         self.main_listWidget.addItem("Nodes")
         self.main_listWidget.addItem("Eyes - Countries")
+        self.main_listWidget.setStyleSheet(
+            "background-color: qlineargradient("
+            "spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgb("
+            "0, 0, 0), stop:1 rgb(60, 60, 60));")
+
+        self.main_listWidget.item(0).setForeground(QtCore.Qt.white)
+        self.main_listWidget.item(1).setForeground(QtCore.Qt.white)
+        self.main_listWidget.item(2).setForeground(QtCore.Qt.white)
+
 
         self.general_groupbox = QtWidgets.QGroupBox(SettingsNewDialog)
-        self.general_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 250))
+        self.general_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 300))
+        self.general_groupbox.setObjectName("general_groupbox")
+        self.general_groupbox.setStyleSheet(
+            "QGroupBox#general_groupbox {background-color: qlineargradient("
+                "spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb("
+                    "60, 60, 60), stop:1 rgb(60,60,60))};")
+
+
+
         self.setObjectName("general_groupbox")
         self.lineEdit = QtWidgets.QLineEdit(self.general_groupbox)
         self.lineEdit.setGeometry(QtCore.QRect(10, 40, 230, 22))
@@ -1458,7 +1482,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.pathtotorLabel.setObjectName("pathtotorLabel")
 
         self.nodes_groupbox = QtWidgets.QGroupBox(SettingsNewDialog)
-        self.nodes_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 250))
+        self.nodes_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 300))
         self.nodes_groupbox.setObjectName("nodes_groupbox")
         self.stemcheck_groupbox = QtWidgets.QGroupBox(self.nodes_groupbox)
         self.stemcheck_groupbox.setGeometry(0, 0, 250, 70)
@@ -1507,7 +1531,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.nodes_groupbox.hide()
 
         self.eyes_groupbox = QtWidgets.QGroupBox(SettingsNewDialog)
-        self.eyes_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 250))
+        self.eyes_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 300))
         self.eyes_groupbox.setObjectName("eyes_groupbox")
         self.fiveEyesCheckBox = QtWidgets.QCheckBox(self.eyes_groupbox)
         self.fiveEyesCheckBox.setGeometry(QtCore.QRect(12, 10, 150, 21))
@@ -1520,7 +1544,8 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.fourteenEyesCheckBox.setFont(font)
         self.eyes_groupbox.hide()
 
-
+        self.ok_Button.raise_()
+        self.cancel_Button.raise_()
 
         self.retranslateUi(SettingsNewDialog)
         QtCore.QMetaObject.connectSlotsByName(SettingsNewDialog)
@@ -1581,7 +1606,6 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         @pyqtSlot()
         def Cancel_Clicked():
             osf.Functions.window_settings_open = False
-            osf.Functions.settings_closed = True
             SettingsNewDialog.close()
 
         @pyqtSlot()
@@ -1701,16 +1725,22 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
                 self.eyes_groupbox.hide()
                 self.nodes_groupbox.hide()
                 self.general_groupbox.show()
+                self.ok_Button.raise_()
+                self.cancel_Button.raise_()
 
             if self.main_listWidget.currentItem().text() == "Nodes":
                 self.eyes_groupbox.hide()
                 self.general_groupbox.hide()
                 self.nodes_groupbox.show()
+                self.ok_Button.raise_()
+                self.cancel_Button.raise_()
 
             if self.main_listWidget.currentItem().text() == "Eyes - Countries":
                 self.general_groupbox.hide()
                 self.nodes_groupbox.hide()
                 self.eyes_groupbox.show()
+                self.ok_Button.raise_()
+                self.cancel_Button.raise_()
 
         self.cancel_Button.clicked.connect(Cancel_Clicked)
         self.ok_Button.clicked.connect(okButtonPress)
@@ -1734,31 +1764,8 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             self.main_listWidget.takeItem(2)
             self.main_listWidget.takeItem(1)
 
-
-
-
-
-        # if osf.Functions.torrcfound is True:
-        #     # self.fiveEyesCheckBox.show()
-        #     # self.nineEyesCheckBox.show()
-        #     # self.fourteenEyesCheckBox.show()
-        #     # self.stemcheckCheckBox.show()
-        #     # self.stemchecktime_lineedit.show()
-        #     # self.stemchecktime_label.show()
-        #     # self.strictnodesCheckBox.show()
-        #     self.nodes_groupbox.show()
-        #     self.eyes_groupbox.show()
-        # else:
-        #     # self.fiveEyesCheckBox.hide()
-        #     # self.nineEyesCheckBox.hide()
-        #     # self.fourteenEyesCheckBox.hide()
-        #     # self.stemcheckCheckBox.hide()
-        #     # self.stemchecktime_lineedit.hide()
-        #     # self.stemchecktime_label.hide()
-        #     # self.strictnodesCheckBox.hide()
-        #     self.nodes_groupbox.hide()
-        #     self.eyes_groupbox.hide()
-            
+        
+        
 
     def retranslateUi(self, SettingsNewDialog):
         _translate = QtCore.QCoreApplication.translate
