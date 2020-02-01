@@ -920,7 +920,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.startTorBrowserButton.setEnabled(False)
                 self.startTorBrowserButton2.setEnabled(False)
                 self.startTorBrowserButton3.setEnabled(False)
-                self.resettorrcButton.show()
+                # self.resettorrcButton.show()
                 self.chooseNodeButton.hide()
                 self.blacklistAllButton.hide()
                 self.blacklistExitButton.hide()
