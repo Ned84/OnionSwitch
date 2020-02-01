@@ -38,6 +38,38 @@ import OnionSwitchResources_rc
 version = "1.2"
 
 
+class Fonts():
+
+    def Choose_Fonts(self, bold, size, font_type):
+        font = QtGui.QFont()
+        font.setFamily(font_type)
+        if osf.Functions.paramplatform == "Windows":
+            if bold is True:
+                font.setBold(True)
+                font.setWeight(75)
+            else:
+                pass
+
+            font.setPointSize(size)
+        else:
+            if bold is True:
+                font.setBold(True)
+                font.setWeight(75)
+            else:
+                pass
+
+            font.setPointSize(size + 2)
+
+        return font
+
+
+
+
+
+
+
+        
+
 class Ui_MainWindow(QtWidgets.QWidget):
 
     serverconnection = False
@@ -144,6 +176,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
             Ui_MainWindow.versioncheckdone = True
 
     def setupUi(self, MainWindow):
+
+        
         MainWindow.setObjectName("OnionSwitch")
         MainWindow.resize(525, 300)
         MainWindow.setMinimumSize(QtCore.QSize(525, 300))
@@ -159,42 +193,18 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.chooseCountryBox = QtWidgets.QComboBox(self.centralwidget)
         self.chooseCountryBox.setGeometry(QtCore.QRect(113, 50, 300, 22))
         self.chooseCountryBox.addItems(osf.Functions.countrynames)
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
+        font = Fonts.Choose_Fonts(self, False, 10, "Arial")
         self.chooseCountryBox.setFont(font)
         self.chooseCountryBox.setObjectName("chooseCountryBox")
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        if osf.Functions.paramplatform == "Windows":
-            font.setPointSize(8)
-            font.setBold(True)
-            font.setWeight(75)
-        else:
-            font.setPointSize(10)
-            font.setBold(True)
-            font.setWeight(75)
-
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 20, 311, 21))
         self.updatelabel = QtWidgets.QLabel(self.centralwidget)
         self.updatelabel.setGeometry(QtCore.QRect(20, 60, 100, 35))
-        font2 = QtGui.QFont()
-        font2.setFamily("Arial")
-        font2.setPointSize(10)
-        font2.setBold(True)
-        font2.setWeight(75)
+        font = Fonts.Choose_Fonts(self, True, 10, "Arial")
         self.updatelabel.setStyleSheet("color: rgb(89, 49, 107)")
-        self.updatelabel.setFont(font2)
+        self.updatelabel.setFont(font)
         self.updatelabel.hide()
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
+        font = Fonts.Choose_Fonts(self, True, 10, "Arial")
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
@@ -254,9 +264,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
             self.chosenNodesTableView.NoEditTriggers)
         self.chosenNodesTableView.setItem(
             0, 0, QtWidgets.QTableWidgetItem("Tor not found."))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(9)
+        font = Fonts.Choose_Fonts(self, False, 9, "Segoe UI")
         self.chosenNodesTableView.setFont(font)
         self.chosenNodesTableView.setColumnWidth(1, 141)
         self.chosenNodesTableView.resizeRowsToContents()
@@ -280,9 +288,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.blacklistAllNodesTableView.setShowGrid(False)
         self.blacklistAllNodesTableView.setEditTriggers(
             self.chosenNodesTableView.NoEditTriggers)
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(9)
+        font = Fonts.Choose_Fonts(self, False, 9, "Segoe UI")
         self.blacklistAllNodesTableView.setFont(font)
         self.blacklistAllNodesTableView.setColumnWidth(1, 141)
         self.blacklistAllNodesTableView.resizeRowsToContents()
@@ -315,9 +321,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.blacklistExitNodesTableView.setShowGrid(False)
         self.blacklistExitNodesTableView.setEditTriggers(
             self.chosenNodesTableView.NoEditTriggers)
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(9)
+        font = Fonts.Choose_Fonts(self, False, 9, "Segoe UI")
         self.blacklistExitNodesTableView.setFont(font)
         self.blacklistExitNodesTableView.setColumnWidth(1, 141)
         self.blacklistExitNodesTableView.resizeRowsToContents()
@@ -339,22 +343,14 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.tabWidget.addTab(self.tab3, "")
         self.faultLabel = QtWidgets.QLabel(self.centralwidget)
         self.faultLabel.setGeometry(QtCore.QRect(140, 150, 381, 71))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
+        font = Fonts.Choose_Fonts(self, True, 10, "Arial")
         self.faultLabel.setFont(font)
         self.faultLabel.setObjectName("faultLabel")
         self.sameNodeInMultiArrayFaultLabel = QtWidgets.QLabel(
             self.centralwidget)
         self.sameNodeInMultiArrayFaultLabel.setGeometry(
             QtCore.QRect(140, 150, 200, 71))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
+        font = Fonts.Choose_Fonts(self, True, 10, "Arial")
         self.sameNodeInMultiArrayFaultLabel.setFont(font)
         self.sameNodeInMultiArrayFaultLabel.setObjectName(
             "sameNodeInMultiArrayFaultLabel")
@@ -363,11 +359,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
             self.centralwidget)
         self.cantConnectToNodeFaultLabel.setGeometry(
             QtCore.QRect(140, 150, 200, 71))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
+        font = Fonts.Choose_Fonts(self, True, 10, "Arial")
         self.cantConnectToNodeFaultLabel.setFont(font)
         self.cantConnectToNodeFaultLabel.setObjectName(
             "cantConnectToNodeFaultLabel")
@@ -376,11 +368,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
             self.tab1)
         self.standbyLabel.setGeometry(
             QtCore.QRect(175, 10, 200, 71))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
+        font = Fonts.Choose_Fonts(self, True, 10, "Arial")
         self.standbyLabel.setFont(font)
         self.standbyLabel.setObjectName(
             "standbyLabel")
@@ -1067,18 +1055,12 @@ class Ui_AboutDialog(object):
         self.ned84_logo_frame.setObjectName("ned84_logo_frame")
         self.label = QtWidgets.QLabel(AboutDialog)
         self.label.setGeometry(QtCore.QRect(190, 20, 181, 31))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
+        font = Fonts.Choose_Fonts(self, True, 10, "Arial")
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.label_2 = QtWidgets.QLabel(AboutDialog)
         self.label_2.setGeometry(QtCore.QRect(190, 70, 190, 130))
-        font = QtGui.QFont()
-        font.setFamily("MS Shell Dlg 2")
-        font.setPointSize(8)
+        font = Fonts.Choose_Fonts(self, False, 8, "MS Shell Dlg 2")
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
 
@@ -1125,9 +1107,7 @@ class Ui_Tor_Metrics_Dialog(object):
         self.okButton.setObjectName("okButton")
         self.label = QtWidgets.QLabel(Tor_Metrics_Dialog)
         self.label.setGeometry(QtCore.QRect(20, 20, 381, 71))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
+        font = Fonts.Choose_Fonts(self, False, 10, "Arial")
         self.label.setFont(font)
         self.label.setObjectName("label")
 
@@ -1171,17 +1151,7 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         self.stemcheckCheckBox = QtWidgets.QCheckBox(SettingsDialog)
         self.stemcheckCheckBox.setGeometry(QtCore.QRect(20, 80, 150, 21))
 
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        if osf.Functions.paramplatform == "Windows":
-            font.setPointSize(8)
-            font.setBold(True)
-            font.setWeight(75)
-        else:
-            font.setPointSize(10)
-            font.setBold(True)
-            font.setWeight(75)
-
+        font = Fonts.Choose_Fonts(self, True, 8, "Arial")
         self.stemcheckCheckBox.setFont(font)
         self.stemchecktime_lineedit = QtWidgets.QLineEdit(SettingsDialog)
         self.stemchecktime_lineedit.setGeometry(QtCore.QRect(15, 105, 25, 22))
@@ -1204,11 +1174,7 @@ class Ui_SettingsDialog(QtWidgets.QWidget):
         self.fourteenEyesCheckBox.setFont(font)
         self.label = QtWidgets.QLabel(SettingsDialog)
         self.label.setGeometry(QtCore.QRect(20, 20, 171, 21))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
+        font = Fonts.Choose_Fonts(self, True, 10, "Arial")
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.openButton = QtWidgets.QPushButton(SettingsDialog)
@@ -1441,12 +1407,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             ":/resources/OnionSwitch_Logo.png"),
             QtGui.QIcon.Normal, QtGui.QIcon.Off)
         SettingsNewDialog.setWindowIcon(icon)
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        if osf.Functions.paramplatform == "Windows":
-            font.setPointSize(10)
-        else:
-            font.setPointSize(12)
+        font = Fonts.Choose_Fonts(self, False, 10, "Arial")
         self.cancel_Button = QtWidgets.QPushButton(SettingsNewDialog)
         self.cancel_Button.setGeometry(QtCore.QRect(300, 260, 90, 28))
         self.cancel_Button.setObjectName("cancel_Button")
@@ -1501,16 +1462,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.stemcheckCheckBox = QtWidgets.QCheckBox(self.stemcheck_groupbox)
         self.stemcheckCheckBox.setGeometry(QtCore.QRect(12, 10, 150, 21))
         self.stemcheckCheckBox.setStyleSheet("color:white")
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        if osf.Functions.paramplatform == "Windows":
-            font.setPointSize(8)
-            font.setBold(True)
-            font.setWeight(75)
-        else:
-            font.setPointSize(10)
-            font.setBold(True)
-            font.setWeight(75)
+        font = Fonts.Choose_Fonts(self, True, 8, "Arial")
         self.stemcheckCheckBox.setFont(font)
         self.stemchecktime_lineedit = QtWidgets.QLineEdit(
             self.stemcheck_groupbox)
@@ -1527,18 +1479,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.strictnodesCheckBox = QtWidgets.QCheckBox(
             self.strictnodes_groupbox)
         self.strictnodesCheckBox.setGeometry(QtCore.QRect(12, 10, 311, 21))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        if osf.Functions.paramplatform == "Windows":
-            font.setPointSize(8)
-            font.setBold(True)
-            font.setWeight(75)
-        else:
-            font.setPointSize(10)
-            font.setBold(True)
-            font.setWeight(75)
+        font = Fonts.Choose_Fonts(self, True, 8, "Arial")
         self.strictnodesCheckBox.setFont(font)
         self.strictnodesCheckBox.setStyleSheet("color:white")
         self.nodes_groupbox.hide()
@@ -1840,11 +1781,7 @@ class Ui_UpdateDialog(object):
         self.label3.setGeometry(QtCore.QRect(170, 60, 301, 131))
         self.label4 = QtWidgets.QLabel(UpdateDialog)
         self.label4.setGeometry(QtCore.QRect(170, 60, 301, 131))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(14)
-        font.setBold(True)
-        font.setWeight(75)
+        font = Fonts.Choose_Fonts(self, True, 14, "Arial")
         self.label.setFont(font)
         self.label.setObjectName("label")
 
@@ -1882,7 +1819,8 @@ class Ui_UpdateDialog(object):
 
         self.label3.setText(_translate(
             "UpdateDialog", "No connection to Github."))
-        self.label3.setFont(QtGui.QFont("Arial", 9))
+        font = Fonts.Choose_Fonts(self, False, 9, "Arial")
+        self.label3.setFont(font)
 
         self.label4.setText(_translate(
             "UpdateDialog", "Current Version: " + version + "\n"
@@ -1891,9 +1829,9 @@ class Ui_UpdateDialog(object):
             "\n"
             "No Update available."))
 
-        self.label4.setFont(QtGui.QFont("Arial", 9))
+        self.label4.setFont(font)
 
-        self.label2.setFont(QtGui.QFont("Arial", 9))
+        self.label2.setFont(font)
 
         if Ui_MainWindow.serverconnection is False:
             self.updateButton.setEnabled(False)
@@ -1933,9 +1871,7 @@ class Ui_Tor_Reset_Dialog(object):
         self.noButton.setObjectName("noButton")
         self.label = QtWidgets.QLabel(Tor_Reset_Dialog)
         self.label.setGeometry(QtCore.QRect(20, 20, 381, 71))
-        font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(10)
+        font = Fonts.Choose_Fonts(self, False, 10, "Arial")
         self.label.setFont(font)
         self.label.setObjectName("label")
 
