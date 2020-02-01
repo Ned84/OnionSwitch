@@ -223,11 +223,16 @@ class Ui_MainWindow(QtWidgets.QWidget):
     # background-color: rgb(89, 49, 107); font: 10pt Arial;
     # selection-background-color: rgb(255, 255, 255);}
     # """
+        if osf.Functions.paramplatform == "Windows":
+            font = "10pt Arial"
+        else:
+            font = "12pt Arial"
+
         stylesheet = """
         QTabBar::tab:selected {color: white;}
         QTabBar::tab { height: 30px; width: 175px;
         background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(139,99,157), stop:1 rgb(39,0,57));
-        font: 10pt Arial;
+        font: """ + font + """;
         color : qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(100,100,100), stop:1 rgb(200,200,200));
         selection-background-color: rgb(255, 255, 255);}
         """
