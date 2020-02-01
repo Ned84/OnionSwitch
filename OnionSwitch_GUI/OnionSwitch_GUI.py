@@ -253,7 +253,11 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.onionswitch_logo_frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.onionswitch_logo_frame_2.setObjectName("onionswitch_logo_frame_2")
         self.startTorBrowserButton2 = QtWidgets.QPushButton(self.tab1)
-        self.startTorBrowserButton2.setGeometry(QtCore.QRect(10, 100, 121, 28))
+        if osf.Functions.paramplatform == "Windows":
+            width = 121
+        else:
+            width = 130
+        self.startTorBrowserButton2.setGeometry(QtCore.QRect(10, 100, width, 28))
         self.startTorBrowserButton2.setObjectName("startTorBrowserButton2")
         self.tabWidget.addTab(self.tab1, "")
         self.chosenNodesTableView = QtWidgets.QTableWidget(self.tab1)
@@ -307,7 +311,11 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.onionswitch_logo_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.onionswitch_logo_frame.setObjectName("onionswitch_logo_frame")
         self.startTorBrowserButton = QtWidgets.QPushButton(self.tab2)
-        self.startTorBrowserButton.setGeometry(QtCore.QRect(10, 100, 121, 28))
+        if osf.Functions.paramplatform == "Windows":
+            width = 121
+        else:
+            width = 130
+        self.startTorBrowserButton.setGeometry(QtCore.QRect(10, 100, width, 28))
         self.startTorBrowserButton.setObjectName("startTorBrowserButton")
         self.tabWidget.addTab(self.tab2, "")
         self.tab3 = QtWidgets.QWidget()
@@ -336,7 +344,11 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.blacklistExitButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
         self.blacklistExitButton.setObjectName("blacklistExitButton")
         self.startTorBrowserButton3 = QtWidgets.QPushButton(self.tab3)
-        self.startTorBrowserButton3.setGeometry(QtCore.QRect(10, 100, 121, 28))
+        if osf.Functions.paramplatform == "Windows":
+            width = 121
+        else:
+            width = 130
+        self.startTorBrowserButton3.setGeometry(QtCore.QRect(10, 100, width, 28))
         self.startTorBrowserButton3.setObjectName("startTorBrowserButton")
         self.onionswitch_logo_frame3 = QtWidgets.QFrame(self.tab3)
         self.onionswitch_logo_frame3.setGeometry(QtCore.QRect(
