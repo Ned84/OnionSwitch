@@ -575,7 +575,6 @@ class Functions(object):
                               "{es}",
                               "{se}"]
 
-
     def __init__(self):
         pass
 

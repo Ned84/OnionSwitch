@@ -63,20 +63,13 @@ class Fonts():
         return font
 
 
-
-
-
-
-
-        
-
 class Ui_MainWindow(QtWidgets.QWidget):
 
     serverconnection = False
     versionnew = ""
     versioncheckdone = False
     firstrun = True
-    
+
     OnionSwitchResources_rc.qInitResources()
 
     def __init__(self, *args, **kwargs):
@@ -177,12 +170,14 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
     def setupUi(self, MainWindow):
 
-        
         MainWindow.setObjectName("OnionSwitch")
         MainWindow.resize(525, 300)
         MainWindow.setMinimumSize(QtCore.QSize(525, 300))
         MainWindow.setMaximumSize(QtCore.QSize(525, 300))
-        MainWindow.setStyleSheet("QMainWindow#OnionSwitch {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
+        MainWindow.setStyleSheet(
+            "QMainWindow#OnionSwitch {background-color: qlineargradient("
+            "spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200),"
+            " stop:1 rgb(253,253,253));}")
 
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/resources/OnionSwitch_w_w_bgr.png"),
@@ -231,9 +226,11 @@ class Ui_MainWindow(QtWidgets.QWidget):
         stylesheet = """
         QTabBar::tab:selected {color: white;}
         QTabBar::tab { height: 30px; width: 175px;
-        background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(139,99,157), stop:1 rgb(39,0,57));
+        background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1,
+        stop:0 rgb(139,99,157), stop:1 rgb(39,0,57));
         font: """ + font + """;
-        color : qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(100,100,100), stop:1 rgb(200,200,200));
+        color : qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1,
+        stop:0 rgb(100,100,100), stop:1 rgb(200,200,200));
         selection-background-color: rgb(255, 255, 255);}
         """
 
@@ -241,7 +238,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.tabWidget.setStyleSheet(stylesheet)
         self.tab1 = QtWidgets.QWidget()
         self.tab1.setObjectName("tab1")
-        self.tab1.setStyleSheet("QWidget#tab1 {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
+        self.tab1.setStyleSheet("QWidget#tab1 {background-color: "
+                                "qlineargradient(spread:pad, x1:1, y1:0, x2:,"
+                                "y2:1, stop:0 rgb("
+                                "200,200,200), stop:1 rgb(253,253,253));}")
         self.chooseNodeButton = QtWidgets.QPushButton(self.tab1)
         self.chooseNodeButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
         self.chooseNodeButton.setObjectName("chooseNodeButton")
@@ -257,13 +257,17 @@ class Ui_MainWindow(QtWidgets.QWidget):
             width = 121
         else:
             width = 130
-        self.startTorBrowserButton2.setGeometry(QtCore.QRect(10, 100, width, 28))
+        self.startTorBrowserButton2.setGeometry(QtCore.QRect(
+            10, 100, width, 28))
         self.startTorBrowserButton2.setObjectName("startTorBrowserButton2")
         self.tabWidget.addTab(self.tab1, "")
         self.chosenNodesTableView = QtWidgets.QTableWidget(self.tab1)
         self.chosenNodesTableView.setGeometry(QtCore.QRect(384, -1, 141, 134))
         self.chosenNodesTableView.setObjectName("chosenNodesTableView")
-        self.chosenNodesTableView.setStyleSheet("QTableWidget#chosenNodesTableView {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
+        self.chosenNodesTableView.setStyleSheet(
+            "QTableWidget#chosenNodesTableView {background-color: "
+            "qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb("
+            "200,200,200), stop:1 rgb(253,253,253));}")
         self.chosenNodesTableView.setRowCount(4)
         self.chosenNodesTableView.setColumnCount(1)
         self.chosenNodesTableView.horizontalHeader().hide()
@@ -279,7 +283,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.chosenNodesTableView.resizeRowsToContents()
         self.tab2 = QtWidgets.QWidget()
         self.tab2.setObjectName("tab2")
-        self.tab2.setStyleSheet("QWidget#tab2 {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
+        self.tab2.setStyleSheet(
+            "QWidget#tab2 {background-color: qlineargradient("
+            "spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb("
+            "200,200,200), stop:1 rgb(253,253,253));}")
 
         self.blacklistAllButton = QtWidgets.QPushButton(self.tab2)
         self.blacklistAllButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
@@ -289,7 +296,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
             384, -1, 141, 134))
         self.blacklistAllNodesTableView.setObjectName(
             "blacklistAllNodesTableView")
-        self.blacklistAllNodesTableView.setStyleSheet("QTableWidget#blacklistAllNodesTableView {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
+        self.blacklistAllNodesTableView.setStyleSheet(
+            "QTableWidget#blacklistAllNodesTableView {background-color: "
+            "qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb("
+            "200,200,200), stop:1 rgb(253,253,253));}")
         self.blacklistAllNodesTableView.setRowCount(4)
         self.blacklistAllNodesTableView.setColumnCount(1)
         self.blacklistAllNodesTableView.horizontalHeader().hide()
@@ -315,18 +325,25 @@ class Ui_MainWindow(QtWidgets.QWidget):
             width = 121
         else:
             width = 130
-        self.startTorBrowserButton.setGeometry(QtCore.QRect(10, 100, width, 28))
+        self.startTorBrowserButton.setGeometry(
+            QtCore.QRect(10, 100, width, 28))
         self.startTorBrowserButton.setObjectName("startTorBrowserButton")
         self.tabWidget.addTab(self.tab2, "")
         self.tab3 = QtWidgets.QWidget()
         self.tab3.setObjectName("tab3")
-        self.tab3.setStyleSheet("QWidget#tab3 {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
+        self.tab3.setStyleSheet(
+            "QWidget#tab3 {background-color: qlineargradient("
+            "spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb("
+            "200,200,200), stop:1 rgb(253,253,253));}")
         self.blacklistExitNodesTableView = QtWidgets.QTableWidget(self.tab3)
         self.blacklistExitNodesTableView.setGeometry(QtCore.QRect(
             384, -1, 141, 134))
         self.blacklistExitNodesTableView.setObjectName(
             "blacklistExitNodesTableView")
-        self.blacklistExitNodesTableView.setStyleSheet("QTableWidget#blacklistExitNodesTableView {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
+        self.blacklistExitNodesTableView.setStyleSheet(
+            "QTableWidget#blacklistExitNodesTableView {background-color: "
+            "qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb("
+            "200,200,200), stop:1 rgb(253,253,253));}")
         self.blacklistExitNodesTableView.setRowCount(4)
         self.blacklistExitNodesTableView.setColumnCount(1)
         self.blacklistExitNodesTableView.horizontalHeader().hide()
@@ -348,7 +365,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
             width = 121
         else:
             width = 130
-        self.startTorBrowserButton3.setGeometry(QtCore.QRect(10, 100, width, 28))
+        self.startTorBrowserButton3.setGeometry(QtCore.QRect(
+            10, 100, width, 28))
         self.startTorBrowserButton3.setObjectName("startTorBrowserButton")
         self.onionswitch_logo_frame3 = QtWidgets.QFrame(self.tab3)
         self.onionswitch_logo_frame3.setGeometry(QtCore.QRect(
@@ -497,7 +515,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
             self.lineEdit.setText("{0}".format(
                 osf.Functions.ChangeCountrynameToCountrycode(
                     self, self.chooseCountryBox.currentText())))
-            
 
         @pyqtSlot()
         def AddNodeToChosenNodeTableView():
@@ -978,7 +995,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
 
         self.actionAbout.triggered.connect(OpenDialogAbout)
         self.actionSettings.triggered.connect(OpenDialogSettings)
-        
+
         self.actionUpdate.triggered.connect(OpenDialogUpdate)
 
         self.actionMetrics.triggered.connect(StartTorMetrics)
@@ -989,12 +1006,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.startTorBrowserButton.clicked.connect(StartTorBrowser)
         self.startTorBrowserButton2.clicked.connect(StartTorBrowser)
         self.startTorBrowserButton3.clicked.connect(StartTorBrowser)
-
-
-        
-                
-
-        
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -1055,7 +1066,10 @@ class Ui_AboutDialog(object):
         AboutDialog.resize(400, 250)
         AboutDialog.setMinimumSize(QtCore.QSize(400, 250))
         AboutDialog.setMaximumSize(QtCore.QSize(400, 250))
-        AboutDialog.setStyleSheet("QDialog#AboutDialog {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
+        AboutDialog.setStyleSheet(
+            "QDialog#AboutDialog {background-color: qlineargradient("
+            "spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb("
+            "200,200,200), stop:1 rgb(253,253,253));}")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(
             ":/resources/Ned84_Logo.png"),
@@ -1113,7 +1127,10 @@ class Ui_Tor_Metrics_Dialog(object):
         Tor_Metrics_Dialog.resize(400, 150)
         Tor_Metrics_Dialog.setMinimumSize(QtCore.QSize(400, 150))
         Tor_Metrics_Dialog.setMaximumSize(QtCore.QSize(400, 150))
-        Tor_Metrics_Dialog.setStyleSheet("QDialog#Tor_Metrics_Dialog {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
+        Tor_Metrics_Dialog.setStyleSheet(
+            "QDialog#Tor_Metrics_Dialog {background-color: qlineargradient("
+            "spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb("
+            "200,200,200), stop:1 rgb(253,253,253));}")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(
             ":/resources/OnionSwitch_Logo.png"),
@@ -1487,13 +1504,13 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.stemcheckCheckBoxLabel.setStyleSheet("color: white")
         self.stemchecktime_lineedit = QtWidgets.QLineEdit(
             self.stemcheck_groupbox)
-        self.stemchecktime_lineedit.setGeometry(QtCore.QRect(5, 32, 25, 22))
+        self.stemchecktime_lineedit.setGeometry(QtCore.QRect(5, 40, 25, 22))
         self.stemchecktime_lineedit.setObjectName("stemchecktime_lineedit")
         self.stemchecktime_lineedit.setAlignment(QtCore.Qt.AlignCenter)
         self.stemchecktime_lineedit.setFont(font)
         self.stemchecktime_lineedit.setMaxLength(2)
         self.stemchecktime_label = QtWidgets.QLabel(self.nodes_groupbox)
-        self.stemchecktime_label.setGeometry(QtCore.QRect(35, 32, 170, 22))
+        self.stemchecktime_label.setGeometry(QtCore.QRect(35, 40, 170, 22))
         self.stemchecktime_label.setObjectName("stemchecktime_label")
         self.stemchecktime_label.setFont(font)
         self.stemchecktime_label.setStyleSheet("color:white")
@@ -1502,7 +1519,8 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.strictnodesCheckBox.setGeometry(QtCore.QRect(12, 10, 311, 21))
         font = Fonts.Choose_Fonts(self, True, 9, "Arial")
         self.strictnodesCheckBox.setFont(font)
-        self.strictnodesCheckBoxLabel = QtWidgets.QLabel(self.strictnodes_groupbox)
+        self.strictnodesCheckBoxLabel = QtWidgets.QLabel(
+            self.strictnodes_groupbox)
         self.strictnodesCheckBoxLabel.setObjectName("strictnodesCheckBoxLabel")
         self.strictnodesCheckBoxLabel.setGeometry(35, 10, 150, 21)
         self.strictnodesCheckBoxLabel.setFont(font)
@@ -1535,7 +1553,8 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.fourteenEyesCheckBox.setGeometry(QtCore.QRect(12, 70, 190, 21))
         self.fourteenEyesCheckBox.setFont(font)
         self.fourteenEyesCheckBoxLabel = QtWidgets.QLabel(self.eyes_groupbox)
-        self.fourteenEyesCheckBoxLabel.setObjectName("fourteenEyesCheckBoxLabel")
+        self.fourteenEyesCheckBoxLabel.setObjectName(
+            "fourteenEyesCheckBoxLabel")
         self.fourteenEyesCheckBoxLabel.setGeometry(35, 70, 190, 21)
         self.fourteenEyesCheckBoxLabel.setFont(font)
         self.fourteenEyesCheckBoxLabel.setStyleSheet("color: white")
@@ -1687,9 +1706,6 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
                 osf.Functions.torrcfound = False
             else:
                 osf.Functions.torrcfound = True
-            
-            
-            
 
             osf.Functions.settings_closed = True
             SettingsNewDialog.close()
@@ -1716,7 +1732,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
 
         @pyqtSlot()
         def Main_SelectionChanged():
-            
+
             if self.main_listWidget.currentItem().text() == "General":
                 self.eyes_groupbox.hide()
                 self.nodes_groupbox.hide()
@@ -1738,6 +1754,30 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
                 self.ok_Button.raise_()
                 self.cancel_Button.raise_()
 
+        def fiveeye_label_clicked():
+            self.fiveEyesCheckBox.setChecked(
+                self.fiveEyesCheckBox.isChecked() ^ True)
+            fiveeyes_changed()
+
+        def nineeye_label_clicked():
+            self.nineEyesCheckBox.setChecked(
+                self.nineEyesCheckBox.isChecked() ^ True)
+            nineeyes_changed()
+
+        def fourteeneye_label_clicked():
+            self.fourteenEyesCheckBox.setChecked(
+                self.fourteenEyesCheckBox.isChecked() ^ True)
+            fourteeneyes_changed()
+
+        def stemcheckCheckBox_Label_clicked():
+            self.stemcheckCheckBox.setChecked(
+                self.stemcheckCheckBox.isChecked() ^ True)
+            StemCheckTime_Label_Visibility()
+
+        def strictnodes_label_clicked():
+            self.strictnodesCheckBox.setChecked(
+                self.strictnodesCheckBox.isChecked() ^ True)
+
         self.cancel_Button.clicked.connect(Cancel_Clicked)
         self.ok_Button.clicked.connect(okButtonPress)
 
@@ -1745,23 +1785,29 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
 
         self.main_listWidget.currentItemChanged.connect(Main_SelectionChanged)
 
+        clickable(self.strictnodesCheckBoxLabel).connect(
+            strictnodes_label_clicked)
+
         self.stemcheckCheckBox.clicked.connect(StemCheckTime_Label_Visibility)
+        clickable(self.stemcheckCheckBoxLabel).connect(
+            stemcheckCheckBox_Label_clicked)
 
         self.stemchecktime_lineedit.editingFinished.connect(
             Change_StemCheckTime)
 
         self.fiveEyesCheckBox.clicked.connect(fiveeyes_changed)
+        clickable(self.fiveEyesCheckBoxLabel).connect(fiveeye_label_clicked)
 
         self.nineEyesCheckBox.clicked.connect(nineeyes_changed)
+        clickable(self.nineEyesCheckBoxLabel).connect(nineeye_label_clicked)
 
         self.fourteenEyesCheckBox.clicked.connect(fourteeneyes_changed)
+        clickable(self.fourteenEyesCheckBoxLabel).connect(
+            fourteeneye_label_clicked)
 
         if osf.Functions.torrcfound is False:
             self.main_listWidget.takeItem(2)
             self.main_listWidget.takeItem(1)
-
-        
-        
 
     def retranslateUi(self, SettingsNewDialog):
         _translate = QtCore.QCoreApplication.translate
@@ -1792,7 +1838,10 @@ class Ui_UpdateDialog(object):
         UpdateDialog.resize(400, 250)
         UpdateDialog.setMinimumSize(QtCore.QSize(400, 250))
         UpdateDialog.setMaximumSize(QtCore.QSize(400, 250))
-        UpdateDialog.setStyleSheet("QDialog#UpdateDialog {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
+        UpdateDialog.setStyleSheet(
+            "QDialog#UpdateDialog {background-color: qlineargradient("
+            "spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb("
+            "200,200,200), stop:1 rgb(253,253,253));}")
         icon = QtGui.QIcon()
         icon.addPixmap(
             QtGui.QPixmap(":/resources/OnionSwitch_Logo.png"),
@@ -1894,7 +1943,10 @@ class Ui_Tor_Reset_Dialog(object):
         Tor_Reset_Dialog.resize(400, 150)
         Tor_Reset_Dialog.setMinimumSize(QtCore.QSize(400, 150))
         Tor_Reset_Dialog.setMaximumSize(QtCore.QSize(400, 150))
-        Tor_Reset_Dialog.setStyleSheet("QDialog#Tor_Reset_Dialog {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
+        Tor_Reset_Dialog.setStyleSheet(
+            "QDialog#Tor_Reset_Dialog {background-color: qlineargradient("
+            "spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb("
+            "200,200,200), stop:1 rgb(253,253,253));}")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(
             ":/resources/OnionSwitch_Logo.png"),
@@ -1944,6 +1996,28 @@ class Ui_Tor_Reset_Dialog(object):
             "Tor_Reset_Dialog", "This will reset your torrc.\n"
             "After reset please restart the OnionSwitch.\n"
             "Do you want to reset?."))
+
+
+def clickable(widget):
+
+    class Filter(QtCore.QObject):
+        clicked = QtCore.pyqtSignal()
+
+        def eventFilter(self, obj, event):
+
+            if obj == widget:
+                if event.type() == QtCore.QEvent.MouseButtonRelease:
+                    if obj.rect().contains(event.pos()):
+                        self.clicked.emit()
+                        # The developer can opt for .emit(obj) to get the
+                        # object within the slot.
+                        return True
+
+            return False
+
+    filter = Filter(widget)
+    widget.installEventFilter(filter)
+    return filter.clicked
 
 
 if __name__ == "__main__":
