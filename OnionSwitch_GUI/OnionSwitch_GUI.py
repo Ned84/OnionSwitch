@@ -148,6 +148,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
         MainWindow.resize(525, 300)
         MainWindow.setMinimumSize(QtCore.QSize(525, 300))
         MainWindow.setMaximumSize(QtCore.QSize(525, 300))
+        MainWindow.setStyleSheet("QMainWindow#OnionSwitch {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
+
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(":/resources/OnionSwitch_w_w_bgr.png"),
                        QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -205,15 +207,26 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.tabWidget.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.tabWidget.setIconSize(QtCore.QSize(20, 20))
         self.tabWidget.setObjectName("tabWidget")
+    #     stylesheet = """
+    # QTabBar::tab:selected {color: white;}
+    # QTabBar::tab { height: 30px; width: 175px;
+    # background-color: rgb(89, 49, 107); font: 10pt Arial;
+    # selection-background-color: rgb(255, 255, 255);}
+    # """
         stylesheet = """
-    QTabBar::tab:selected {color: white;}
-    QTabBar::tab { height: 30px; width: 175px;
-    background-color: rgb(89, 49, 107); font: 10pt Arial;
-    selection-background-color: rgb(255, 255, 255);}
-    """
+        QTabBar::tab:selected {color: white;}
+        QTabBar::tab { height: 30px; width: 175px;
+        background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(139,99,157), stop:1 rgb(39,0,57));
+        font: 10pt Arial;
+        color : qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(100,100,100), stop:1 rgb(200,200,200));
+        selection-background-color: rgb(255, 255, 255);}
+        """
+
+        # (89,49,107)
         self.tabWidget.setStyleSheet(stylesheet)
         self.tab1 = QtWidgets.QWidget()
         self.tab1.setObjectName("tab1")
+        self.tab1.setStyleSheet("QWidget#tab1 {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
         self.chooseNodeButton = QtWidgets.QPushButton(self.tab1)
         self.chooseNodeButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
         self.chooseNodeButton.setObjectName("chooseNodeButton")
@@ -231,6 +244,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.chosenNodesTableView = QtWidgets.QTableWidget(self.tab1)
         self.chosenNodesTableView.setGeometry(QtCore.QRect(384, -1, 141, 134))
         self.chosenNodesTableView.setObjectName("chosenNodesTableView")
+        self.chosenNodesTableView.setStyleSheet("QTableWidget#chosenNodesTableView {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
         self.chosenNodesTableView.setRowCount(4)
         self.chosenNodesTableView.setColumnCount(1)
         self.chosenNodesTableView.horizontalHeader().hide()
@@ -248,6 +262,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.chosenNodesTableView.resizeRowsToContents()
         self.tab2 = QtWidgets.QWidget()
         self.tab2.setObjectName("tab2")
+        self.tab2.setStyleSheet("QWidget#tab2 {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
+
         self.blacklistAllButton = QtWidgets.QPushButton(self.tab2)
         self.blacklistAllButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
         self.blacklistAllButton.setObjectName("blacklistAllButton")
@@ -256,6 +272,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
             384, -1, 141, 134))
         self.blacklistAllNodesTableView.setObjectName(
             "blacklistAllNodesTableView")
+        self.blacklistAllNodesTableView.setStyleSheet("QTableWidget#blacklistAllNodesTableView {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
         self.blacklistAllNodesTableView.setRowCount(4)
         self.blacklistAllNodesTableView.setColumnCount(1)
         self.blacklistAllNodesTableView.horizontalHeader().hide()
@@ -284,11 +301,13 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.tabWidget.addTab(self.tab2, "")
         self.tab3 = QtWidgets.QWidget()
         self.tab3.setObjectName("tab3")
+        self.tab3.setStyleSheet("QWidget#tab3 {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
         self.blacklistExitNodesTableView = QtWidgets.QTableWidget(self.tab3)
         self.blacklistExitNodesTableView.setGeometry(QtCore.QRect(
             384, -1, 141, 134))
         self.blacklistExitNodesTableView.setObjectName(
             "blacklistExitNodesTableView")
+        self.blacklistExitNodesTableView.setStyleSheet("QTableWidget#blacklistExitNodesTableView {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
         self.blacklistExitNodesTableView.setRowCount(4)
         self.blacklistExitNodesTableView.setColumnCount(1)
         self.blacklistExitNodesTableView.horizontalHeader().hide()
