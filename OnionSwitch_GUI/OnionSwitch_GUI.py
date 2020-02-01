@@ -1420,27 +1420,18 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             ":/resources/OnionSwitch_Logo.png"),
             QtGui.QIcon.Normal, QtGui.QIcon.Off)
         SettingsNewDialog.setWindowIcon(icon)
-
         font = QtGui.QFont()
         font.setFamily("Arial")
         if osf.Functions.paramplatform == "Windows":
             font.setPointSize(10)
         else:
             font.setPointSize(12)
-
         self.cancel_Button = QtWidgets.QPushButton(SettingsNewDialog)
         self.cancel_Button.setGeometry(QtCore.QRect(300, 260, 90, 28))
         self.cancel_Button.setObjectName("cancel_Button")
         self.ok_Button = QtWidgets.QPushButton(SettingsNewDialog)
         self.ok_Button.setGeometry(QtCore.QRect(200, 260, 90, 28))
         self.ok_Button.setObjectName("ok_Button")
-
-
-            
-        
-
-        
-
         self.main_listWidget = QtWidgets.QListWidget(SettingsNewDialog)
         self.main_listWidget.setGeometry(QtCore.QRect(0, 0, 150, 300))
         self.main_listWidget.setObjectName("main_listview")
@@ -1452,22 +1443,16 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             "background-color: qlineargradient("
             "spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgb("
             "0, 0, 0), stop:1 rgb(60, 60, 60));")
-
         self.main_listWidget.item(0).setForeground(QtCore.Qt.white)
         self.main_listWidget.item(1).setForeground(QtCore.Qt.white)
         self.main_listWidget.item(2).setForeground(QtCore.Qt.white)
-
-
         self.general_groupbox = QtWidgets.QGroupBox(SettingsNewDialog)
         self.general_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 300))
         self.general_groupbox.setObjectName("general_groupbox")
         self.general_groupbox.setStyleSheet(
             "QGroupBox#general_groupbox {background-color: qlineargradient("
-                "spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb("
-                    "60, 60, 60), stop:1 rgb(60,60,60))};")
-
-
-
+            "spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb("
+            "60, 60, 60), stop:1 rgb(60,60,60))};")
         self.setObjectName("general_groupbox")
         self.lineEdit = QtWidgets.QLineEdit(self.general_groupbox)
         self.lineEdit.setGeometry(QtCore.QRect(10, 40, 230, 22))
@@ -1480,16 +1465,21 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.pathtotorLabel.setGeometry(QtCore.QRect(10, 10, 171, 21))
         self.pathtotorLabel.setFont(font)
         self.pathtotorLabel.setObjectName("pathtotorLabel")
-
+        self.pathtotorLabel.setStyleSheet("color:white")
         self.nodes_groupbox = QtWidgets.QGroupBox(SettingsNewDialog)
         self.nodes_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 300))
         self.nodes_groupbox.setObjectName("nodes_groupbox")
+        self.nodes_groupbox.setStyleSheet(
+            "QGroupBox#nodes_groupbox {background-color: qlineargradient("
+            "spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb("
+            "60, 60, 60), stop:1 rgb(60,60,60))};")
         self.stemcheck_groupbox = QtWidgets.QGroupBox(self.nodes_groupbox)
         self.stemcheck_groupbox.setGeometry(0, 0, 250, 70)
         self.strictnodes_groupbox = QtWidgets.QGroupBox(self.nodes_groupbox)
         self.strictnodes_groupbox.setGeometry(0, 65, 250, 70)
         self.stemcheckCheckBox = QtWidgets.QCheckBox(self.stemcheck_groupbox)
         self.stemcheckCheckBox.setGeometry(QtCore.QRect(12, 10, 150, 21))
+        self.stemcheckCheckBox.setStyleSheet("color:white")
         font = QtGui.QFont()
         font.setFamily("Arial")
         if osf.Functions.paramplatform == "Windows":
@@ -1512,6 +1502,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.stemchecktime_label.setGeometry(QtCore.QRect(35, 31, 150, 22))
         self.stemchecktime_label.setObjectName("stemchecktime_label")
         self.stemchecktime_label.setFont(font)
+        self.stemchecktime_label.setStyleSheet("color:white")
         self.strictnodesCheckBox = QtWidgets.QCheckBox(
             self.strictnodes_groupbox)
         self.strictnodesCheckBox.setGeometry(QtCore.QRect(12, 10, 311, 21))
@@ -1528,22 +1519,28 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             font.setBold(True)
             font.setWeight(75)
         self.strictnodesCheckBox.setFont(font)
+        self.strictnodesCheckBox.setStyleSheet("color:white")
         self.nodes_groupbox.hide()
-
         self.eyes_groupbox = QtWidgets.QGroupBox(SettingsNewDialog)
         self.eyes_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 300))
         self.eyes_groupbox.setObjectName("eyes_groupbox")
+        self.eyes_groupbox.setStyleSheet(
+            "QGroupBox#eyes_groupbox {background-color: qlineargradient("
+            "spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb("
+            "60, 60, 60), stop:1 rgb(60,60,60))};")
         self.fiveEyesCheckBox = QtWidgets.QCheckBox(self.eyes_groupbox)
         self.fiveEyesCheckBox.setGeometry(QtCore.QRect(12, 10, 150, 21))
         self.fiveEyesCheckBox.setFont(font)
+        self.fiveEyesCheckBox.setStyleSheet("color:white")
         self.nineEyesCheckBox = QtWidgets.QCheckBox(self.eyes_groupbox)
         self.nineEyesCheckBox.setGeometry(QtCore.QRect(12, 40, 150, 21))
         self.nineEyesCheckBox.setFont(font)
+        self.nineEyesCheckBox.setStyleSheet("color:white")
         self.fourteenEyesCheckBox = QtWidgets.QCheckBox(self.eyes_groupbox)
         self.fourteenEyesCheckBox.setGeometry(QtCore.QRect(12, 70, 190, 21))
         self.fourteenEyesCheckBox.setFont(font)
+        #self.fourteenEyesCheckBox.setStyleSheet("color:white")
         self.eyes_groupbox.hide()
-
         self.ok_Button.raise_()
         self.cancel_Button.raise_()
 
