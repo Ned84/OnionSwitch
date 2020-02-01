@@ -1478,9 +1478,13 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.strictnodes_groupbox.setGeometry(0, 65, 250, 70)
         self.stemcheckCheckBox = QtWidgets.QCheckBox(self.stemcheck_groupbox)
         self.stemcheckCheckBox.setGeometry(QtCore.QRect(12, 10, 150, 21))
-        self.stemcheckCheckBox.setStyleSheet("color:white")
-        font = Fonts.Choose_Fonts(self, True, 8, "Arial")
+        font = Fonts.Choose_Fonts(self, True, 9, "Arial")
         self.stemcheckCheckBox.setFont(font)
+        self.stemcheckCheckBoxLabel = QtWidgets.QLabel(self.stemcheck_groupbox)
+        self.stemcheckCheckBoxLabel.setObjectName("stemcheckCheckBoxLabel")
+        self.stemcheckCheckBoxLabel.setGeometry(35, 10, 150, 21)
+        self.stemcheckCheckBoxLabel.setFont(font)
+        self.stemcheckCheckBoxLabel.setStyleSheet("color: white")
         self.stemchecktime_lineedit = QtWidgets.QLineEdit(
             self.stemcheck_groupbox)
         self.stemchecktime_lineedit.setGeometry(QtCore.QRect(5, 32, 25, 22))
@@ -1489,16 +1493,20 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.stemchecktime_lineedit.setFont(font)
         self.stemchecktime_lineedit.setMaxLength(2)
         self.stemchecktime_label = QtWidgets.QLabel(self.nodes_groupbox)
-        self.stemchecktime_label.setGeometry(QtCore.QRect(35, 31, 150, 22))
+        self.stemchecktime_label.setGeometry(QtCore.QRect(35, 32, 170, 22))
         self.stemchecktime_label.setObjectName("stemchecktime_label")
         self.stemchecktime_label.setFont(font)
         self.stemchecktime_label.setStyleSheet("color:white")
         self.strictnodesCheckBox = QtWidgets.QCheckBox(
             self.strictnodes_groupbox)
         self.strictnodesCheckBox.setGeometry(QtCore.QRect(12, 10, 311, 21))
-        font = Fonts.Choose_Fonts(self, True, 8, "Arial")
+        font = Fonts.Choose_Fonts(self, True, 9, "Arial")
         self.strictnodesCheckBox.setFont(font)
-        self.strictnodesCheckBox.setStyleSheet("color:white")
+        self.strictnodesCheckBoxLabel = QtWidgets.QLabel(self.strictnodes_groupbox)
+        self.strictnodesCheckBoxLabel.setObjectName("strictnodesCheckBoxLabel")
+        self.strictnodesCheckBoxLabel.setGeometry(35, 10, 150, 21)
+        self.strictnodesCheckBoxLabel.setFont(font)
+        self.strictnodesCheckBoxLabel.setStyleSheet("color: white")
         self.nodes_groupbox.hide()
         self.eyes_groupbox = QtWidgets.QGroupBox(SettingsNewDialog)
         self.eyes_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 300))
@@ -1508,17 +1516,29 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             "spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb("
             "60, 60, 60), stop:1 rgb(60,60,60))};")
         self.fiveEyesCheckBox = QtWidgets.QCheckBox(self.eyes_groupbox)
-        self.fiveEyesCheckBox.setGeometry(QtCore.QRect(12, 10, 150, 21))
+        self.fiveEyesCheckBox.setGeometry(QtCore.QRect(12, 10, 190, 21))
         self.fiveEyesCheckBox.setFont(font)
-        self.fiveEyesCheckBox.setStyleSheet("color:white")
+        self.fiveEyesCheckBoxLabel = QtWidgets.QLabel(self.eyes_groupbox)
+        self.fiveEyesCheckBoxLabel.setObjectName("fiveEyesCheckBoxLabel")
+        self.fiveEyesCheckBoxLabel.setGeometry(35, 10, 190, 21)
+        self.fiveEyesCheckBoxLabel.setFont(font)
+        self.fiveEyesCheckBoxLabel.setStyleSheet("color: white")
         self.nineEyesCheckBox = QtWidgets.QCheckBox(self.eyes_groupbox)
-        self.nineEyesCheckBox.setGeometry(QtCore.QRect(12, 40, 150, 21))
+        self.nineEyesCheckBox.setGeometry(QtCore.QRect(12, 40, 190, 21))
         self.nineEyesCheckBox.setFont(font)
-        self.nineEyesCheckBox.setStyleSheet("color:white")
+        self.nineEyesCheckBoxLabel = QtWidgets.QLabel(self.eyes_groupbox)
+        self.nineEyesCheckBoxLabel.setObjectName("nineEyesCheckBoxLabel")
+        self.nineEyesCheckBoxLabel.setGeometry(35, 40, 190, 21)
+        self.nineEyesCheckBoxLabel.setFont(font)
+        self.nineEyesCheckBoxLabel.setStyleSheet("color: white")
         self.fourteenEyesCheckBox = QtWidgets.QCheckBox(self.eyes_groupbox)
         self.fourteenEyesCheckBox.setGeometry(QtCore.QRect(12, 70, 190, 21))
         self.fourteenEyesCheckBox.setFont(font)
-        #self.fourteenEyesCheckBox.setStyleSheet("color:white")
+        self.fourteenEyesCheckBoxLabel = QtWidgets.QLabel(self.eyes_groupbox)
+        self.fourteenEyesCheckBoxLabel.setObjectName("fourteenEyesCheckBoxLabel")
+        self.fourteenEyesCheckBoxLabel.setGeometry(35, 70, 190, 21)
+        self.fourteenEyesCheckBoxLabel.setFont(font)
+        self.fourteenEyesCheckBoxLabel.setStyleSheet("color: white")
         self.eyes_groupbox.hide()
         self.ok_Button.raise_()
         self.cancel_Button.raise_()
@@ -1752,17 +1772,17 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.openButton.setText(_translate("SettingsNewDialog", "Open"))
         self.pathtotorLabel.setText(_translate(
             "SettingsNewDialog", "Path to Tor Browser:"))
-        self.stemcheckCheckBox.setText(_translate(
+        self.stemcheckCheckBoxLabel.setText(_translate(
             "SettingsNewDialog", "Stem Node Check"))
         self.stemchecktime_label.setText(_translate(
             "SettingsNewDialog", "Stem Check max. Time"))
-        self.strictnodesCheckBox.setText(_translate(
+        self.strictnodesCheckBoxLabel.setText(_translate(
             "SettingsNewDialog", "StrictNodes 0/1"))
-        self.fiveEyesCheckBox.setText(_translate(
+        self.fiveEyesCheckBoxLabel.setText(_translate(
             "SettingsDialog", "Block '5-Eyes' Countries"))
-        self.nineEyesCheckBox.setText(_translate(
+        self.nineEyesCheckBoxLabel.setText(_translate(
             "SettingsDialog", "Block '9-Eyes' Countries"))
-        self.fourteenEyesCheckBox.setText(_translate(
+        self.fourteenEyesCheckBoxLabel.setText(_translate(
             "SettingsDialog", "Block '14-Eyes' Countries"))
 
 
