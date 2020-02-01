@@ -1050,6 +1050,7 @@ class Ui_AboutDialog(object):
         AboutDialog.resize(400, 250)
         AboutDialog.setMinimumSize(QtCore.QSize(400, 250))
         AboutDialog.setMaximumSize(QtCore.QSize(400, 250))
+        AboutDialog.setStyleSheet("QDialog#AboutDialog {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(
             ":/resources/Ned84_Logo.png"),
@@ -1113,6 +1114,7 @@ class Ui_Tor_Metrics_Dialog(object):
         Tor_Metrics_Dialog.resize(400, 150)
         Tor_Metrics_Dialog.setMinimumSize(QtCore.QSize(400, 150))
         Tor_Metrics_Dialog.setMaximumSize(QtCore.QSize(400, 150))
+        Tor_Metrics_Dialog.setStyleSheet("QDialog#Tor_Metrics_Dialog {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(
             ":/resources/OnionSwitch_Logo.png"),
@@ -1812,6 +1814,7 @@ class Ui_UpdateDialog(object):
         UpdateDialog.resize(400, 250)
         UpdateDialog.setMinimumSize(QtCore.QSize(400, 250))
         UpdateDialog.setMaximumSize(QtCore.QSize(400, 250))
+        UpdateDialog.setStyleSheet("QDialog#UpdateDialog {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
         icon = QtGui.QIcon()
         icon.addPixmap(
             QtGui.QPixmap(":/resources/OnionSwitch_Logo.png"),
@@ -1916,6 +1919,7 @@ class Ui_Tor_Reset_Dialog(object):
         Tor_Reset_Dialog.resize(400, 150)
         Tor_Reset_Dialog.setMinimumSize(QtCore.QSize(400, 150))
         Tor_Reset_Dialog.setMaximumSize(QtCore.QSize(400, 150))
+        Tor_Reset_Dialog.setStyleSheet("QDialog#Tor_Reset_Dialog {background-color: qlineargradient(spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb(200,200,200), stop:1 rgb(253,253,253));}")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(
             ":/resources/OnionSwitch_Logo.png"),
