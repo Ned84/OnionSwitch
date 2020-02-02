@@ -1462,6 +1462,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.main_listWidget.item(0).setForeground(QtCore.Qt.white)
         self.main_listWidget.item(1).setForeground(QtCore.Qt.white)
         self.main_listWidget.item(2).setForeground(QtCore.Qt.white)
+
         self.general_groupbox = QtWidgets.QGroupBox(SettingsNewDialog)
         self.general_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 300))
         self.general_groupbox.setObjectName("general_groupbox")
@@ -1469,19 +1470,35 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             "QGroupBox#general_groupbox {background-color: qlineargradient("
             "spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb("
             "60, 60, 60), stop:1 rgb(60,60,60))};")
-        self.setObjectName("general_groupbox")
-        self.lineEdit = QtWidgets.QLineEdit(self.general_groupbox)
+        self.general_groupbox.setObjectName("general_groupbox")
+        self.choose_torbrowser_groupbox = QtWidgets.QGroupBox(self.general_groupbox)
+        self.choose_torbrowser_groupbox.setObjectName("choose_torbrowser_groupbox")
+        self.choose_torbrowser_groupbox.setGeometry(0, 0, 250, 110)
+        self.lineEdit = QtWidgets.QLineEdit(self.choose_torbrowser_groupbox)
         self.lineEdit.setGeometry(QtCore.QRect(10, 40, 230, 22))
         self.lineEdit.setReadOnly(True)
         self.lineEdit.setObjectName("lineEdit")
-        self.openButton = QtWidgets.QPushButton(self.general_groupbox)
+        self.openButton = QtWidgets.QPushButton(self.choose_torbrowser_groupbox)
         self.openButton.setGeometry(QtCore.QRect(147, 70, 93, 28))
         self.openButton.setObjectName("openButton")
-        self.pathtotorLabel = QtWidgets.QLabel(self.general_groupbox)
+        self.pathtotorLabel = QtWidgets.QLabel(self.choose_torbrowser_groupbox)
         self.pathtotorLabel.setGeometry(QtCore.QRect(10, 10, 171, 21))
         self.pathtotorLabel.setFont(font)
         self.pathtotorLabel.setObjectName("pathtotorLabel")
         self.pathtotorLabel.setStyleSheet("color:white")
+
+        self.language_groupbox = QtWidgets.QGroupBox(self.general_groupbox)
+        self.language_groupbox.setObjectName("language_groupbox")
+        self.language_groupbox.setGeometry(0, 105, 250, 80)
+        self.language_Label = QtWidgets.QLabel(self.language_groupbox)
+        self.language_Label.setObjectName("language_Label")
+        self.language_Label.setGeometry(QtCore.QRect(12, 10, 100, 21))
+        self.language_Label.setFont(font)
+        self.language_Label.setStyleSheet("color: white")
+        self.language_comboBox = QtWidgets.QComboBox(self.language_groupbox)
+        self.language_comboBox.setObjectName("language_comboBox")
+        self.language_comboBox.setGeometry(QtCore.QRect(12, 40, 230, 22))
+
         self.nodes_groupbox = QtWidgets.QGroupBox(SettingsNewDialog)
         self.nodes_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 300))
         self.nodes_groupbox.setObjectName("nodes_groupbox")
@@ -1526,6 +1543,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.strictnodesCheckBoxLabel.setFont(font)
         self.strictnodesCheckBoxLabel.setStyleSheet("color: white")
         self.nodes_groupbox.hide()
+
         self.eyes_groupbox = QtWidgets.QGroupBox(SettingsNewDialog)
         self.eyes_groupbox.setGeometry(QtCore.QRect(150, 0, 250, 300))
         self.eyes_groupbox.setObjectName("eyes_groupbox")
@@ -1561,6 +1579,12 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.eyes_groupbox.hide()
         self.ok_Button.raise_()
         self.cancel_Button.raise_()
+
+        languages = ([('English', ''), ('Deutsch', 'eng-de'), ])
+
+        for i, (text, lang) in enumerate(languages):
+            self.language_comboBox.addItem(text)
+            self.language_comboBox.setItemData(i, lang)
 
         self.retranslateUi(SettingsNewDialog)
         QtCore.QMetaObject.connectSlotsByName(SettingsNewDialog)
@@ -1816,6 +1840,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.ok_Button.setText(_translate("SettingsNewDialog", "OK"))
         self.cancel_Button.setText(_translate("SettingsNewDialog", "Cancel"))
         self.openButton.setText(_translate("SettingsNewDialog", "Open"))
+        self.language_Label.setText(_translate("SettingsNewDialog", "Language:"))
         self.pathtotorLabel.setText(_translate(
             "SettingsNewDialog", "Path to Tor Browser:"))
         self.stemcheckCheckBoxLabel.setText(_translate(
@@ -2009,8 +2034,6 @@ def clickable(widget):
                 if event.type() == QtCore.QEvent.MouseButtonRelease:
                     if obj.rect().contains(event.pos()):
                         self.clicked.emit()
-                        # The developer can opt for .emit(obj) to get the
-                        # object within the slot.
                         return True
 
             return False
