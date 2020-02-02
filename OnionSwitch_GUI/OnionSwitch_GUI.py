@@ -1577,6 +1577,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.fourteenEyesCheckBoxLabel.setFont(font)
         self.fourteenEyesCheckBoxLabel.setStyleSheet("color: white")
         self.eyes_groupbox.hide()
+        self.language_groupbox.hide()
         self.ok_Button.raise_()
         self.cancel_Button.raise_()
 
