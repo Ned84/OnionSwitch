@@ -799,7 +799,6 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 self.window_settings.setWindowFlags(
                     self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
                 self.window_settings.installEventFilter(self)
-                # self.ui = Ui_SettingsDialog()
                 self.ui = Ui_SettingsNewDialog()
                 self.ui.setupUi(self.window_settings)
                 self.window_settings.finished.connect(CheckSettings)
@@ -1161,274 +1160,6 @@ class Ui_Tor_Metrics_Dialog(object):
             "Please open it in the Browser of your choice."))
 
 
-class Ui_SettingsDialog(QtWidgets.QWidget):
-    def setupUi(self, SettingsDialog):
-        SettingsDialog.setObjectName("SettingsDialog")
-        SettingsDialog.resize(400, 300)
-        SettingsDialog.setMinimumSize(QtCore.QSize(400, 300))
-        SettingsDialog.setMaximumSize(QtCore.QSize(400, 300))
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap(
-            ":/resources/OnionSwitch_Logo.png"),
-            QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        SettingsDialog.setWindowIcon(icon)
-        self.okButton = QtWidgets.QPushButton(SettingsDialog)
-        self.okButton.setGeometry(QtCore.QRect(180, 260, 93, 28))
-        self.okButton.setObjectName("okButton")
-        self.cancelButton = QtWidgets.QPushButton(SettingsDialog)
-        self.cancelButton.setGeometry(QtCore.QRect(290, 260, 93, 28))
-        self.cancelButton.setObjectName("cancelButton")
-        self.lineEdit = QtWidgets.QLineEdit(SettingsDialog)
-        self.lineEdit.setGeometry(QtCore.QRect(20, 50, 361, 22))
-        self.lineEdit.setReadOnly(True)
-        self.lineEdit.setObjectName("lineEdit")
-        self.stemcheckCheckBox = QtWidgets.QCheckBox(SettingsDialog)
-        self.stemcheckCheckBox.setGeometry(QtCore.QRect(20, 80, 150, 21))
-
-        font = Fonts.Choose_Fonts(self, True, 8, "Arial")
-        self.stemcheckCheckBox.setFont(font)
-        self.stemchecktime_lineedit = QtWidgets.QLineEdit(SettingsDialog)
-        self.stemchecktime_lineedit.setGeometry(QtCore.QRect(15, 105, 25, 22))
-        self.stemchecktime_lineedit.setObjectName("stemchecktime_lineedit")
-        self.stemchecktime_lineedit.setAlignment(QtCore.Qt.AlignCenter)
-        self.stemchecktime_lineedit.setFont(font)
-        self.stemchecktime_lineedit.setMaxLength(2)
-        self.stemchecktime_label = QtWidgets.QLabel(SettingsDialog)
-        self.stemchecktime_label.setGeometry(QtCore.QRect(43, 105, 150, 22))
-        self.stemchecktime_label.setObjectName("stemchecktime_label")
-        self.stemchecktime_label.setFont(font)
-        self.fiveEyesCheckBox = QtWidgets.QCheckBox(SettingsDialog)
-        self.fiveEyesCheckBox.setGeometry(QtCore.QRect(180, 145, 190, 21))
-        self.fiveEyesCheckBox.setFont(font)
-        self.nineEyesCheckBox = QtWidgets.QCheckBox(SettingsDialog)
-        self.nineEyesCheckBox.setGeometry(QtCore.QRect(180, 175, 190, 21))
-        self.nineEyesCheckBox.setFont(font)
-        self.fourteenEyesCheckBox = QtWidgets.QCheckBox(SettingsDialog)
-        self.fourteenEyesCheckBox.setGeometry(QtCore.QRect(180, 205, 190, 21))
-        self.fourteenEyesCheckBox.setFont(font)
-        self.label = QtWidgets.QLabel(SettingsDialog)
-        self.label.setGeometry(QtCore.QRect(20, 20, 171, 21))
-        font = Fonts.Choose_Fonts(self, True, 10, "Arial")
-        self.label.setFont(font)
-        self.label.setObjectName("label")
-        self.openButton = QtWidgets.QPushButton(SettingsDialog)
-        self.openButton.setGeometry(QtCore.QRect(290, 80, 93, 28))
-        self.openButton.setObjectName("openButton")
-        self.onionswitch_logo_frame = QtWidgets.QFrame(SettingsDialog)
-        self.onionswitch_logo_frame.setGeometry(
-            QtCore.QRect(10, 160, 141, 131))
-        self.onionswitch_logo_frame.setStyleSheet(
-            "image: url(:/resources/OnionSwitch_Logo.png);")
-        self.onionswitch_logo_frame.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.onionswitch_logo_frame.setObjectName("onionswitch_logo_frame")
-
-        self.retranslateUi(SettingsDialog)
-        QtCore.QMetaObject.connectSlotsByName(SettingsDialog)
-
-        if osf.Functions.paramstemcheck is True:
-            self.stemcheckCheckBox.setChecked(True)
-        else:
-            self.stemcheckCheckBox.setChecked(False)
-
-        if self.stemcheckCheckBox.isChecked():
-            self.stemchecktime_lineedit.setEnabled(True)
-            self.stemchecktime_label.setEnabled(True)
-        else:
-            self.stemchecktime_lineedit.setEnabled(False)
-            self.stemchecktime_label.setEnabled(False)
-
-        self.lineEdit.setText(osf.Functions.parampathtotor)
-
-        self.stemchecktime_lineedit.setText(
-            "{0}".format(osf.Functions.paramstemchecktime))
-
-        def OpenFilePicker():
-            try:
-                folderName = QFileDialog.getExistingDirectory(
-                    self, "Select Tor Directory")
-                if folderName:
-                    self.lineEdit.setText(folderName)
-
-            except Exception as exc:
-                osf.Functions.WriteLog(self, exc)
-
-        @pyqtSlot()
-        def Change_StemCheckTime():
-
-            if self.stemchecktime_lineedit.text().isdigit():
-                if (int)(self.stemchecktime_lineedit.text()) > 60:
-                    self.stemchecktime_lineedit.setText("60")
-
-                if (int)(self.stemchecktime_lineedit.text()) <= 5:
-                    self.stemchecktime_lineedit.setText("5")
-            else:
-                self.stemchecktime_lineedit.setText(
-                    "{0}".format(osf.Functions.paramstemchecktime))
-
-        @pyqtSlot()
-        def fiveeyes_changed():
-            self.nineEyesCheckBox.setChecked(False)
-            self.fourteenEyesCheckBox.setChecked(False)
-            osf.Functions.eyes_changed = True
-
-        @pyqtSlot()
-        def nineeyes_changed():
-            self.fiveEyesCheckBox.setChecked(False)
-            self.fourteenEyesCheckBox.setChecked(False)
-            osf.Functions.eyes_changed = True
-
-        @pyqtSlot()
-        def fourteeneyes_changed():
-            self.fiveEyesCheckBox.setChecked(False)
-            self.nineEyesCheckBox.setChecked(False)
-            osf.Functions.eyes_changed = True
-
-        @pyqtSlot()
-        def okButtonPress():
-            try:
-                if self.stemcheckCheckBox.isChecked() is True:
-                    osf.Functions.paramstemcheck = True
-                else:
-                    osf.Functions.paramstemcheck = False
-
-                osf.Functions.parampathtotor = self.lineEdit.text()
-
-                osf.Functions.paramstemchecktime = (int)(
-                    self.stemchecktime_lineedit.text())
-
-                if self.fiveEyesCheckBox.isChecked() is True:
-                    osf.Functions.Add_Eyes_ToArray(
-                        self, osf.Functions.five_eye_countries)
-
-                if self.nineEyesCheckBox.isChecked() is True:
-                    osf.Functions.Add_Eyes_ToArray(
-                        self, osf.Functions.five_eye_countries)
-
-                    osf.Functions.Add_Eyes_ToArray(
-                        self, osf.Functions.nine_eye_countries)
-
-                    osf.Functions.Add_Eyes_ToArray(
-                        self, osf.Functions.nine_eye_countries)
-
-                if self.fourteenEyesCheckBox.isChecked() is True:
-                    osf.Functions.Add_Eyes_ToArray(
-                        self, osf.Functions.five_eye_countries)
-
-                    osf.Functions.Add_Eyes_ToArray(
-                        self, osf.Functions.nine_eye_countries)
-
-                    osf.Functions.Add_Eyes_ToArray(
-                        self, osf.Functions.fourteen_eye_countries)
-
-                osf.Functions.WriteSettingsToJson(self)
-
-                if osf.Functions.paramplatform == "Windows":
-                    osf.Functions.torrcfilepath =\
-                        osf.Functions.parampathtotor +\
-                        "\\Browser\\TorBrowser\\Data\\Tor\\torrc"
-
-                    if osf.Functions.parampathtotor != "":
-                        if path. exists(osf.Functions.torrcfilepath) is True:
-                            if path.exists(
-                                 osf.Functions.pathtoparam + '\\rccy')\
-                                     is False:
-                                copyfile(
-                                    osf.Functions.torrcfilepath,
-                                    osf.Functions.pathtoparam + '\\rccy')
-
-                if osf.Functions.paramplatform == "Linux":
-                    osf.Functions.torrcfilepath = \
-                        osf.Functions.parampathtotor + \
-                        "/Browser/TorBrowser/Data/Tor/torrc"
-
-                    if osf.Functions.parampathtotor != "":
-                        if path. exists(osf.Functions.torrcfilepath) is True:
-                            if path.exists(
-                                 osf.Functions.pathtoparam + '/rccy') is False:
-                                copyfile(osf.Functions.torrcfilepath,
-                                         osf.Functions.pathtoparam + '/rccy')
-
-                osf.Functions.window_settings_open = False
-
-            except Exception as exc:
-                osf.Functions.WriteLog(self, exc)
-
-            osf.Functions.settingschanged = True
-            if path.exists(osf.Functions.torrcfilepath) is False:
-                osf.Functions.torrcfound = False
-            else:
-                osf.Functions.torrcfound = True
-
-            osf.Functions.settings_closed = True
-            SettingsDialog.close
-
-        @pyqtSlot()
-        def StemCheckTime_Label_Visibility():
-            if self.stemcheckCheckBox.isChecked():
-                self.stemchecktime_lineedit.setEnabled(True)
-                self.stemchecktime_label.setEnabled(True)
-            else:
-                self.stemchecktime_lineedit.setEnabled(False)
-                self.stemchecktime_label.setEnabled(False)
-
-        @pyqtSlot()
-        def Close_Settings():
-            osf.Functions.window_settings_open = False
-            osf.Functions.settings_closed = True
-            SettingsDialog.close()
-
-        self.cancelButton.clicked.connect(Close_Settings)
-
-        self.openButton.clicked.connect(OpenFilePicker)
-
-        self.fiveEyesCheckBox.clicked.connect(fiveeyes_changed)
-
-        self.nineEyesCheckBox.clicked.connect(nineeyes_changed)
-
-        self.fourteenEyesCheckBox.clicked.connect(fourteeneyes_changed)
-
-        self.okButton.clicked.connect(okButtonPress)
-        self.okButton.clicked.connect(SettingsDialog.close)
-
-        self.stemchecktime_lineedit.editingFinished.connect(
-            Change_StemCheckTime)
-
-        self.stemcheckCheckBox.clicked.connect(StemCheckTime_Label_Visibility)
-
-        if osf.Functions.torrcfound is True:
-            self.fiveEyesCheckBox.show()
-            self.nineEyesCheckBox.show()
-            self.fourteenEyesCheckBox.show()
-            self.stemcheckCheckBox.show()
-            self.stemchecktime_lineedit.show()
-            self.stemchecktime_label.show()
-        else:
-            self.fiveEyesCheckBox.hide()
-            self.nineEyesCheckBox.hide()
-            self.fourteenEyesCheckBox.hide()
-            self.stemcheckCheckBox.hide()
-            self.stemchecktime_lineedit.hide()
-            self.stemchecktime_label.hide()
-
-    def retranslateUi(self, SettingsDialog):
-        _translate = QtCore.QCoreApplication.translate
-        SettingsDialog.setWindowTitle(_translate("SettingsDialog", "Settings"))
-        self.okButton.setText(_translate("SettingsDialog", "OK"))
-        self.cancelButton.setText(_translate("SettingsDialog", "Cancel"))
-        self.label.setText(_translate(
-            "SettingsDialog", "Path to Tor-Browser:"))
-        self.stemcheckCheckBox.setText(_translate(
-            "SettingsDialog", "Stem Node Check"))
-        self.openButton.setText(_translate("SettingsDialog", "Open"))
-        self.fiveEyesCheckBox.setText(_translate(
-            "SettingsDialog", "Block '5-Eyes' Countries"))
-        self.nineEyesCheckBox.setText(_translate(
-            "SettingsDialog", "Block '9-Eyes' Countries"))
-        self.fourteenEyesCheckBox.setText(_translate(
-            "SettingsDialog", "Block '14-Eyes' Countries"))
-        self.stemchecktime_label.setText(_translate(
-            "SettingsDialog", "Stem Check max. Time"))
-
 
 class Ui_SettingsNewDialog(QtWidgets.QWidget):
     def setupUi(self, SettingsNewDialog):
@@ -1577,11 +1308,12 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.fourteenEyesCheckBoxLabel.setFont(font)
         self.fourteenEyesCheckBoxLabel.setStyleSheet("color: white")
         self.eyes_groupbox.hide()
-        self.language_groupbox.hide()
         self.ok_Button.raise_()
         self.cancel_Button.raise_()
 
-        languages = ([('English', ''), ('Deutsch', 'eng-de'), ])
+        self.trans = QtCore.QTranslator(self)
+
+        languages = ([('English', ''), ('Deutsch', 'de_de'), ])
 
         for i, (text, lang) in enumerate(languages):
             self.language_comboBox.addItem(text)
@@ -1803,6 +1535,20 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             self.strictnodesCheckBox.setChecked(
                 self.strictnodesCheckBox.isChecked() ^ True)
 
+        @QtCore.pyqtSlot(int)
+        def change_func():
+            index = self.language_comboBox.currentIndex()
+            data = self.language_comboBox.itemData(index)
+            if data:
+                locale = os.path.dirname(os.path.abspath(__file__))
+                test = self.trans.load(locale + "\\i18n\\" + data)
+                QtWidgets.QApplication.instance().installTranslator(self.trans)
+            else:
+                QtWidgets.QApplication.instance().removeTranslator(self.trans)
+            self.retranslateUi(SettingsNewDialog)
+
+        self.language_comboBox.currentIndexChanged.connect(change_func)
+
         self.cancel_Button.clicked.connect(Cancel_Clicked)
         self.ok_Button.clicked.connect(okButtonPress)
 
@@ -1851,11 +1597,11 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.strictnodesCheckBoxLabel.setText(_translate(
             "SettingsNewDialog", "StrictNodes 0/1"))
         self.fiveEyesCheckBoxLabel.setText(_translate(
-            "SettingsDialog", "Block '5-Eyes' Countries"))
+            "SettingsNewDialog", "Block '5-Eyes' Countries"))
         self.nineEyesCheckBoxLabel.setText(_translate(
-            "SettingsDialog", "Block '9-Eyes' Countries"))
+            "SettingsNewDialog", "Block '9-Eyes' Countries"))
         self.fourteenEyesCheckBoxLabel.setText(_translate(
-            "SettingsDialog", "Block '14-Eyes' Countries"))
+            "SettingsNewDialog", "Block '14-Eyes' Countries"))
 
 
 class Ui_UpdateDialog(object):

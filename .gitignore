@@ -17,5 +17,9 @@ dist
 Linux
 OnionSwitch
 
+# language files
+*.pro
+*.ts
+
 # Ignore till finished
 OnionSwitch_Console
