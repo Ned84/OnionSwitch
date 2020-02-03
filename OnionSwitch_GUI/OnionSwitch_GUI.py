@@ -169,7 +169,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
             Ui_MainWindow.versioncheckdone = True
 
     def setupUi(self, MainWindow):
-
+        _translate = QtCore.QCoreApplication.translate
         MainWindow.setObjectName("OnionSwitch")
         MainWindow.resize(525, 300)
         MainWindow.setMinimumSize(QtCore.QSize(525, 300))
@@ -275,8 +275,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.chosenNodesTableView.setShowGrid(False)
         self.chosenNodesTableView.setEditTriggers(
             self.chosenNodesTableView.NoEditTriggers)
-        self.chosenNodesTableView.setItem(
-            0, 0, QtWidgets.QTableWidgetItem("Tor not found."))
+        self.chosenNodesTableView.setItem(0, 0, QtWidgets.QTableWidgetItem(
+            _translate("MainWindow", "Tor not found.")))
         font = Fonts.Choose_Fonts(self, False, 9, "Segoe UI")
         self.chosenNodesTableView.setFont(font)
         self.chosenNodesTableView.setColumnWidth(1, 141)
@@ -312,7 +312,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.blacklistAllNodesTableView.setColumnWidth(1, 141)
         self.blacklistAllNodesTableView.resizeRowsToContents()
         self.blacklistAllNodesTableView.setItem(
-            0, 0, QtWidgets.QTableWidgetItem("Tor not found."))
+            0, 0, QtWidgets.QTableWidgetItem(
+                _translate("MainWindow", "Tor not found.")))
         self.onionswitch_logo_frame = QtWidgets.QFrame(self.tab2)
         self.onionswitch_logo_frame.setGeometry(
             QtCore.QRect(10, 0, 120, 110))
@@ -356,7 +357,8 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.blacklistExitNodesTableView.setColumnWidth(1, 141)
         self.blacklistExitNodesTableView.resizeRowsToContents()
         self.blacklistExitNodesTableView.setItem(
-            0, 0, QtWidgets.QTableWidgetItem("Tor not found."))
+            0, 0, QtWidgets.QTableWidgetItem(
+                _translate("MainWindow", "Tor not found.")))
         self.blacklistExitButton = QtWidgets.QPushButton(self.tab3)
         self.blacklistExitButton.setGeometry(QtCore.QRect(264, 100, 111, 28))
         self.blacklistExitButton.setObjectName("blacklistExitButton")
@@ -987,13 +989,14 @@ class Ui_MainWindow(QtWidgets.QWidget):
             if osf.Functions.paramstemcheck is False:
                 self.standbyLabel.setText("")
             else:
-                self.standbyLabel.setText(
+                self.standbyLabel.setText(_translate(
+                    "MainWindow",
                     "Adding node can take.\n"
                     "up to "
                     "{0}".format(
                         osf.Functions.paramstemchecktime) +
                     " seconds.\n"
-                    "Please stand by.")
+                    "Please stand by."))
 
         InitializeGUI()
         InitializeTableViews()
@@ -1223,6 +1226,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         SettingsNewDialog.resize(400, 300)
         SettingsNewDialog.setMinimumSize(QtCore.QSize(400, 300))
         SettingsNewDialog.setMaximumSize(QtCore.QSize(400, 300))
+        _translate = QtCore.QCoreApplication.translate
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(
             ":/resources/OnionSwitch_Logo.png"),
@@ -1239,9 +1243,11 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.main_listWidget.setGeometry(QtCore.QRect(0, 0, 150, 300))
         self.main_listWidget.setObjectName("main_listview")
         self.main_listWidget.setFont(font)
-        self.main_listWidget.addItem("General")
-        self.main_listWidget.addItem("Nodes")
-        self.main_listWidget.addItem("Eyes - Countries")
+        self.main_listWidget.addItem(_translate(
+            "SettingsNewDialog", "General"))
+        self.main_listWidget.addItem(_translate("SettingsNewDialog", "Nodes"))
+        self.main_listWidget.addItem(_translate(
+            "SettingsNewDialog", "Eyes - Countries"))
         self.main_listWidget.setStyleSheet(
             "background-color: qlineargradient("
             "spread:pad, x1:1, y1:1, x2:0, y2:0, stop:0 rgb("
@@ -1371,6 +1377,14 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.cancel_Button.raise_()
 
         self.trans = QtCore.QTranslator(self)
+
+        data = osf.Functions.paramlanguage
+        if data:
+            locale = os.path.dirname(os.path.abspath(__file__))
+            self.trans.load(locale + "\\i18n\\" + data)
+            QtWidgets.QApplication.instance().installTranslator(self.trans)
+        else:
+            QtWidgets.QApplication.instance().removeTranslator(self.trans)
 
         languages = ([('English', ''), ('Deutsch', 'de_de'), ])
 
@@ -1559,21 +1573,21 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         @pyqtSlot()
         def Main_SelectionChanged():
 
-            if self.main_listWidget.currentItem().text() == "General":
+            if self.main_listWidget.currentItem().text() == "General" or self.main_listWidget.currentItem().text() == "Allgemein":
                 self.eyes_groupbox.hide()
                 self.nodes_groupbox.hide()
                 self.general_groupbox.show()
                 self.ok_Button.raise_()
                 self.cancel_Button.raise_()
 
-            if self.main_listWidget.currentItem().text() == "Nodes":
+            if self.main_listWidget.currentItem().text() == "Nodes" or self.main_listWidget.currentItem().text() == "Knoten":
                 self.eyes_groupbox.hide()
                 self.general_groupbox.hide()
                 self.nodes_groupbox.show()
                 self.ok_Button.raise_()
                 self.cancel_Button.raise_()
 
-            if self.main_listWidget.currentItem().text() == "Eyes - Countries":
+            if self.main_listWidget.currentItem().text() == "Eyes - Countries" or self.main_listWidget.currentItem().text() == "Eyes - Länder":
                 self.general_groupbox.hide()
                 self.nodes_groupbox.hide()
                 self.eyes_groupbox.show()
@@ -1604,19 +1618,19 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             self.strictnodesCheckBox.setChecked(
                 self.strictnodesCheckBox.isChecked() ^ True)
 
-        @QtCore.pyqtSlot(int)
-        def change_func():
-            index = self.language_comboBox.currentIndex()
-            data = self.language_comboBox.itemData(index)
-            if data:
-                locale = os.path.dirname(os.path.abspath(__file__))
-                self.trans.load(locale + "\\i18n\\" + data)
-                QtWidgets.QApplication.instance().installTranslator(self.trans)
-            else:
-                QtWidgets.QApplication.instance().removeTranslator(self.trans)
-            self.retranslateUi(SettingsNewDialog)
+        # @QtCore.pyqtSlot(int)
+        # def change_func():
+        #     index = self.language_comboBox.currentIndex()
+        #     data = self.language_comboBox.itemData(index)
+        #     if data:
+        #         locale = os.path.dirname(os.path.abspath(__file__))
+        #         self.trans.load(locale + "\\i18n\\" + data)
+        #         QtWidgets.QApplication.instance().installTranslator(self.trans)
+        #     else:
+        #         QtWidgets.QApplication.instance().removeTranslator(self.trans)
+        #     self.retranslateUi(SettingsNewDialog)
 
-        self.language_comboBox.currentIndexChanged.connect(change_func)
+        #self.language_comboBox.currentIndexChanged.connect(change_func)
 
         self.cancel_Button.clicked.connect(Cancel_Clicked)
         self.ok_Button.clicked.connect(okButtonPress)
