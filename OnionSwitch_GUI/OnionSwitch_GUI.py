@@ -436,6 +436,16 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.menuEdit.addAction(self.actionSettings)
         self.menuBar.addAction(self.menuEdit.menuAction())
         self.menuBar.addAction(self.menuHelp.menuAction())
+        self.trans = QtCore.QTranslator(self)
+
+        data = osf.Functions.paramlanguage
+        if data:
+            locale = os.path.dirname(os.path.abspath(__file__))
+            self.trans.load(locale + "\\i18n\\" + data)
+            QtWidgets.QApplication.instance().installTranslator(self.trans)
+        else:
+            QtWidgets.QApplication.instance().removeTranslator(self.trans)
+        self.retranslateUi(MainWindow)
 
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(1)
@@ -785,6 +795,15 @@ class Ui_MainWindow(QtWidgets.QWidget):
         def CheckSettings():
             # Check if Settings change to write eye countries into tableview.
 
+            data = osf.Functions.paramlanguage
+            if data:
+                locale = os.path.dirname(os.path.abspath(__file__))
+                self.trans.load(locale + "\\i18n\\" + data)
+                QtWidgets.QApplication.instance().installTranslator(self.trans)
+            else:
+                QtWidgets.QApplication.instance().removeTranslator(self.trans)
+            self.retranslateUi(MainWindow)
+
             InitializeTableViews()
             self.blacklistAllNodesTableView.resizeRowsToContents()
             InitializeGUI()
@@ -1094,6 +1113,17 @@ class Ui_AboutDialog(object):
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
 
+        self.trans = QtCore.QTranslator(self)
+
+        data = osf.Functions.paramlanguage
+        if data:
+            locale = os.path.dirname(os.path.abspath(__file__))
+            self.trans.load(locale + "\\i18n\\" + data)
+            QtWidgets.QApplication.instance().installTranslator(self.trans)
+        else:
+            QtWidgets.QApplication.instance().removeTranslator(self.trans)
+        self.retranslateUi(MainWindow)
+
         self.retranslateUi(AboutDialog)
         QtCore.QMetaObject.connectSlotsByName(AboutDialog)
 
@@ -1144,6 +1174,17 @@ class Ui_Tor_Metrics_Dialog(object):
         self.label.setFont(font)
         self.label.setObjectName("label")
 
+        self.trans = QtCore.QTranslator(self)
+
+        data = osf.Functions.paramlanguage
+        if data:
+            locale = os.path.dirname(os.path.abspath(__file__))
+            self.trans.load(locale + "\\i18n\\" + data)
+            QtWidgets.QApplication.instance().installTranslator(self.trans)
+        else:
+            QtWidgets.QApplication.instance().removeTranslator(self.trans)
+        self.retranslateUi(MainWindow)
+
         self.retranslateUi(Tor_Metrics_Dialog)
         QtCore.QMetaObject.connectSlotsByName(Tor_Metrics_Dialog)
 
@@ -1158,7 +1199,6 @@ class Ui_Tor_Metrics_Dialog(object):
             "Tor_Metrics_Dialog", "URL to Tor Metrics is "
             "copied to the Clipboard.\n"
             "Please open it in the Browser of your choice."))
-
 
 
 class Ui_SettingsNewDialog(QtWidgets.QWidget):
@@ -1202,14 +1242,17 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             "spread:pad, x1:1, y1:0, x2:, y2:1, stop:0 rgb("
             "60, 60, 60), stop:1 rgb(60,60,60))};")
         self.general_groupbox.setObjectName("general_groupbox")
-        self.choose_torbrowser_groupbox = QtWidgets.QGroupBox(self.general_groupbox)
-        self.choose_torbrowser_groupbox.setObjectName("choose_torbrowser_groupbox")
+        self.choose_torbrowser_groupbox = QtWidgets.QGroupBox(
+            self.general_groupbox)
+        self.choose_torbrowser_groupbox.setObjectName(
+            "choose_torbrowser_groupbox")
         self.choose_torbrowser_groupbox.setGeometry(0, 0, 250, 110)
         self.lineEdit = QtWidgets.QLineEdit(self.choose_torbrowser_groupbox)
         self.lineEdit.setGeometry(QtCore.QRect(10, 40, 230, 22))
         self.lineEdit.setReadOnly(True)
         self.lineEdit.setObjectName("lineEdit")
-        self.openButton = QtWidgets.QPushButton(self.choose_torbrowser_groupbox)
+        self.openButton = QtWidgets.QPushButton(
+            self.choose_torbrowser_groupbox)
         self.openButton.setGeometry(QtCore.QRect(147, 70, 93, 28))
         self.openButton.setObjectName("openButton")
         self.pathtotorLabel = QtWidgets.QLabel(self.choose_torbrowser_groupbox)
@@ -1326,6 +1369,11 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             self.stemcheckCheckBox.setChecked(True)
         else:
             self.stemcheckCheckBox.setChecked(False)
+
+        if osf.Functions.paramlanguage == "en_en":
+            self.language_comboBox.setCurrentIndex(0)
+        if osf.Functions.paramlanguage == "de_de":
+            self.language_comboBox.setCurrentIndex(1)
 
         if self.stemcheckCheckBox.isChecked():
             self.stemchecktime_lineedit.setEnabled(True)
@@ -1592,7 +1640,8 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.ok_Button.setText(_translate("SettingsNewDialog", "OK"))
         self.cancel_Button.setText(_translate("SettingsNewDialog", "Cancel"))
         self.openButton.setText(_translate("SettingsNewDialog", "Open"))
-        self.language_Label.setText(_translate("SettingsNewDialog", "Language:"))
+        self.language_Label.setText(_translate(
+            "SettingsNewDialog", "Language:"))
         self.pathtotorLabel.setText(_translate(
             "SettingsNewDialog", "Path to Tor Browser:"))
         self.stemcheckCheckBoxLabel.setText(_translate(
@@ -1647,6 +1696,17 @@ class Ui_UpdateDialog(object):
         font = Fonts.Choose_Fonts(self, True, 14, "Arial")
         self.label.setFont(font)
         self.label.setObjectName("label")
+
+        self.trans = QtCore.QTranslator(self)
+
+        data = osf.Functions.paramlanguage
+        if data:
+            locale = os.path.dirname(os.path.abspath(__file__))
+            self.trans.load(locale + "\\i18n\\" + data)
+            QtWidgets.QApplication.instance().installTranslator(self.trans)
+        else:
+            QtWidgets.QApplication.instance().removeTranslator(self.trans)
+        self.retranslateUi(MainWindow)
 
         self.retranslateUi(UpdateDialog)
         QtCore.QMetaObject.connectSlotsByName(UpdateDialog)
@@ -1740,6 +1800,17 @@ class Ui_Tor_Reset_Dialog(object):
         font = Fonts.Choose_Fonts(self, False, 10, "Arial")
         self.label.setFont(font)
         self.label.setObjectName("label")
+
+        self.trans = QtCore.QTranslator(self)
+
+        data = osf.Functions.paramlanguage
+        if data:
+            locale = os.path.dirname(os.path.abspath(__file__))
+            self.trans.load(locale + "\\i18n\\" + data)
+            QtWidgets.QApplication.instance().installTranslator(self.trans)
+        else:
+            QtWidgets.QApplication.instance().removeTranslator(self.trans)
+        self.retranslateUi(MainWindow)
 
         self.retranslateUi(Tor_Reset_Dialog)
         QtCore.QMetaObject.connectSlotsByName(Tor_Reset_Dialog)
