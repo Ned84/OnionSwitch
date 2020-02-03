@@ -789,8 +789,12 @@ class Ui_MainWindow(QtWidgets.QWidget):
                     self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
                 self.ui = Ui_AboutDialog()
                 self.ui.setupUi(self.window)
+                self.window.finished.connect(DialogAboutClosed)
                 self.window.show()
                 osf.Functions.window_about_open = True
+
+        def DialogAboutClosed():
+            osf.Functions.window_about_open = False
 
         def CheckSettings():
             # Check if Settings change to write eye countries into tableview.
@@ -807,6 +811,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
             InitializeTableViews()
             self.blacklistAllNodesTableView.resizeRowsToContents()
             InitializeGUI()
+            osf.Functions.window_settings_open = False
 
         @pyqtSlot()
         def OpenDialogSettings():
@@ -834,19 +839,28 @@ class Ui_MainWindow(QtWidgets.QWidget):
                     self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
                 self.ui = Ui_UpdateDialog()
                 self.ui.setupUi(self.window)
+                self.window.finished.connect(CloseUpdateDialog)
                 self.window.show()
                 osf.Functions.window_update_open = True
 
+        def CloseUpdateDialog():
+            osf.Functions.window_update_open = False
+
         @pyqtSlot()
-        def OpenDialogFault():
-            self.window = QtWidgets.QDialog()
-            self.window.setWindowFlags(
-                self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
-            self.window.setWindowFlags(
-                self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
-            self.ui = Ui_Tor_Metrics_Dialog()
-            self.ui.setupUi(self.window)
-            self.window.show()
+        def OpenDialogMetric():
+            if osf.Functions.window_metrics_open is False:
+                self.window = QtWidgets.QDialog()
+                self.window.setWindowFlags(
+                    self.windowFlags() | QtCore.Qt.CustomizeWindowHint)
+                self.window.setWindowFlags(
+                    self.windowFlags() & ~QtCore.Qt.WindowCloseButtonHint)
+                self.ui = Ui_Tor_Metrics_Dialog()
+                self.ui.setupUi(self.window)
+                self.window.finished.connect(CloseMetricDialog)
+                self.window.show()
+
+        def CloseMetricDialog():
+            osf.Functions.window_metrics_open = False
 
         @pyqtSlot()
         def StartTorBrowser():
@@ -1017,7 +1031,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.actionUpdate.triggered.connect(OpenDialogUpdate)
 
         self.actionMetrics.triggered.connect(StartTorMetrics)
-        self.actionMetrics.triggered.connect(OpenDialogFault)
+        self.actionMetrics.triggered.connect(OpenDialogMetric)
 
         self.actionResetTorrc.triggered.connect(ResetTorrc)
 
@@ -1078,7 +1092,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                                         "Please stand by."))
 
 
-class Ui_AboutDialog(object):
+class Ui_AboutDialog(QtWidgets.QWidget):
     def setupUi(self, AboutDialog):
         AboutDialog.setObjectName("AboutDialog")
         AboutDialog.resize(400, 250)
@@ -1150,7 +1164,7 @@ class Ui_AboutDialog(object):
             "ned84@protonmail.com"))
 
 
-class Ui_Tor_Metrics_Dialog(object):
+class Ui_Tor_Metrics_Dialog(QtWidgets.QWidget):
     def setupUi(self, Tor_Metrics_Dialog):
         Tor_Metrics_Dialog.setObjectName("Tor_Metrics_Dialog")
         Tor_Metrics_Dialog.resize(400, 150)
@@ -1184,6 +1198,8 @@ class Ui_Tor_Metrics_Dialog(object):
         else:
             QtWidgets.QApplication.instance().removeTranslator(self.trans)
         self.retranslateUi(MainWindow)
+
+        osf.Functions.window_metrics_open = True
 
         self.retranslateUi(Tor_Metrics_Dialog)
         QtCore.QMetaObject.connectSlotsByName(Tor_Metrics_Dialog)
@@ -1658,7 +1674,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             "SettingsNewDialog", "Block '14-Eyes' Countries"))
 
 
-class Ui_UpdateDialog(object):
+class Ui_UpdateDialog(QtWidgets.QWidget):
     def setupUi(self, UpdateDialog):
         UpdateDialog.setObjectName("UpdateDialog")
         UpdateDialog.resize(400, 250)
@@ -1774,7 +1790,7 @@ class Ui_UpdateDialog(object):
                 self.label3.hide()
 
 
-class Ui_Tor_Reset_Dialog(object):
+class Ui_Tor_Reset_Dialog(QtWidgets.QWidget):
     def setupUi(self, Tor_Reset_Dialog):
         Tor_Reset_Dialog.setObjectName("Tor_Reset_Dialog")
         Tor_Reset_Dialog.resize(400, 150)

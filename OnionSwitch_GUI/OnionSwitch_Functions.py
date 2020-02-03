@@ -42,6 +42,7 @@ class Functions(object):
     window_about_open = False
     window_update_open = False
     window_torrc_reset_open = False
+    window_metrics_open = False
 
     settings_closed = False
     torrc_reset_dialog_closed = False
