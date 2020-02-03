@@ -117,7 +117,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                     data = [{"version": version, "Path_to_Tor": "",
                             "Update_available": False, "StrictNodes": 1,
                              "Platform": "", "StemCheck": False,
-                             "StemCheck_Time": 10}]
+                             "StemCheck_Time": 10, "Language": ""}]
 
                     json.dump(data, file, indent=1, sort_keys=True)
 
@@ -1388,6 +1388,11 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
                 else:
                     osf.Functions.paramstemcheck = False
 
+                if self.language_comboBox.currentText() == "English":
+                    osf.Functions.paramlanguage = "en_en"
+                if self.language_comboBox.currentText() == "Deutsch":
+                    osf.Functions.paramlanguage = "de_de"
+
                 osf.Functions.parampathtotor = self.lineEdit.text()
 
                 osf.Functions.paramstemchecktime = (int)(
@@ -1541,7 +1546,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
             data = self.language_comboBox.itemData(index)
             if data:
                 locale = os.path.dirname(os.path.abspath(__file__))
-                test = self.trans.load(locale + "\\i18n\\" + data)
+                self.trans.load(locale + "\\i18n\\" + data)
                 QtWidgets.QApplication.instance().installTranslator(self.trans)
             else:
                 QtWidgets.QApplication.instance().removeTranslator(self.trans)

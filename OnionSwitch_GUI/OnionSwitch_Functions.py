@@ -36,6 +36,7 @@ class Functions(object):
     paramplatform = ""
     paramstemcheck = ""
     paramstemchecktime = 0
+    paramlanguage = ""
 
     window_settings_open = False
     window_about_open = False
@@ -596,6 +597,7 @@ class Functions(object):
                     param_details['StrictNodes'] = item['StrictNodes']
                     param_details['StemCheck'] = item['StemCheck']
                     param_details['StemCheck_Time'] = item['StemCheck_Time']
+                    param_details['Language'] = item['Language']
                     param_list.append(param_details)
 
             Functions.paramstrictnodes = param_details['StrictNodes']
@@ -605,6 +607,7 @@ class Functions(object):
             param_details['Platform'] = Functions.paramplatform
             Functions.paramstemcheck = param_details['StemCheck']
             Functions.paramstemchecktime = param_details['StemCheck_Time']
+            Functions.paramlanguage = param_details['Language']
 
             if Functions.paramplatform == "Windows":
                 Functions.torrcfilepath = Functions.parampathtotor + \
@@ -637,6 +640,7 @@ class Functions(object):
                 param_details['Platform'] = Functions.paramplatform
                 param_details['StemCheck'] = Functions.paramstemcheck
                 param_details['StemCheck_Time'] = Functions.paramstemchecktime
+                param_details['Language'] = Functions.paramlanguage
                 param_list.append(param_details)
 
             with open(Functions.pathtoparam + Functions.pathseparator +
