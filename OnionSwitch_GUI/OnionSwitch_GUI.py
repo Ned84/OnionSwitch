@@ -989,14 +989,11 @@ class Ui_MainWindow(QtWidgets.QWidget):
             if osf.Functions.paramstemcheck is False:
                 self.standbyLabel.setText("")
             else:
-                self.standbyLabel.setText(_translate(
-                    "MainWindow",
-                    "Adding node can take.\n"
-                    "up to "
-                    "{0}".format(
-                        osf.Functions.paramstemchecktime) +
-                    " seconds.\n"
-                    "Please stand by."))
+                string1 = (_translate("MainWindow", "Adding node can take\nup to "))
+                string2 = (_translate("MainWindow", " seconds.\nPlease stand by."))
+
+                self.standbyLabel.setText(
+                    string1 + str(osf.Functions.paramstemchecktime) + string2)
 
         InitializeGUI()
         InitializeTableViews()
@@ -1085,14 +1082,12 @@ class Ui_MainWindow(QtWidgets.QWidget):
                                                     "MainWindow",
                                                     "Your chosen\n"
                                                     "Node cant be reached."))
-        self.standbyLabel.setText(_translate(
-                                        "MainWindow",
-                                        "Adding node can take.\n"
-                                        "up to "
-                                        "{0}".format(
-                                            osf.Functions.paramstemchecktime) +
-                                        "seconds.\n"
-                                        "Please stand by."))
+
+        string1 = (_translate("MainWindow", "Adding node can take\nup to "))
+        string2 = (_translate("MainWindow", "seconds.\nPlease stand by."))
+
+        self.standbyLabel.setText(
+            string1 + str(osf.Functions.paramstemchecktime) + string2)
 
 
 class Ui_AboutDialog(QtWidgets.QWidget):
