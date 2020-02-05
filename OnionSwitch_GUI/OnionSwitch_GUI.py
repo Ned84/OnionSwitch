@@ -404,7 +404,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         self.standbyLabel = QtWidgets.QLabel(
             self.tab1)
         self.standbyLabel.setGeometry(
-            QtCore.QRect(175, 10, 200, 71))
+            QtCore.QRect(165, 10, 210, 71))
         font = Fonts.Choose_Fonts(self, True, 10, "Arial")
         self.standbyLabel.setFont(font)
         self.standbyLabel.setObjectName(
@@ -1769,13 +1769,22 @@ class Ui_UpdateDialog(QtWidgets.QWidget):
             "UpdateDialog", "No connection to Github."))
         font = Fonts.Choose_Fonts(self, False, 9, "Arial")
         self.label3.setFont(font)
+        string1 = (_translate("UpdateDialog", "Current Version: "))
+        string2 = (_translate("UpdateDialog","New Version: "))
+        string3 = (_translate("UpdateDialog","No Update available."))
 
-        self.label4.setText(_translate(
-            "UpdateDialog", "Current Version: " + version + "\n"
-            "\n"
-            "New Version: " + Ui_MainWindow.versionnew + "\n"
-            "\n"
-            "No Update available."))
+        self.label4.setText(string1 + version + "\n"
+                            "\n"
+                            + string2 + Ui_MainWindow.versionnew + "\n"
+                            "\n"
+                            + string3)
+
+        # self.label4.setText(_translate(
+        #     "UpdateDialog", "Current Version: " + version + "\n"
+        #     "\n"
+        #     "New Version: " + Ui_MainWindow.versionnew + "\n"
+        #     "\n"
+        #     "No Update available."))
 
         self.label4.setFont(font)
 
