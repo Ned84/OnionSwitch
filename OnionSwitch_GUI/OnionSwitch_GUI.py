@@ -1582,7 +1582,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
                 self.ok_Button.raise_()
                 self.cancel_Button.raise_()
 
-            if self.main_listWidget.currentItem().text() == "Eyes - Countries" or self.main_listWidget.currentItem().text() == "Eyes - Länder":
+            if self.main_listWidget.currentItem().text() == "Eyes - Countries" or self.main_listWidget.currentItem().text() == "Eyes Länder":
                 self.general_groupbox.hide()
                 self.nodes_groupbox.hide()
                 self.eyes_groupbox.show()
