@@ -1181,7 +1181,7 @@ class Ui_Tor_Metrics_Dialog(QtWidgets.QWidget):
         self.okButton.setGeometry(QtCore.QRect(290, 110, 93, 28))
         self.okButton.setObjectName("okButton")
         self.label = QtWidgets.QLabel(Tor_Metrics_Dialog)
-        self.label.setGeometry(QtCore.QRect(20, 20, 381, 71))
+        self.label.setGeometry(QtCore.QRect(20, 20, 381, 90))
         font = Fonts.Choose_Fonts(self, False, 10, "Arial")
         self.label.setFont(font)
         self.label.setObjectName("label")
@@ -1307,7 +1307,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         self.stemcheckCheckBox.setFont(font)
         self.stemcheckCheckBoxLabel = QtWidgets.QLabel(self.stemcheck_groupbox)
         self.stemcheckCheckBoxLabel.setObjectName("stemcheckCheckBoxLabel")
-        self.stemcheckCheckBoxLabel.setGeometry(35, 10, 150, 21)
+        self.stemcheckCheckBoxLabel.setGeometry(35, 10, 190, 21)
         self.stemcheckCheckBoxLabel.setFont(font)
         self.stemcheckCheckBoxLabel.setStyleSheet("color: white")
         self.stemchecktime_lineedit = QtWidgets.QLineEdit(
