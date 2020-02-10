@@ -1830,7 +1830,7 @@ class Ui_Tor_Reset_Dialog(QtWidgets.QWidget):
         self.noButton.setGeometry(QtCore.QRect(290, 110, 93, 28))
         self.noButton.setObjectName("noButton")
         self.label = QtWidgets.QLabel(Tor_Reset_Dialog)
-        self.label.setGeometry(QtCore.QRect(20, 20, 381, 71))
+        self.label.setGeometry(QtCore.QRect(20, 20, 381, 85))
         font = Fonts.Choose_Fonts(self, False, 10, "Arial")
         self.label.setFont(font)
         self.label.setObjectName("label")
