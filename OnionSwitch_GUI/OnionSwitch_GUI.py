@@ -989,8 +989,10 @@ class Ui_MainWindow(QtWidgets.QWidget):
             if osf.Functions.paramstemcheck is False:
                 self.standbyLabel.setText("")
             else:
-                string1 = (_translate("MainWindow", "Adding node can take\nup to "))
-                string2 = (_translate("MainWindow", " seconds.\nPlease stand by."))
+                string1 = (_translate(
+                    "MainWindow", "Adding node can take\nup to "))
+                string2 = (_translate(
+                    "MainWindow", " seconds.\nPlease stand by."))
 
                 self.standbyLabel.setText(
                     string1 + str(osf.Functions.paramstemchecktime) + string2)
@@ -1568,21 +1570,25 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         @pyqtSlot()
         def Main_SelectionChanged():
 
-            if self.main_listWidget.currentItem().text() == "General" or self.main_listWidget.currentItem().text() == "Allgemein":
+            if self.main_listWidget.currentItem().text() == "General" or\
+                    self.main_listWidget.currentItem().text() == "Allgemein":
                 self.eyes_groupbox.hide()
                 self.nodes_groupbox.hide()
                 self.general_groupbox.show()
                 self.ok_Button.raise_()
                 self.cancel_Button.raise_()
 
-            if self.main_listWidget.currentItem().text() == "Nodes" or self.main_listWidget.currentItem().text() == "Knoten":
+            if self.main_listWidget.currentItem().text() == "Nodes" or\
+                    self.main_listWidget.currentItem().text() == "Knoten":
                 self.eyes_groupbox.hide()
                 self.general_groupbox.hide()
                 self.nodes_groupbox.show()
                 self.ok_Button.raise_()
                 self.cancel_Button.raise_()
 
-            if self.main_listWidget.currentItem().text() == "Eyes - Countries" or self.main_listWidget.currentItem().text() == "Eyes Länder":
+            if self.main_listWidget.currentItem().text() == "Eyes - Countries"\
+                    or self.main_listWidget.currentItem().text()\
+                    == "Eyes Länder":
                 self.general_groupbox.hide()
                 self.nodes_groupbox.hide()
                 self.eyes_groupbox.show()
@@ -1612,20 +1618,6 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         def strictnodes_label_clicked():
             self.strictnodesCheckBox.setChecked(
                 self.strictnodesCheckBox.isChecked() ^ True)
-
-        # @QtCore.pyqtSlot(int)
-        # def change_func():
-        #     index = self.language_comboBox.currentIndex()
-        #     data = self.language_comboBox.itemData(index)
-        #     if data:
-        #         locale = os.path.dirname(os.path.abspath(__file__))
-        #         self.trans.load(locale + "\\i18n\\" + data)
-        #         QtWidgets.QApplication.instance().installTranslator(self.trans)
-        #     else:
-        #         QtWidgets.QApplication.instance().removeTranslator(self.trans)
-        #     self.retranslateUi(SettingsNewDialog)
-
-        #self.language_comboBox.currentIndexChanged.connect(change_func)
 
         self.cancel_Button.clicked.connect(Cancel_Clicked)
         self.ok_Button.clicked.connect(okButtonPress)
@@ -1757,34 +1749,29 @@ class Ui_UpdateDialog(QtWidgets.QWidget):
         self.cancelButton.setText(_translate("UpdateDialog", "Cancel"))
         self.updateButton.setText(_translate("UpdateDialog", "Update"))
         self.label.setText(_translate("UpdateDialog", "OnionSwitch"))
-        self.label2.setText(_translate(
-            "UpdateDialog", "Current Version: " + version + "\n"
-            "\n"
-            "New Version: " + Ui_MainWindow.versionnew + "\n"
-            "\n"
-            "Do you want to Update\n"
-            "this Program?"))
 
         self.label3.setText(_translate(
             "UpdateDialog", "No connection to Github."))
         font = Fonts.Choose_Fonts(self, False, 9, "Arial")
         self.label3.setFont(font)
         string1 = (_translate("UpdateDialog", "Current Version: "))
-        string2 = (_translate("UpdateDialog","New Version: "))
-        string3 = (_translate("UpdateDialog","No Update available."))
+        string2 = (_translate("UpdateDialog", "New Version: "))
+        string3 = (_translate("UpdateDialog", "No Update available."))
+        string4 = (_translate(
+            "UpdateDialog", "Do you want to Update\nthis Program?"))
+
+        self.label2.setText(
+            string1 + version + "\n"
+            "\n"
+            + string2 + Ui_MainWindow.versionnew + "\n"
+            "\n"
+            + string4)
 
         self.label4.setText(string1 + version + "\n"
                             "\n"
                             + string2 + Ui_MainWindow.versionnew + "\n"
                             "\n"
                             + string3)
-
-        # self.label4.setText(_translate(
-        #     "UpdateDialog", "Current Version: " + version + "\n"
-        #     "\n"
-        #     "New Version: " + Ui_MainWindow.versionnew + "\n"
-        #     "\n"
-        #     "No Update available."))
 
         self.label4.setFont(font)
 
@@ -1877,7 +1864,7 @@ class Ui_Tor_Reset_Dialog(QtWidgets.QWidget):
         self.label.setText(_translate(
             "Tor_Reset_Dialog", "This will reset your torrc.\n"
             "After reset please restart the OnionSwitch.\n"
-            "Do you want to reset?."))
+            "Do you want to reset?"))
 
 
 def clickable(widget):
