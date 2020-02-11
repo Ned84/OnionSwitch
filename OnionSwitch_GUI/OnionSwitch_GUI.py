@@ -114,7 +114,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                     osf.Functions.pathtoparam + osf.Functions.pathseparator +
                         'Param.json', "w+") as file:
 
-                    data = [{"version": version, "Path_to_Tor": "",
+                    data = [{"Version": version, "Path_to_Tor": "",
                             "Update_available": False, "StrictNodes": 1,
                              "Platform": "", "StemCheck": False,
                              "StemCheck_Time": 10, "Language": ""}]

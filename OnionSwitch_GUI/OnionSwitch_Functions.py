@@ -592,7 +592,7 @@ class Functions(object):
                 for item in json_array:
                     param_details = {}
                     param_details['Path_to_Tor'] = item['Path_to_Tor']
-                    param_details['version'] = item['version']
+                    param_details['Version'] = item['Version']
                     param_details['Update_available'] = item[
                         'Update_available']
                     param_details['StrictNodes'] = item['StrictNodes']
@@ -602,7 +602,7 @@ class Functions(object):
                     param_list.append(param_details)
 
             Functions.paramstrictnodes = param_details['StrictNodes']
-            param_details['version'] = Functions.paramversion
+            param_details['Version'] = Functions.paramversion
             Functions.parampathtotor = param_details['Path_to_Tor']
             Functions.paramupdateavailable = param_details['Update_available']
             param_details['Platform'] = Functions.paramplatform
@@ -634,7 +634,7 @@ class Functions(object):
 
                 param_details = {}
                 param_details['Path_to_Tor'] = Functions.parampathtotor
-                param_details['version'] = Functions.paramversion
+                param_details['Version'] = Functions.paramversion
                 param_details['Update_available'] = \
                     Functions.paramupdateavailable
                 param_details['StrictNodes'] = Functions.paramstrictnodes
