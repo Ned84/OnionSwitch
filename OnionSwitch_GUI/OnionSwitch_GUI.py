@@ -1122,7 +1122,7 @@ class Ui_AboutDialog(QtWidgets.QWidget):
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.label_2 = QtWidgets.QLabel(AboutDialog)
-        self.label_2.setGeometry(QtCore.QRect(190, 70, 190, 130))
+        self.label_2.setGeometry(QtCore.QRect(190, 50, 190, 130))
         font = Fonts.Choose_Fonts(self, False, 8, "MS Shell Dlg 2")
         self.label_2.setFont(font)
         self.label_2.setObjectName("label_2")
@@ -1153,15 +1153,17 @@ class Ui_AboutDialog(QtWidgets.QWidget):
         AboutDialog.setWindowTitle(_translate("AboutDialog", "About"))
         self.closeButton.setText(_translate("AboutDialog", "Close"))
         self.label.setText(_translate("AboutDialog", "OnionSwitch"))
-        self.label_2.setText(_translate(
-            "AboutDialog", "Version: " + version + "\n"
-            "\n"
-            "Easily switch the Tor-Exit-Node\n"
-            "Destination Country in your\n"
-            "Tor-Browser.\n"
-            "\n"
-            "Copyright (C) 2019  Ned84\n"
-            "ned84@protonmail.com"))
+        string_1 = "Version: "
+        string_2 = (_translate("AboutDialog",
+                               "Easily switch the Tor-Exit-Node\n"
+                               "Destination Country in your\n"
+                               "Tor-Browser.\n"
+                               "Copyright (C) 2019  Ned84\n"
+                               "ned84@protonmail.com"))
+
+        self.label_2.setText(string_1 + version + "\n" +
+                             "\n" +
+                             string_2)
 
 
 class Ui_Tor_Metrics_Dialog(QtWidgets.QWidget):
