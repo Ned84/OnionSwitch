@@ -623,6 +623,16 @@ class Functions(object):
                 json.dump(param_list, file, indent=1, sort_keys=True)
 
         except Exception as exc:
+            with open(
+                Functions.pathtoparam + Functions.pathseparator +
+                    'Param.json', "w+") as file:
+
+                data = [{"Version": "0.0", "Path_to_Tor": "",
+                         "Update_available": False, "StrictNodes": 1,
+                         "Platform": "", "StemCheck": False,
+                         "StemCheck_Time": 10, "Language": ""}]
+
+                json.dump(data, file, indent=1, sort_keys=True)
             Functions.WriteLog(self, exc)
 
     def WriteSettingsToJson(self):
