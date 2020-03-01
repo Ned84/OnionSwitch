@@ -1,5 +1,9 @@
 # OnionSwitch Changelog
 
+## V1.3
+GUI Overhaul
+New Settingswindow
+
 ## V1.2
 
 Minor Bugfixes

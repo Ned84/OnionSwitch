@@ -35,7 +35,7 @@ import OnionSwitch_Functions as osf
 import OnionSwitch_TorCheck as ostc
 import OnionSwitchResources_rc
 
-version = "1.2"
+version = "1.3"
 
 
 class Fonts():
@@ -87,6 +87,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 osf.Functions.pathtomain = os.getenv(
                     'LOCALAPPDATA') + '\\OnionSwitch'
                 osf.Functions.pathseparator = "\\"
+                osf.Functions.paramlanguagefiles = "\\i18n\\"
 
             if osf.Functions.paramplatform == "Linux":
                 osf.Functions.pathtoparam = os.path.dirname(
@@ -96,6 +97,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
                 osf.Functions.pathtomain = os.path.dirname(
                     os.path.abspath(__file__)) + '/OnionSwitch'
                 osf.Functions.pathseparator = "/"
+                osf.Functions.paramlanguagefiles = "/i18n/"
 
             if path.exists(osf.Functions.pathtomain) is False:
                 os.mkdir(osf.Functions.pathtomain)
@@ -443,7 +445,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
         data = osf.Functions.paramlanguage
         if data:
             locale = os.path.dirname(os.path.abspath(__file__))
-            self.trans.load(locale + "\\i18n\\" + data)
+            self.trans.load(locale + osf.Functions.paramlanguagefiles + data)
             QtWidgets.QApplication.instance().installTranslator(self.trans)
         else:
             QtWidgets.QApplication.instance().removeTranslator(self.trans)
@@ -804,7 +806,7 @@ class Ui_MainWindow(QtWidgets.QWidget):
             data = osf.Functions.paramlanguage
             if data:
                 locale = os.path.dirname(os.path.abspath(__file__))
-                self.trans.load(locale + "\\i18n\\" + data)
+                self.trans.load(locale + osf.Functions.paramlanguagefiles + data)
                 QtWidgets.QApplication.instance().installTranslator(self.trans)
             else:
                 QtWidgets.QApplication.instance().removeTranslator(self.trans)
@@ -1132,7 +1134,7 @@ class Ui_AboutDialog(QtWidgets.QWidget):
         data = osf.Functions.paramlanguage
         if data:
             locale = os.path.dirname(os.path.abspath(__file__))
-            self.trans.load(locale + "\\i18n\\" + data)
+            self.trans.load(locale + osf.Functions.paramlanguagefiles + data)
             QtWidgets.QApplication.instance().installTranslator(self.trans)
         else:
             QtWidgets.QApplication.instance().removeTranslator(self.trans)
@@ -1195,7 +1197,7 @@ class Ui_Tor_Metrics_Dialog(QtWidgets.QWidget):
         data = osf.Functions.paramlanguage
         if data:
             locale = os.path.dirname(os.path.abspath(__file__))
-            self.trans.load(locale + "\\i18n\\" + data)
+            self.trans.load(locale + osf.Functions.paramlanguagefiles + data)
             QtWidgets.QApplication.instance().installTranslator(self.trans)
         else:
             QtWidgets.QApplication.instance().removeTranslator(self.trans)
@@ -1380,7 +1382,7 @@ class Ui_SettingsNewDialog(QtWidgets.QWidget):
         data = osf.Functions.paramlanguage
         if data:
             locale = os.path.dirname(os.path.abspath(__file__))
-            self.trans.load(locale + "\\i18n\\" + data)
+            self.trans.load(locale + osf.Functions.paramlanguagefiles + data)
             QtWidgets.QApplication.instance().installTranslator(self.trans)
         else:
             QtWidgets.QApplication.instance().removeTranslator(self.trans)
@@ -1721,7 +1723,7 @@ class Ui_UpdateDialog(QtWidgets.QWidget):
         data = osf.Functions.paramlanguage
         if data:
             locale = os.path.dirname(os.path.abspath(__file__))
-            self.trans.load(locale + "\\i18n\\" + data)
+            self.trans.load(locale + osf.Functions.paramlanguagefiles + data)
             QtWidgets.QApplication.instance().installTranslator(self.trans)
         else:
             QtWidgets.QApplication.instance().removeTranslator(self.trans)
@@ -1829,7 +1831,7 @@ class Ui_Tor_Reset_Dialog(QtWidgets.QWidget):
         data = osf.Functions.paramlanguage
         if data:
             locale = os.path.dirname(os.path.abspath(__file__))
-            self.trans.load(locale + "\\i18n\\" + data)
+            self.trans.load(locale + osf.Functions.paramlanguagefiles + data)
             QtWidgets.QApplication.instance().installTranslator(self.trans)
         else:
             QtWidgets.QApplication.instance().removeTranslator(self.trans)

@@ -1,4 +1,4 @@
-#define MyAppVersion "1.1"
+#define MyAppVersion "1.3"
 #define MyName "Baumgartner Rene Mario"
 
 [Setup]
@@ -22,8 +22,8 @@ Compression=lzma2
 SolidCompression=yes
 
 [Files]
-Source: "GUI\OnionSwitch_V{#MyAppVersion}_GUI\OnionSwitch\*"; DestDir: "{app}"; Flags: recursesubdirs
-Source: "GUI\OnionSwitch_V{#MyAppVersion}_GUI\OnionSwitch\OnionSwitch.exe"; DestDir: "{app}"; Flags: sign
+Source: "Windows\GUI\OnionSwitch_V{#MyAppVersion}_GUI\OnionSwitch\*"; DestDir: "{app}"; Flags: recursesubdirs
+Source: "Windows\GUI\OnionSwitch_V{#MyAppVersion}_GUI\OnionSwitch\OnionSwitch.exe"; DestDir: "{app}"; Flags: sign
 
 
 [Icons]

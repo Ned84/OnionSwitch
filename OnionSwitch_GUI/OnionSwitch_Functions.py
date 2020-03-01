@@ -37,6 +37,7 @@ class Functions(object):
     paramstemcheck = ""
     paramstemchecktime = 0
     paramlanguage = ""
+    paramlanguagefiles = ""
 
     window_settings_open = False
     window_about_open = False
